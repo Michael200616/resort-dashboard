@@ -238,7 +238,7 @@ canvas{max-height:220px;}
         <tr><td><span class="dot" style="background:#6B4A9A"></span>12 Rooms x 30m&#178;</td><td>360m&#178;</td><td class="r">360</td><td class="r">$1,500</td><td class="r">$540,000</td></tr>
         <tr><td><span class="dot" style="background:#9A7ACA"></span>Circulation</td><td>70m&#178;</td><td class="r">70</td><td class="r">$1,500</td><td class="r">$105,000</td></tr>
         <tr class="tot"><td><b>Per Floor Total</b></td><td>430m&#178;</td><td class="r"><b>430</b></td><td class="r">&#8212;</td><td class="r" style="color:var(--room)"><b>$645,000</b></td></tr>
-        <tr class="tot"><td><b>Both Floors (x2)</b></td><td>860m&#178;</td><td class="r"><b>860</b></td><td class="r">&#8212;</td><td class="r" style="color:var(--room)"><b>$1,290,000</b></td></tr>
+        <tr class="tot"><td><b>Both Floors (x2) &#8212; 24 Rooms</b></td><td>860m&#178;</td><td class="r"><b>860</b></td><td class="r">&#8212;</td><td class="r" style="color:var(--room)"><b>$1,290,000</b></td></tr>
       </tbody></table>
       <div style="margin-top:10px;padding:10px 12px;background:var(--room-bg);border-radius:5px;border:1px solid #C8A8D8;font-size:10px;color:var(--text2);line-height:1.7;">
         8 rooms left column + 4 rooms bottom row + 4 rooms east side (beside pool).<br>No private pool &#183; Guests share main resort pool.
@@ -308,7 +308,7 @@ canvas{max-height:220px;}
     <!-- Service -->
     <div class="card" style="padding:0;overflow:hidden">
       <div class="res-sec-head" data-cat="infra" style="background:#F8F3EC;color:#8A6A3A;border-bottom:1px solid #D0B888;padding:9px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('infra',this)">
-        <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#128230; Service / Infra</span>
+        <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#128230; Service</span>
         <span class="res-sec-cost" id="rsc-infra" style="font-size:11px;font-family:'Playfair Display',serif"></span>
       </div>
       <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead>
@@ -440,7 +440,7 @@ canvas{max-height:220px;}
     </div>
 
     <div class="card" style="background:#F8F3EC;border-color:#D0B888">
-      <div class="ct">&#128230; STORAGE / INFRA</div>
+      <div class="ct">&#128230; SERVICE</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
         <span style="font-size:11px;color:var(--text2)">$</span>
         <input id="rate-infra" type="number" min="0" step="50" value="700"
@@ -558,7 +558,7 @@ const Z = [
   {id:'wh',   name:'Worker Housing (80m2)',sub:'Worker Hsg', cat:'infra',     group:'resort-gf',floor:0,area:80, rate:700, enabled:true,note:'80m2 GF @ $700/m2',              x:.36,y:.82, w:.12, h:.17},
   {id:'park', name:'Parking (all)',        sub:'Car+Tuk+F1', cat:'parking',   group:'resort-gf',floor:0,area:280,rate:0,   enabled:true,note:'Car 150+Tuk 30+F1 100m2 - $0',  x:.82,y:.04, w:.13, h:.25},
   {id:'gdn',  name:'Resort Gardens',       sub:'Gardens',    cat:'events',    group:'resort-gf',floor:0,area:0,  rate:0,   enabled:true,note:'Landscaped gardens',             x:.655,y:.19,w:.02, h:.34},
-  {id:'sauna',name:'Sauna (25m2)',          sub:'Sauna',     cat:'wellness',  group:'resort-gf',floor:0,area:25, rate:1500,enabled:true,note:'Sauna GF',                       x:.245,y:.82,w:.11, h:.08},
+  {id:'sauna',name:'Sauna (20m2)',          sub:'Sauna',     cat:'wellness',  group:'resort-gf',floor:0,area:20, rate:1500,enabled:true,note:'Sauna GF',                       x:.245,y:.82,w:.11, h:.08},
   {id:'cold', name:'Cold Bath (20m2)',      sub:'Cold Bath', cat:'wellness',  group:'resort-gf',floor:0,area:20, rate:500, enabled:true,note:'Ice/cold bath GF $500/m2',       x:.245,y:.91,w:.11, h:.08},
   // RESORT F1
   {id:'f1_yoga', name:'Yoga Hall (120m2)',        sub:'Yoga Hall',     cat:'wellness',group:'resort-f1',floor:1,area:120,rate:1500,enabled:true,note:'Yoga studio F1',          x:.68,y:.04, w:.145,h:.175},
