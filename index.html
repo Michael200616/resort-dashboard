@@ -38,7 +38,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(246,243,238,.97);backdrop-
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
 .g21{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:14px;}
-.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px;}
+.g5{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
 .card{background:var(--bg2);border:1px solid var(--border2);border-radius:6px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
 .card.vcard{background:var(--villa-bg);border-color:#E8BFA8;}
 .card.rcard{background:var(--resort-bg);border-color:#B8D0E8;}
@@ -73,7 +73,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(246,243,238,.97);backdrop-
 .section-sep.resort-sep .sep-line{background:linear-gradient(90deg,var(--resort),transparent);}
 .section-sep.room-sep{color:var(--room);}
 .section-sep.room-sep .sep-line{background:linear-gradient(90deg,var(--room),transparent);}
-.costs-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.costs-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;overflow-x:auto;}
 .costs-col-head{font-size:11px;font-weight:600;padding:9px 12px;border-radius:6px 6px 0 0;border:1px solid;border-bottom:none;letter-spacing:1px;}
 .costs-col-head.vch{background:var(--villa-bg);color:var(--villa);border-color:#E8BFA8;}
 .costs-col-head.rch{background:var(--resort-bg);color:var(--resort);border-color:#B8D0E8;}
@@ -130,7 +130,9 @@ canvas{max-height:220px;}
 .leg{display:flex;align-items:center;gap:4px;font-size:9px;color:var(--text3);}
 .lsw{width:9px;height:9px;border-radius:2px;}
 #fp-status{padding:4px 14px;background:var(--bg3);border-top:1px solid var(--border2);font-size:9px;color:var(--text3);flex-shrink:0;}
+@media(max-width:1100px){.g5{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:900px){.g4,.g3,.g2,.g21,.g5,.costs-wrap{grid-template-columns:1fr;}.page{padding:12px 10px;}}
+#page-costs{max-width:100%;overflow-x:hidden;}
 </style>
 </head>
 <body>
@@ -346,8 +348,7 @@ canvas{max-height:220px;}
     <div class="card vcard"><div class="ct">Villas</div><div class="kv villa" id="c-villas-kpi">&#8212;</div><div class="ks" id="c-villas-ks">4 villas</div></div>
     <div class="card rmcard"><div class="ct">Rooms</div><div class="kv room" id="c-rooms-kpi">&#8212;</div><div class="ks">24 rooms &#183; 860m&#178;</div></div>
     <div class="card rcard"><div class="ct">Resort Complex</div><div class="kv resort" id="c-resort-kpi">&#8212;</div><div class="ks">All resort zones</div></div>
-    <div class="card"><div class="ct">Grand Total (hard)</div><div class="kv gold" id="c-grand-kpi">&#8212;</div><div class="ks">All active zones</div></div>
-
+    <div class="card"><div class="ct">Grand Total</div><div class="kv gold" id="c-grand-kpi">&#8212;</div><div class="ks">All active zones</div></div>
   </div>
   <div class="costs-wrap">
     <div>
