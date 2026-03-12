@@ -774,7 +774,7 @@ chReBar=new Chart(document.getElementById('c-resort-bar'),{type:'bar',
 });
 
 // Pie category toggle state
-const pieCatEnabled={villas:true,rooms:true,fb:true,pool:true,commercial:true,wellness:true,events:true,infra:false};
+const pieCatEnabled={villas:true,rooms:true,fb:true,pool:true,commercial:true,wellness:true,events:true,infra:true};
 chCostPie=new Chart(document.getElementById('c-costs-pie'),{type:'doughnut',
   data:{labels:[],datasets:[{data:[],backgroundColor:[],hoverOffset:6}]},
   options:{...ns(bOpts),cutout:'62%',
