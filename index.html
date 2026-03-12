@@ -186,7 +186,7 @@ canvas{max-height:220px;}
       <div id="tg-resort-f1"></div>
       <div class="total-banner" style="margin-top:14px"><div class="tb-label">Active Hard Build Cost</div><div class="tb-val" id="tg-total">&#8212;</div></div>
       <div style="margin-top:10px;font-size:10px;color:var(--text3);line-height:1.9;padding:10px 12px;background:var(--bg3);border-radius:5px;">
-        &#128161; Parking = $0<br>&#127944; All pools = $1,000/m&#178;<br>&#127968; Worker Housing = $700/m&#178;<br>&#128230; Storage/Infra = $700/m&#178;<br>&#10052; Cold Bath = $500/m&#178;<br>&#9888; Villa roofs excluded
+        &#128161; Parking = $0<br>&#127944; All pools = $1,000/m&#178;<br>&#127968; Worker Housing = $700/m&#178;<br>&#128230; Storage = $700/m&#178;<br>&#10052; Cold Bath = $500/m&#178;<br>&#9888; Villa roofs excluded
       </div>
     </div>
   </div>
@@ -440,12 +440,24 @@ canvas{max-height:220px;}
     </div>
 
     <div class="card" style="background:#F8F3EC;border-color:#D0B888">
-      <div class="ct">&#128230; SERVICE</div>
+      <div class="ct">&#128230; STORAGE</div>
+      <div style="font-size:9px;color:var(--text3);margin-top:2px;margin-bottom:4px">Storage + Trash · Pool/Garden Storage</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
         <span style="font-size:11px;color:var(--text2)">$</span>
         <input id="rate-infra" type="number" min="0" step="50" value="700"
           style="width:100%;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;border:1.5px solid #D0B888;border-radius:5px;background:#F8F3EC;color:#8A6A3A;outline:none"
           oninput="updateRate('infra',+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
+      </div>
+    </div>
+
+    <div class="card" style="background:#F0F0F0;border-color:#CCC">
+      <div class="ct">&#128663; SERVICE</div>
+      <div style="font-size:9px;color:var(--text3);margin-top:2px;margin-bottom:4px">Worker Housing</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <span style="font-size:11px;color:var(--text2)">$</span>
+        <input id="rate-wh" type="number" min="0" step="50" value="700"
+          style="width:100%;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;border:1.5px solid #CCC;border-radius:5px;background:#F0F0F0;color:#666;outline:none"
+          oninput="updateRateId('wh',+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
       </div>
     </div>
 
@@ -456,16 +468,6 @@ canvas{max-height:220px;}
         <input id="rate-cold" type="number" min="0" step="50" value="500"
           style="width:100%;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;border:1.5px solid #E8BFA8;border-radius:5px;background:#FEF2EB;color:#C87840;outline:none"
           oninput="updateRateId('cold',+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
-      </div>
-    </div>
-
-    <div class="card" style="background:#F0F0F0;border-color:#CCC">
-      <div class="ct">&#128663; WORKER HOUSING</div>
-      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-        <span style="font-size:11px;color:var(--text2)">$</span>
-        <input id="rate-wh" type="number" min="0" step="50" value="700"
-          style="width:100%;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;border:1.5px solid #CCC;border-radius:5px;background:#F0F0F0;color:#666;outline:none"
-          oninput="updateRateId('wh',+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
       </div>
     </div>
 
@@ -499,7 +501,7 @@ canvas{max-height:220px;}
     <div class="leg"><div class="lsw" style="background:#EAF0D8;border:1.5px solid #2E7A7A;"></div>Commercial</div>
     <div class="leg"><div class="lsw" style="background:#EAD8F0;border:1.5px solid #7A4A8C;"></div>Wellness</div>
     <div class="leg"><div class="lsw" style="background:#D8F0E8;border:1.5px solid #3D7A5C;"></div>Events</div>
-    <div class="leg"><div class="lsw" style="background:#F5D8D8;border:1.5px solid #8A6A3A;"></div>Infra</div>
+    <div class="leg"><div class="lsw" style="background:#F5D8D8;border:1.5px solid #8A6A3A;"></div>Service</div>
     <div class="leg"><div class="lsw" style="background:#EBEBEB;border:1.5px solid #888;"></div>Parking</div>
     <span style="margin-left:auto;font-size:9px;color:var(--text3)">Greyed = disabled</span>
   </div>
@@ -578,7 +580,7 @@ const CS={
   commercial:{fill:'rgba(46,122,122,.17)',stroke:'#2E7A7A',text:'#083838',label:'Commercial',badge:'background:#EEF7F6;color:#2E7A7A;border-color:#A0D0D0'},
   wellness:{fill:'rgba(122,74,140,.14)',stroke:'#7A4A8C',text:'#3A1050',label:'Wellness',badge:'background:#F4EEF8;color:#7A4A8C;border-color:#C8A8D8'},
   events:{fill:'rgba(61,122,92,.17)',stroke:'#3D7A5C',text:'#0A3820',label:'Events',badge:'background:#EEF7F2;color:#3D7A5C;border-color:#A8D4B8'},
-  infra:{fill:'rgba(138,106,58,.15)',stroke:'#8A6A3A',text:'#3A2010',label:'Infra',badge:'background:#F8F3EC;color:#8A6A3A;border-color:#D0B888'},
+  infra:{fill:'rgba(138,106,58,.15)',stroke:'#8A6A3A',text:'#3A2010',label:'Service',badge:'background:#F8F3EC;color:#8A6A3A;border-color:#D0B888'},
   parking:{fill:'rgba(150,145,135,.13)',stroke:'#888',text:'#444',label:'Parking',badge:'background:#F5F4F2;color:#888;border-color:#CCC'},
 };
 
@@ -634,12 +636,12 @@ function buildToggleGroup(containerId,group,opts){
   const allOn=allToggleZones.length>0&&allToggleZones.every(z=>z.enabled);
   const toggleIds=allToggleZones.map(z=>z.id).join(',');
 
-  // "Toggle All" button
+  // "Toggle All" switch on left
   const btnDiv=document.createElement('div');
-  btnDiv.style.cssText='display:flex;justify-content:flex-end;margin-bottom:5px';
-  btnDiv.innerHTML='<button class="grp-toggle-btn" onclick="toggleGroup(\''+toggleIds+'\',this)" '
-    +'style="background:'+(allOn?'var(--red-bg)':'var(--green-bg)')+';color:'+(allOn?'var(--red)':'var(--green)')+';border-color:'+(allOn?'#E0B0B0':'#A8D4B8')+'">'
-    +(allOn?'Disable All':'Enable All')+'</button>';
+  btnDiv.style.cssText='display:flex;align-items:center;gap:7px;padding:4px 8px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px';
+  btnDiv.innerHTML='<label class="sw"><input type="checkbox" '+(allOn?'checked':'')
+    +' onchange="toggleGroup(\''+toggleIds+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
+    +'<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)">Toggle All</span>';
   el.appendChild(btnDiv);
 
   // Render individual zones
@@ -674,7 +676,9 @@ function buildToggleGroup(containerId,group,opts){
       +'<div><div class="ti-name">'+m.name+'</div>'
       +'<div class="ti-note"><span class="ti-cat" style="background:#F0EEF8;color:#9A8AB8;border:1px solid #C8A8D8">Circulation</span></div></div></div>'
       +'<div class="ti-right">'
-      +'<span class="ti-area-static">'+mArea+'</span>'
+      +'<input type="number" min="0" step="1" value="'+mArea+'" '
+      +'style="width:54px;padding:2px 4px;font-family:\'IBM Plex Mono\',monospace;font-size:10px;border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2);flex-shrink:0" '
+      +'oninput="updateMergedArea(['+m.ids.map(id=>'\''+id+'\'').join(',')+'],+this.value)">'
       +'<span class="ti-unit">m²</span>'
       +'<div class="ti-cost" id="tc-'+mid+'">'+(mCost>0?fmt(mCost):'$0')+'</div></div>';
     el.appendChild(d);
@@ -703,18 +707,23 @@ function updateArea(id,val){
   refreshAll();
 }
 
-function toggleGroup(idsStr,btn){
+function toggleGroup(idsStr,nowOn){
   const ids=idsStr.split(',').filter(Boolean);
   const zones=ids.map(id=>Z.find(z=>z.id===id)).filter(Boolean);
-  const nowOn=!zones.every(z=>z.enabled);
+  if(nowOn===undefined) nowOn=!zones.every(z=>z.enabled);
   zones.forEach(z=>z.enabled=nowOn);
-  if(btn){
-    btn.textContent=nowOn?'Disable All':'Enable All';
-    btn.style.background=nowOn?'var(--red-bg)':'var(--green-bg)';
-    btn.style.color=nowOn?'var(--red)':'var(--green)';
-    btn.style.borderColor=nowOn?'#E0B0B0':'#A8D4B8';
-  }
   buildAllToggles();
+  refreshAll();
+}
+
+function updateMergedArea(ids,totalVal){
+  const zones=ids.map(id=>Z.find(z=>z.id===id)).filter(Boolean);
+  const each=Math.round(totalVal/zones.length);
+  zones.forEach(z=>z.area=each);
+  const mid='merged-'+ids.join('-');
+  const tc=document.getElementById('tc-'+mid);
+  const totalCost=zones.reduce((s,z)=>s+zc(z),0);
+  if(tc)tc.textContent=totalCost>0?fmt(totalCost):'$0';
   refreshAll();
 }
 
@@ -792,7 +801,7 @@ const PIE_CATS=[
   {key:'commercial',label:'Commercial',col:'#2E7A7A'},
   {key:'wellness',label:'Wellness',  col:'#7A4A8C'},
   {key:'events', label:'Events',     col:'#3D7A5C'},
-  {key:'infra',  label:'Infra',      col:'#8A6A3A'},
+  {key:'infra',  label:'Service',     col:'#8A6A3A'},
 ];
 
 function togglePieCat(label) {
@@ -975,7 +984,7 @@ function refreshAll(){
     {l:'Commercial',c:sum(Z.filter(z=>z.cat==='commercial'&&z.enabled),zc),col:'#2E7A7A'},
     {l:'Wellness',c:sum(Z.filter(z=>z.cat==='wellness'&&z.enabled),zc),col:'#7A4A8C'},
     {l:'Events',c:sum(Z.filter(z=>z.cat==='events'&&z.enabled),zc),col:'#3D7A5C'},
-    {l:'Infra',c:sum(Z.filter(z=>z.cat==='infra'&&z.enabled),zc),col:'#8A6A3A'},
+    {l:'Service',c:sum(Z.filter(z=>z.cat==='infra'&&z.enabled),zc),col:'#8A6A3A'},
   ].filter(g=>g.c>0).sort((a,b)=>b.c-a.c);
   chOvBar.data.labels=barGroupsRaw.map(g=>g.l);chOvBar.data.datasets[0].data=barGroupsRaw.map(g=>g.c);
   chOvBar.data.datasets[0].backgroundColor=barGroupsRaw.map(g=>g.col+'CC');chOvBar.update();
@@ -987,7 +996,7 @@ function refreshAll(){
     {l:'Commercial',cost:sum(Z.filter(z=>z.cat==='commercial'&&z.enabled),zc), col:'#2E7A7A'},
     {l:'Wellness', cost:sum(Z.filter(z=>z.cat==='wellness'&&z.enabled),zc),  col:'#7A4A8C'},
     {l:'Events',   cost:sum(Z.filter(z=>z.cat==='events'&&z.floor===1&&z.enabled),zc), col:'#3D7A5C'},
-    {l:'Infra',    cost:sum(Z.filter(z=>z.cat==='infra'&&!['villas','rooms-gf','rooms-f1'].includes(z.group)&&z.enabled),zc), col:'#8A6A3A'},
+    {l:'Service',  cost:sum(Z.filter(z=>z.cat==='infra'&&!['villas','rooms-gf','rooms-f1'].includes(z.group)&&z.enabled),zc), col:'#8A6A3A'},
   ].filter(g=>g.cost>0).sort((a,b)=>b.cost-a.cost);
   chReBar.data.labels=resBarCats.map(g=>g.l);
   chReBar.data.datasets[0].data=resBarCats.map(g=>g.cost);
@@ -1002,7 +1011,7 @@ function refreshAll(){
     ['Commercial',sum(Z.filter(z=>z.cat==='commercial'&&z.enabled),zc),'#2E7A7A','commercial'],
     ['Wellness',sum(Z.filter(z=>z.cat==='wellness'&&z.enabled),zc),'#7A4A8C','wellness'],
     ['Events',sum(Z.filter(z=>z.cat==='events'&&z.enabled),zc),'#3D7A5C','events'],
-    ['Infra',sum(Z.filter(z=>z.cat==='infra'&&z.enabled),zc),'#8A6A3A','infra'],
+    ['Service',sum(Z.filter(z=>z.cat==='infra'&&z.enabled),zc),'#8A6A3A','infra'],
   ].filter(g=>g[1]>0&&pieCatEnabled[g[3]]).sort((a,b)=>b[1]-a[1]);
   chCostPie.data.labels=cGrpsAll.map(g=>g[0]);chCostPie.data.datasets[0].data=cGrpsAll.map(g=>g[1]);
   chCostPie.data.datasets[0].backgroundColor=cGrpsAll.map(g=>g[2]);chCostPie.update();
