@@ -229,7 +229,7 @@ canvas{max-height:220px;}
   <div class="g4">
     <div class="card rmcard"><div class="ct">Room Size</div><div class="kv room">26 m&#178;</div><div class="ks">Net room area</div></div>
     <div class="card rmcard"><div class="ct">Rooms Active</div><div class="kv room" id="rooms-active-kv">24</div><div class="ks" id="rooms-active-ks">GF: 12 · F1: 12</div></div>
-    <div class="card rmcard"><div class="ct">Total Area (2 floors)</div><div class="kv room">764 m&#178;</div><div class="ks">12&#215;26&#215;2 + circ&#215;2</div></div>
+    <div class="card rmcard"><div class="ct">Total Area (active)</div><div class="kv room" id="rooms-total-area-kv">764 m&#178;</div><div class="ks" id="rooms-total-area-ks">12&#215;26&#215;2 + circ&#215;2</div></div>
     <div class="card rmcard"><div class="ct">Total Cost (active)</div><div class="kv room" id="rooms-total-cost">&#8212;</div><div class="ks">All active rooms</div></div>
   </div>
   <div class="g2">
@@ -237,10 +237,10 @@ canvas{max-height:220px;}
       <div class="sl"><span>BREAKDOWN BY ZONE</span><div class="ln"></div></div>
       <table class="tbl"><thead><tr><th>Zone</th><th>Per Floor</th><th class="r">m&#178;</th><th class="r">Rate</th><th class="r">Cost/floor ($)</th></tr></thead>
       <tbody>
-        <tr><td><span class="dot" style="background:#6B4A9A"></span>12 Rooms x 26m&#178;</td><td>312m&#178;</td><td class="r">312</td><td class="r">$1,500</td><td class="r" id="rm-rooms-cost">$468,000</td></tr>
-        <tr><td><span class="dot" style="background:#9A7ACA"></span>Circulation</td><td>70m&#178;</td><td class="r">70</td><td class="r" id="rm-circ-rate">$1,500</td><td class="r" id="rm-circ-cost">$105,000</td></tr>
-        <tr class="tot"><td><b>Per Floor Total</b></td><td>382m&#178;</td><td class="r"><b>382</b></td><td class="r">&#8212;</td><td class="r" style="color:var(--room)"><b id="rm-floor-total">$573,000</b></td></tr>
-        <tr class="tot"><td><b>Both Floors (x2) &#8212; 24 Rooms</b></td><td>764m&#178;</td><td class="r"><b>764</b></td><td class="r">&#8212;</td><td class="r" style="color:var(--room)"><b id="rm-both-total">$1,146,000</b></td></tr>
+        <tr><td><span class="dot" style="background:#6B4A9A"></span><span id="rm-rooms-label">12 Rooms x 26m&#178;</span></td><td id="rm-rooms-area-pf">312m&#178;</td><td class="r" id="rm-rooms-area-total">312</td><td class="r">$1,500</td><td class="r" id="rm-rooms-cost">$468,000</td></tr>
+        <tr><td><span class="dot" style="background:#9A7ACA"></span>Circulation</td><td id="rm-circ-area-pf">70m&#178;</td><td class="r" id="rm-circ-area">70</td><td class="r" id="rm-circ-rate">$1,500</td><td class="r" id="rm-circ-cost">$105,000</td></tr>
+        <tr class="tot"><td><b>Per Floor Total</b></td><td id="rm-pf-area-label">382m&#178;</td><td class="r"><b id="rm-pf-area">382</b></td><td class="r">&#8212;</td><td class="r" style="color:var(--room)"><b id="rm-floor-total">$573,000</b></td></tr>
+        <tr class="tot"><td><b id="rm-both-label">Both Floors (x2) &#8212; 24 Rooms</b></td><td id="rm-both-area-label">764m&#178;</td><td class="r"><b id="rm-both-area">764</b></td><td class="r">&#8212;</td><td class="r" style="color:var(--room)"><b id="rm-both-total">$1,146,000</b></td></tr>
       </tbody></table>
       <div style="margin-top:10px;padding:10px 12px;background:var(--room-bg);border-radius:5px;border:1px solid #C8A8D8;font-size:10px;color:var(--text2);line-height:1.7;">
         4 rooms left column + 4 rooms top row + 4 rooms east side (beside pool).<br>No private pool &#183; Guests share main resort pool.
@@ -873,20 +873,42 @@ function refreshAll(){
     +'<div style="display:flex;justify-content:space-between;border-top:1px solid #E8BFA8;padding-top:6px;margin-top:4px"><span><strong>'+activeV+' Villas Total</strong></span><strong style="color:var(--villa)">'+fmtM(villaCost)+'</strong></div>';
 
   set('rooms-total-cost',fmtM(roomCost));
-  const gfActive=Z.filter(z=>z.group==='rooms-gf'&&z.cat==='room'&&z.enabled).length;
-  const f1Active=Z.filter(z=>z.group==='rooms-f1'&&z.cat==='room'&&z.enabled).length;
+  const gfRooms=Z.filter(z=>z.group==='rooms-gf'&&z.cat==='room'&&z.enabled);
+  const f1Rooms=Z.filter(z=>z.group==='rooms-f1'&&z.cat==='room'&&z.enabled);
+  const gfActive=gfRooms.length, f1Active=f1Rooms.length;
   const totalRoomsActive=gfActive+f1Active;
-  set('rooms-page-desc',totalRoomsActive+' rooms active \u00B7 GF: '+gfActive+' \u00B7 F1: '+f1Active+' \u00B7 Each room 26m\u00B2 net + shared circulation');
+  const rmAreaEach=Z.find(z=>z.cat==='room')?.area||26;
+  const circGF=Z.find(z=>z.id==='circ_gf'); const circF1=Z.find(z=>z.id==='circ_f1');
+  const circAreaEach=circGF?.area||70;
+  const gfRoomArea=gfActive*rmAreaEach, f1RoomArea=f1Active*rmAreaEach;
+  const avgRoomArea=Math.round((gfRoomArea+f1RoomArea)/Math.max(1,totalRoomsActive));
+  const pfRoomArea=Math.round((gfRoomArea+f1RoomArea)/2);
+  const pfCircArea=circAreaEach;
+  const pfTotal=pfRoomArea+pfCircArea;
+  const bothTotal=(gfRoomArea+f1RoomArea)+(circAreaEach*2);
+  set('rooms-page-desc',totalRoomsActive+' rooms active \u00B7 GF: '+gfActive+' \u00B7 F1: '+f1Active+' \u00B7 Each room '+rmAreaEach+'m\u00B2 net');
   set('rooms-active-kv',totalRoomsActive);
   set('rooms-active-ks','GF: '+gfActive+' \u00B7 F1: '+f1Active);
+  set('rooms-total-area-kv',bothTotal+' m\u00B2');
+  set('rooms-total-area-ks',totalRoomsActive+'\u00D7'+rmAreaEach+' + circ\u00D72');
+  set('rm-rooms-label',(gfActive||f1Active?'~'+Math.round((gfActive+f1Active)/2):12)+' Rooms \u00D7 '+rmAreaEach+'m\u00B2');
+  set('rm-rooms-area-pf',pfRoomArea+'m\u00B2');
+  set('rm-rooms-area-total',pfRoomArea);
+  set('rm-circ-area-pf',pfCircArea+'m\u00B2');
+  set('rm-circ-area',pfCircArea);
+  set('rm-pf-area-label',pfTotal+'m\u00B2');
+  set('rm-pf-area',pfTotal);
+  set('rm-both-label','Both Floors (x2) \u2014 '+totalRoomsActive+' Rooms');
+  set('rm-both-area-label',bothTotal+'m\u00B2');
+  set('rm-both-area',bothTotal);
   const rmRate=Z.find(z=>z.cat==='room'&&z.enabled);
   if(rmRate){
     const rr=rmRate.rate;
-    const rc=document.getElementById('rm-rooms-cost');if(rc)rc.textContent=fmt(312*rr);
-    const rcc=document.getElementById('rm-circ-cost');if(rcc)rcc.textContent=fmt(70*rr);
+    const rc=document.getElementById('rm-rooms-cost');if(rc)rc.textContent=fmt(pfRoomArea*rr);
+    const rcc=document.getElementById('rm-circ-cost');if(rcc)rcc.textContent=fmt(pfCircArea*rr);
     const rcr=document.getElementById('rm-circ-rate');if(rcr)rcr.textContent='$'+rr.toLocaleString();
-    const rft=document.getElementById('rm-floor-total');if(rft)rft.textContent=fmt(382*rr);
-    const rbt=document.getElementById('rm-both-total');if(rbt)rbt.textContent=fmt(764*rr);
+    const rft=document.getElementById('rm-floor-total');if(rft)rft.textContent=fmt(pfTotal*rr);
+    const rbt=document.getElementById('rm-both-total');if(rbt)rbt.textContent=fmt(bothTotal*rr);
   }
   set('tg-total',fmtM(grand));
   set('c-villas-kpi',fmtM(villaCost));set('c-villas-ks',activeV+' villas incl. pools');
