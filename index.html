@@ -424,7 +424,7 @@ canvas{max-height:220px;}
       <div class="ct">&#127978; COMMERCIAL (shops, beauty)</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
         <span style="font-size:11px;color:var(--text2)">$</span>
-        <input id="rate-commercial" type="number" min="0" step="50" value="1500"
+        <input id="rate-commercial" type="number" min="0" step="50" value="1000"
           style="width:100%;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;border:1.5px solid #A0D0D0;border-radius:5px;background:#EEF7F6;color:#2E7A7A;outline:none"
           oninput="updateRate('commercial',+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
       </div>
@@ -442,7 +442,7 @@ canvas{max-height:220px;}
 
     <div class="card" style="background:#F8F3EC;border-color:#D0B888">
       <div class="ct">&#128230; STORAGE</div>
-      <div style="font-size:9px;color:var(--text3);margin-top:2px;margin-bottom:4px">Storage + Trash · Pool/Garden Storage</div>
+      <div style="font-size:9px;color:var(--text3);margin-top:2px;margin-bottom:4px">(Storage + Trash · Pool/Garden Storage)</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
         <span style="font-size:11px;color:var(--text2)">$</span>
         <input id="rate-infra" type="number" min="0" step="50" value="700"
@@ -453,7 +453,7 @@ canvas{max-height:220px;}
 
     <div class="card" style="background:#F0F0F0;border-color:#CCC">
       <div class="ct">&#128663; SERVICE</div>
-      <div style="font-size:9px;color:var(--text3);margin-top:2px;margin-bottom:4px">Worker Housing</div>
+      <div style="font-size:9px;color:var(--text3);margin-top:2px;margin-bottom:4px">(Worker Housing)</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
         <span style="font-size:11px;color:var(--text2)">$</span>
         <input id="rate-wh" type="number" min="0" step="50" value="700"
@@ -463,12 +463,13 @@ canvas{max-height:220px;}
     </div>
 
     <div class="card" style="background:#FEF2EB;border-color:#E8BFA8">
-      <div class="ct">&#10052; COLD BATH</div>
+      <div class="ct">&#10052; SPA / COLD BATH</div>
+      <div style="font-size:9px;color:var(--text3);margin-top:2px;margin-bottom:4px">(sauna, cold bath)</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
         <span style="font-size:11px;color:var(--text2)">$</span>
         <input id="rate-cold" type="number" min="0" step="50" value="500"
           style="width:100%;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;border:1.5px solid #E8BFA8;border-radius:5px;background:#FEF2EB;color:#C87840;outline:none"
-          oninput="updateRateId('cold',+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
+          oninput="updateRateId('cold',+this.value);updateRateId('sauna',+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
       </div>
     </div>
 
@@ -553,18 +554,19 @@ const Z = [
   {id:'fb_r', name:'Restaurant (178m2)',   sub:'Restaurant',  cat:'fb',        group:'resort-gf',floor:0,area:178,rate:1500,enabled:true,note:'178m2 restaurant - right block GF',x:.68,y:.04, w:.145,h:.14},
   {id:'fb_k', name:'Kitchen (51m2)',       sub:'Kitchen',     cat:'fb',        group:'resort-gf',floor:0,area:51, rate:1500,enabled:true,note:'Commercial kitchen 51m2',        x:.68,y:.145,w:.145,h:.06},
   {id:'fb_s', name:'Storage + Trash Room',sub:'Storage 30m2',cat:'infra',     group:'resort-gf',floor:0,area:30, rate:700, enabled:true,note:'Kitchen storage + waste $700/m2',x:.68,y:.24, w:.145,h:.07},
-  {id:'sh1',  name:'Shop 1 (26m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:26, rate:1500,enabled:true,note:'Retail boutique',                x:.68,y:.36, w:.054,h:.09},
-  {id:'sh2',  name:'Shop 2 (22m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:22, rate:1500,enabled:true,note:'Retail shop',                    x:.68,y:.45, w:.054,h:.08},
-  {id:'sh3',  name:'Shop 3 (19m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:19, rate:1500,enabled:true,note:'Retail shop',                    x:.68,y:.53, w:.054,h:.07},
-  {id:'man',  name:'Manicure + Pedicure', sub:'Beauty 26m2', cat:'commercial',group:'resort-gf',floor:0,area:26, rate:1500,enabled:true,note:'Beauty and nails',               x:.738,y:.36,w:.054,h:.09},
+  {id:'sh1',  name:'Shop 1 (20m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail boutique',                x:.68,y:.36, w:.054,h:.09},
+  {id:'sh2',  name:'Shop 2 (20m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail shop',                    x:.68,y:.45, w:.054,h:.08},
+  {id:'sh3',  name:'Shop 3 (20m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail shop',                    x:.68,y:.53, w:.054,h:.07},
+  {id:'man',  name:'Manicure + Pedicure', sub:'Beauty 26m2', cat:'commercial',group:'resort-gf',floor:0,area:26, rate:1000,enabled:true,note:'Beauty and nails',               x:.738,y:.36,w:.054,h:.09},
   {id:'svc',  name:'Storage Pool/Garden', sub:'Storage 45m2',cat:'infra',     group:'resort-gf',floor:0,area:45, rate:700, enabled:true,note:'Pool+garden+cleaning $700/m2',   x:.795,y:.36,w:.054,h:.24},
   {id:'wh',   name:'Worker Housing (100m2)',sub:'Worker Hsg',cat:'infra',     group:'resort-gf',floor:0,area:100,rate:700, enabled:true,note:'100m2 GF @ $700/m2',             x:.36,y:.82, w:.12, h:.17},
   {id:'park', name:'Parking (per space)',  sub:'Per Space',  cat:'parking',   group:'resort-gf',floor:0,area:20, rate:0,   enabled:true,note:'20m2 per parking space - $0',   x:.82,y:.04, w:.13, h:.25},
   {id:'gdn',  name:'Resort Gardens',       sub:'Gardens',    cat:'events',    group:'resort-gf',floor:0,area:0,  rate:0,   enabled:true,note:'Landscaped gardens',             x:.655,y:.19,w:.02, h:.34},
   {id:'stg_gen',name:'Storage + Generator', sub:'Storage 42m2',cat:'infra',   group:'resort-gf',floor:0,area:42, rate:700, enabled:true,note:'Storage + Generator $700/m2',    x:.245,y:.04,w:.11, h:.14},
-  {id:'sauna',name:'Sauna (20m2)',          sub:'Sauna',     cat:'wellness',  group:'resort-gf',floor:0,area:20, rate:1500,enabled:true,note:'Sauna GF',                       x:.245,y:.82,w:.11, h:.08},
+  {id:'sauna',name:'Sauna (8m2)',            sub:'Sauna',     cat:'wellness',  group:'resort-gf',floor:0,area:8,  rate:500, enabled:true,note:'Sauna GF $500/m2',              x:.245,y:.82,w:.11, h:.08},
   {id:'cold', name:'Cold Bath (20m2)',      sub:'Cold Bath', cat:'wellness',  group:'resort-gf',floor:0,area:20, rate:500, enabled:true,note:'Ice/cold bath GF $500/m2',       x:.245,y:.91,w:.11, h:.08},
   // RESORT F1
+  {id:'wh_f1',name:'Worker Housing F1 (80m2)',sub:'Worker Hsg F1',cat:'infra',group:'resort-f1',floor:1,area:80,rate:700,enabled:true,note:'80m2 F1 @ $700/m2',              x:.36,y:.82, w:.12, h:.17},
   {id:'f1_yoga', name:'Yoga Hall (250m2)',        sub:'Yoga Hall',     cat:'wellness',group:'resort-f1',floor:1,area:250,rate:1500,enabled:true,note:'Yoga studio F1',          x:.68,y:.04, w:.145,h:.175},
   {id:'f1_event',name:'Event + Work Space (125m2)',sub:'Events/Cowork',cat:'events',  group:'resort-f1',floor:1,area:125,rate:1500,enabled:true,note:'Event + co-work F1',      x:.68,y:.38, w:.145,h:.18},
   {id:'f1_gym',  name:'Gym Room (25m2)',           sub:'Fitness',      cat:'wellness',group:'resort-f1',floor:1,area:25, rate:1500,enabled:true,note:'Gym inside event block', x:.795,y:.38,w:.054,h:.09},
