@@ -225,11 +225,11 @@ canvas{max-height:220px;}
 </div>
 
 <div id="page-rooms" class="page">
-  <div class="ph"><h1>Hotel <em>Rooms</em></h1><p>24 rooms total &#183; 12 per floor &#183; Each room 30m&#178; net + shared circulation</p></div>
+  <div class="ph"><h1>Hotel <em>Rooms</em></h1><p>24 rooms total &#183; 12 per floor &#183; Each room 26m&#178; net + shared circulation</p></div>
   <div class="g4">
-    <div class="card rmcard"><div class="ct">Room Size</div><div class="kv room">30 m&#178;</div><div class="ks">Net room area</div></div>
+    <div class="card rmcard"><div class="ct">Room Size</div><div class="kv room">26 m&#178;</div><div class="ks">Net room area</div></div>
     <div class="card rmcard"><div class="ct">Rooms per Floor</div><div class="kv room">12</div><div class="ks">GF + F1 identical</div></div>
-    <div class="card rmcard"><div class="ct">Total Area (2 floors)</div><div class="kv room">860 m&#178;</div><div class="ks">12&#215;30&#215;2 + circ&#215;2</div></div>
+    <div class="card rmcard"><div class="ct">Total Area (2 floors)</div><div class="kv room">764 m&#178;</div><div class="ks">12&#215;26&#215;2 + circ&#215;2</div></div>
     <div class="card rmcard"><div class="ct">Total Cost (active)</div><div class="kv room" id="rooms-total-cost">&#8212;</div><div class="ks">All active rooms</div></div>
   </div>
   <div class="g2">
@@ -237,13 +237,13 @@ canvas{max-height:220px;}
       <div class="sl"><span>BREAKDOWN BY ZONE</span><div class="ln"></div></div>
       <table class="tbl"><thead><tr><th>Zone</th><th>Per Floor</th><th class="r">m&#178;</th><th class="r">Rate</th><th class="r">Cost/floor ($)</th></tr></thead>
       <tbody>
-        <tr><td><span class="dot" style="background:#6B4A9A"></span>12 Rooms x 30m&#178;</td><td>360m&#178;</td><td class="r">360</td><td class="r">$1,500</td><td class="r">$540,000</td></tr>
-        <tr><td><span class="dot" style="background:#9A7ACA"></span>Circulation</td><td>70m&#178;</td><td class="r">70</td><td class="r">$1,500</td><td class="r">$105,000</td></tr>
-        <tr class="tot"><td><b>Per Floor Total</b></td><td>430m&#178;</td><td class="r"><b>430</b></td><td class="r">&#8212;</td><td class="r" style="color:var(--room)"><b>$645,000</b></td></tr>
-        <tr class="tot"><td><b>Both Floors (x2) &#8212; 24 Rooms</b></td><td>860m&#178;</td><td class="r"><b>860</b></td><td class="r">&#8212;</td><td class="r" style="color:var(--room)"><b>$1,290,000</b></td></tr>
+        <tr><td><span class="dot" style="background:#6B4A9A"></span>12 Rooms x 26m&#178;</td><td>312m&#178;</td><td class="r">312</td><td class="r">$1,500</td><td class="r" id="rm-rooms-cost">$468,000</td></tr>
+        <tr><td><span class="dot" style="background:#9A7ACA"></span>Circulation</td><td>70m&#178;</td><td class="r">70</td><td class="r" id="rm-circ-rate">$1,500</td><td class="r" id="rm-circ-cost">$105,000</td></tr>
+        <tr class="tot"><td><b>Per Floor Total</b></td><td>382m&#178;</td><td class="r"><b>382</b></td><td class="r">&#8212;</td><td class="r" style="color:var(--room)"><b id="rm-floor-total">$573,000</b></td></tr>
+        <tr class="tot"><td><b>Both Floors (x2) &#8212; 24 Rooms</b></td><td>764m&#178;</td><td class="r"><b>764</b></td><td class="r">&#8212;</td><td class="r" style="color:var(--room)"><b id="rm-both-total">$1,146,000</b></td></tr>
       </tbody></table>
       <div style="margin-top:10px;padding:10px 12px;background:var(--room-bg);border-radius:5px;border:1px solid #C8A8D8;font-size:10px;color:var(--text2);line-height:1.7;">
-        8 rooms left column + 4 rooms bottom row + 4 rooms east side (beside pool).<br>No private pool &#183; Guests share main resort pool.
+        4 rooms left column + 4 rooms top row + 4 rooms east side (beside pool).<br>No private pool &#183; Guests share main resort pool.
       </div>
     </div>
     <div class="card"><div class="ct">Room vs Circulation Split</div><canvas id="c-rooms-pie"></canvas></div>
@@ -253,10 +253,19 @@ canvas{max-height:220px;}
 <div id="page-resort" class="page">
   <div class="ph"><h1>Resort <em>Complex</em></h1><p>All resort amenities &#183; Click any section header to toggle it on/off</p></div>
 
-  <!-- Bar chart at top -->
-  <div class="card" style="margin-bottom:16px">
-    <div class="ct">Area by Zone (m&#178;) &#183; Active only</div>
-    <canvas id="c-resort-bar" style="max-height:160px"></canvas>
+  <!-- Charts at top -->
+  <div class="g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="ct">Area by Zone (m&#178;) &#183; Active only</div>
+      <canvas id="c-resort-bar" style="max-height:160px"></canvas>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+        <div class="ct" style="margin-bottom:0">Cost by Category</div>
+        <span id="res-pie-total" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold)">&#8212;</span>
+      </div>
+      <canvas id="c-resort-pie" style="max-height:160px"></canvas>
+    </div>
   </div>
 
   <!-- 3-column card grid -->
@@ -524,22 +533,22 @@ const Z = [
   {id:'fb_r', name:'Restaurant (122m2)',   sub:'Restaurant',  cat:'fb',        group:'resort-gf',floor:0,area:122,rate:1500,enabled:true,note:'122m2 restaurant - right block GF',x:.68,y:.145,w:.145,h:.14},
   {id:'fb_k', name:'Kitchen (51m2)',       sub:'Kitchen',     cat:'fb',        group:'resort-gf',floor:0,area:51, rate:1500,enabled:true,note:'Commercial kitchen 51m2',        x:.68,y:.04, w:.145,h:.06},
   {id:'fb_s', name:'Storage + Trash Room',sub:'Storage 27m2',cat:'infra',     group:'resort-gf',floor:0,area:27, rate:700, enabled:true,note:'Kitchen storage + waste $700/m2',x:.68,y:.24, w:.145,h:.07},
-  {id:'svc',  name:'Storage Pool/Garden', sub:'Storage 53m2',cat:'infra',     group:'resort-gf',floor:0,area:53, rate:700, enabled:true,note:'Pool+garden+cleaning $700/m2',   x:.36, y:.68,w:.054,h:.13},
-  {id:'man',  name:'Manicure + Pedicure', sub:'Beauty 26m2', cat:'commercial',group:'resort-gf',floor:0,area:26, rate:1000,enabled:true,note:'Beauty and nails',               x:.418,y:.68,w:.054,h:.09},
-  {id:'sh1',  name:'Shop 1 (20m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail boutique',                x:.476,y:.68,w:.054,h:.04},
-  {id:'sh2',  name:'Shop 2 (20m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail shop',                    x:.476,y:.72,w:.054,h:.04},
-  {id:'sh3',  name:'Shop 3 (20m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail shop',                    x:.476,y:.76,w:.054,h:.04},
+  {id:'svc',  name:'Storage Pool/Garden', sub:'Storage 53m2',cat:'infra',     group:'resort-gf',floor:0,area:53, rate:700, enabled:true,note:'Pool+garden+cleaning $700/m2',   x:.505,y:.36,w:.054,h:.14},
+  {id:'man',  name:'Manicure + Pedicure', sub:'Beauty 26m2', cat:'commercial',group:'resort-gf',floor:0,area:26, rate:1000,enabled:true,note:'Beauty and nails',               x:.563,y:.36,w:.054,h:.09},
+  {id:'sh1',  name:'Shop 1 (20m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail boutique',                x:.617,y:.36,w:.048,h:.04},
+  {id:'sh2',  name:'Shop 2 (20m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail shop',                    x:.617,y:.40,w:.048,h:.04},
+  {id:'sh3',  name:'Shop 3 (20m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail shop',                    x:.617,y:.44,w:.048,h:.04},
   {id:'wh',   name:'Worker Housing (100m2)',sub:'Worker Hsg',cat:'infra',     group:'resort-gf',floor:0,area:100,rate:700, enabled:true,note:'100m2 GF @ $700/m2',             x:.36,y:.82, w:.12, h:.17},
-  {id:'park', name:'Parking (per space)',  sub:'Per Space',  cat:'parking',   group:'resort-gf',floor:0,area:20, rate:0,   enabled:true,note:'20m2 per parking space - $0',   x:.82,y:.04, w:.13, h:.25},
+  {id:'park', name:'Parking (per space)',  sub:'Per Space',  cat:'parking',   group:'resort-gf',floor:0,area:20, rate:0,   enabled:true,note:'20m2 per parking space - $0',   x:-1,  y:-1, w:.13, h:.25},
   {id:'gdn',  name:'Resort Gardens',       sub:'Gardens',    cat:'wellness',  group:'resort-gf',floor:0,area:0,  rate:0,   enabled:true,note:'Landscaped gardens',             x:-1,  y:-1, w:.02, h:.34},
   {id:'stg_gen',name:'Storage + Generator', sub:'Storage 42m2',cat:'infra',   group:'resort-gf',floor:0,area:42, rate:700, enabled:true,note:'Storage + Generator $700/m2',    x:.245,y:.04,w:.11, h:.14},
-  {id:'sauna',name:'Sauna (8m2)',            sub:'Sauna',     cat:'wellness',  group:'resort-gf',floor:0,area:8,  rate:500, enabled:true,note:'Sauna GF $500/m2',              x:.245,y:.91,w:.11, h:.08},
+  {id:'sauna',name:'Sauna (10m2)',           sub:'Sauna',     cat:'wellness',  group:'resort-gf',floor:0,area:10, rate:500, enabled:true,note:'Sauna GF $500/m2',              x:.245,y:.91,w:.11, h:.08},
   {id:'cold', name:'Cold Bath (20m2)',      sub:'Cold Bath', cat:'wellness',  group:'resort-gf',floor:0,area:20, rate:500, enabled:true,note:'Ice/cold bath GF $500/m2',       x:.245,y:.82,w:.11, h:.08},
   // RESORT F1
   {id:'wh_f1',name:'Worker Housing F1 (126m2)',sub:'Worker Hsg F1',cat:'infra',group:'resort-f1',floor:1,area:126,rate:700,enabled:true,note:'80m2 F1 @ $700/m2',              x:.36,y:.82, w:.12, h:.17},
   {id:'f1_yoga', name:'Event + Work Space (155m2)',sub:'Event/Cowork',  cat:'wellness',group:'resort-f1',floor:1,area:155,rate:1500,enabled:true,note:'Event + co-work F1',       x:.68,y:.04, w:.145,h:.175},
-  {id:'f1_event',name:'Yoga Hall (115m2)',         sub:'Yoga Hall',     cat:'wellness',group:'resort-f1',floor:1,area:115,rate:1500,enabled:true,note:'Yoga studio F1',           x:.36, y:.65,w:.14, h:.16},
-  {id:'f1_gym',  name:'Pilates equipment (60m2)',   sub:'Pilates',      cat:'wellness',group:'resort-f1',floor:1,area:60, rate:1500,enabled:true,note:'Pilates equipment F1',    x:.475,y:.65,w:.03, h:.16},
+  {id:'f1_event',name:'Yoga Hall (115m2)',         sub:'Yoga Hall',     cat:'wellness',group:'resort-f1',floor:1,area:115,rate:1500,enabled:true,note:'Yoga studio F1',           x:.505,y:.04,w:.14, h:.20},
+  {id:'f1_gym',  name:'Pilates equipment (60m2)',   sub:'Pilates',      cat:'wellness',group:'resort-f1',floor:1,area:60, rate:1500,enabled:true,note:'Pilates equipment F1',    x:.625,y:.04,w:.03, h:.20},
   {id:'f1_gymr', name:'Gym Room (80m2)',            sub:'Gym',          cat:'wellness',group:'resort-f1',floor:1,area:80, rate:1500,enabled:true,note:'Gym Room F1',              x:.795,y:.04,w:.03, h:.175},
   // Villa roofs (visual only)
   ...([0,1,2,3].map(i=>({id:'fv'+i,name:'Villa '+(i+1)+' Roof',sub:'Excluded',cat:'villa',group:'villas',floor:1,area:0,rate:0,enabled:false,note:'Villa roof excluded',x:.035,y:.04+i*.225,w:.20,h:.21}))),
@@ -715,7 +724,7 @@ const bOpts={responsive:true,maintainAspectRatio:true,
           y:{ticks:{color:DIM,font:{family:'IBM Plex Mono',size:8}},grid:{color:'rgba(0,0,0,0.04)'}}}};
 const ns=o=>{const c={...o};delete c.scales;return c;};
 
-let chOvBar,chOvDon,chReBar,chCostPie,chSplitBar;
+let chOvBar,chOvDon,chReBar,chCostPie,chSplitBar,chResPie;
 
 new Chart(document.getElementById('c-villa-pie'),{type:'pie',
   data:{labels:['Living Rm','Dining/Kitchen','Master Bed','2nd Bed','Bathrooms','Private Pool'],
@@ -744,6 +753,13 @@ chReBar=new Chart(document.getElementById('c-resort-bar'),{type:'bar',
   options:{...bOpts,plugins:{legend:{display:false}},
     scales:{x:{...bOpts.scales.x},
             y:{...bOpts.scales.y,ticks:{...bOpts.scales.y.ticks,callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}}
+});
+
+chResPie=new Chart(document.getElementById('c-resort-pie'),{type:'doughnut',
+  data:{labels:[],datasets:[{data:[],backgroundColor:[],hoverOffset:6}]},
+  options:{...ns(bOpts),cutout:'60%',
+    plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:4}},
+      tooltip:{callbacks:{label:ctx=>ctx.label+': '+fmtM(ctx.raw)}}}}
 });
 
 // Pie category toggle state
@@ -844,6 +860,15 @@ function refreshAll(){
     +'<div style="display:flex;justify-content:space-between;border-top:1px solid #E8BFA8;padding-top:6px;margin-top:4px"><span><strong>'+activeV+' Villas Total</strong></span><strong style="color:var(--villa)">'+fmtM(villaCost)+'</strong></div>';
 
   set('rooms-total-cost',fmtM(roomCost));
+  const rmRate=Z.find(z=>z.cat==='room'&&z.enabled);
+  if(rmRate){
+    const rr=rmRate.rate;
+    const rc=document.getElementById('rm-rooms-cost');if(rc)rc.textContent=fmt(312*rr);
+    const rcc=document.getElementById('rm-circ-cost');if(rcc)rcc.textContent=fmt(70*rr);
+    const rcr=document.getElementById('rm-circ-rate');if(rcr)rcr.textContent='$'+rr.toLocaleString();
+    const rft=document.getElementById('rm-floor-total');if(rft)rft.textContent=fmt(382*rr);
+    const rbt=document.getElementById('rm-both-total');if(rbt)rbt.textContent=fmt(764*rr);
+  }
   set('tg-total',fmtM(grand));
   set('c-villas-kpi',fmtM(villaCost));set('c-villas-ks',activeV+' villas incl. pools');
   set('c-rooms-kpi',fmtM(roomCost));set('c-resort-kpi',fmtM(resCost));set('c-grand-kpi',fmtM(grand));
@@ -972,6 +997,15 @@ function refreshAll(){
   chReBar.data.datasets[0].data=resBarCats.map(g=>g.cost);
   chReBar.data.datasets[0].backgroundColor=resBarCats.map(g=>g.col+'CC');
   chReBar.update();
+  if(chResPie){
+    chResPie.data.labels=resBarCats.map(g=>g.l);
+    chResPie.data.datasets[0].data=resBarCats.map(g=>g.cost);
+    chResPie.data.datasets[0].backgroundColor=resBarCats.map(g=>g.col);
+    chResPie.update();
+    const resPieTotal=resBarCats.reduce((s,g)=>s+g.cost,0);
+    const rpt=document.getElementById('res-pie-total');
+    if(rpt)rpt.textContent=fmtM(resPieTotal);
+  }
 
   const cGrpsAll=[
     ['Villas',villaCost,'#D4845A','villas'],
