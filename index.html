@@ -117,7 +117,7 @@ canvas{max-height:220px;}
 .fp-fl.active{background:var(--gold);color:#fff;}
 #fp-area{flex:1;position:relative;overflow:hidden;cursor:grab;background:#EDE8E0;min-height:0;}
 #fp-area:active{cursor:grabbing;}
-#fp-canvas{display:block;width:100%;height:100%;}
+#fp-canvas{display:block;width:100%;height:100%;max-height:none;}
 #fp-tip{position:absolute;pointer-events:none;background:rgba(255,252,248,.98);border:1.5px solid var(--gold);border-radius:7px;padding:10px 14px;min-width:190px;max-width:260px;box-shadow:0 4px 18px rgba(0,0,0,.13);z-index:50;opacity:0;transition:opacity .1s;}
 #fp-tip .tt{font-family:'Playfair Display',serif;font-size:14px;margin-bottom:2px;}
 #fp-tip .ts{font-size:9px;color:var(--text3);margin-bottom:6px;}
@@ -298,15 +298,6 @@ canvas{max-height:220px;}
       <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-wellness-tbody"></tbody></table>
     </div>
 
-    <!-- Events / F1 -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="res-sec-head" data-cat="events" style="background:#EEF7F2;color:#3D7A5C;border-bottom:1px solid #A8D4B8;padding:9px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('events',this)">
-        <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#127979; Events / F1</span>
-        <span class="res-sec-cost" id="rsc-events" style="font-size:11px;font-family:'Playfair Display',serif"></span>
-      </div>
-      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-f1-tbody"></tbody></table>
-    </div>
-
     <!-- Service -->
     <div class="card" style="padding:0;overflow:hidden">
       <div class="res-sec-head" data-cat="infra" style="background:#F8F3EC;color:#8A6A3A;border-bottom:1px solid #D0B888;padding:9px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('infra',this)">
@@ -411,13 +402,12 @@ canvas{max-height:220px;}
     </div>
 
     <div class="card" style="background:#F4EEF8;border-color:#C8A8D8">
-      <div class="ct">&#129496; WELLNESS + EVENTS</div>
-      <div style="font-size:9px;color:var(--text3);margin-top:2px;margin-bottom:4px">(yoga, gym, pilates, event space)</div>
+      <div class="ct">&#129496; WELLNESS (yoga, gym, pilates, events)</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
         <span style="font-size:11px;color:var(--text2)">$</span>
         <input id="rate-wellness" type="number" min="0" step="50" value="1500"
           style="width:100%;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;border:1.5px solid #C8A8D8;border-radius:5px;background:#F4EEF8;color:#7A4A8C;outline:none"
-          oninput="updateRateCat(['wellness','events'],+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
+          oninput="updateRate('wellness',+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
       </div>
     </div>
 
@@ -428,16 +418,6 @@ canvas{max-height:220px;}
         <input id="rate-commercial" type="number" min="0" step="50" value="1000"
           style="width:100%;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;border:1.5px solid #A0D0D0;border-radius:5px;background:#EEF7F6;color:#2E7A7A;outline:none"
           oninput="updateRate('commercial',+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
-      </div>
-    </div>
-
-    <div class="card" style="background:#EEF7F2;border-color:#A8D4B8">
-      <div class="ct">&#127979; EVENTS (event space, sitting)</div>
-      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-        <span style="font-size:11px;color:var(--text2)">$</span>
-        <input id="rate-events" type="number" min="0" step="50" value="1500"
-          style="width:100%;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;border:1.5px solid #A8D4B8;border-radius:5px;background:#EEF7F2;color:#3D7A5C;outline:none"
-          oninput="updateRate('events',+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
       </div>
     </div>
 
@@ -453,7 +433,7 @@ canvas{max-height:220px;}
     </div>
 
     <div class="card" style="background:#FEF2EB;border-color:#E8BFA8">
-      <div class="ct">&#10052; SPA / COLD BATH</div>
+      <div class="ct">&#10052; SPA + COLD BATH</div>
       <div style="font-size:9px;color:var(--text3);margin-top:2px;margin-bottom:4px">(sauna, cold bath)</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
         <span style="font-size:11px;color:var(--text2)">$</span>
@@ -551,16 +531,16 @@ const Z = [
   {id:'svc',  name:'Storage Pool/Garden', sub:'Storage 53m2',cat:'infra',     group:'resort-gf',floor:0,area:53, rate:700, enabled:true,note:'Pool+garden+cleaning $700/m2',   x:.795,y:.36,w:.054,h:.24},
   {id:'wh',   name:'Worker Housing (100m2)',sub:'Worker Hsg',cat:'infra',     group:'resort-gf',floor:0,area:100,rate:700, enabled:true,note:'100m2 GF @ $700/m2',             x:.36,y:.82, w:.12, h:.17},
   {id:'park', name:'Parking (per space)',  sub:'Per Space',  cat:'parking',   group:'resort-gf',floor:0,area:20, rate:0,   enabled:true,note:'20m2 per parking space - $0',   x:.82,y:.04, w:.13, h:.25},
-  {id:'gdn',  name:'Resort Gardens',       sub:'Gardens',    cat:'events',    group:'resort-gf',floor:0,area:0,  rate:0,   enabled:true,note:'Landscaped gardens',             x:.655,y:.19,w:.02, h:.34},
+  {id:'gdn',  name:'Resort Gardens',       sub:'Gardens',    cat:'wellness',  group:'resort-gf',floor:0,area:0,  rate:0,   enabled:true,note:'Landscaped gardens',             x:.655,y:.19,w:.02, h:.34},
   {id:'stg_gen',name:'Storage + Generator', sub:'Storage 42m2',cat:'infra',   group:'resort-gf',floor:0,area:42, rate:700, enabled:true,note:'Storage + Generator $700/m2',    x:.245,y:.04,w:.11, h:.14},
   {id:'sauna',name:'Sauna (8m2)',            sub:'Sauna',     cat:'wellness',  group:'resort-gf',floor:0,area:8,  rate:500, enabled:true,note:'Sauna GF $500/m2',              x:.245,y:.82,w:.11, h:.08},
   {id:'cold', name:'Cold Bath (20m2)',      sub:'Cold Bath', cat:'wellness',  group:'resort-gf',floor:0,area:20, rate:500, enabled:true,note:'Ice/cold bath GF $500/m2',       x:.245,y:.91,w:.11, h:.08},
   // RESORT F1
   {id:'wh_f1',name:'Worker Housing F1 (126m2)',sub:'Worker Hsg F1',cat:'infra',group:'resort-f1',floor:1,area:126,rate:700,enabled:true,note:'80m2 F1 @ $700/m2',              x:.36,y:.82, w:.12, h:.17},
-  {id:'f1_yoga', name:'Event + Work Space (155m2)',sub:'Event/Cowork',  cat:'events',  group:'resort-f1',floor:1,area:155,rate:1500,enabled:true,note:'Event + co-work F1',       x:.68,y:.04, w:.145,h:.175},
+  {id:'f1_yoga', name:'Event + Work Space (155m2)',sub:'Event/Cowork',  cat:'wellness',group:'resort-f1',floor:1,area:155,rate:1500,enabled:true,note:'Event + co-work F1',       x:.68,y:.04, w:.145,h:.175},
   {id:'f1_event',name:'Yoga Hall (115m2)',         sub:'Yoga Hall',     cat:'wellness',group:'resort-f1',floor:1,area:115,rate:1500,enabled:true,note:'Yoga studio F1',           x:.68,y:.38, w:.145,h:.18},
-  {id:'f1_gym',  name:'Pilates מכשירים (60m2)',    sub:'Pilates',      cat:'wellness',group:'resort-f1',floor:1,area:60, rate:1500,enabled:true,note:'Pilates studio F1',       x:.795,y:.38,w:.054,h:.09},
-  {id:'f1_gymr', name:'Gym Room (80m2)',            sub:'Gym',          cat:'wellness',group:'resort-f1',floor:1,area:80, rate:1500,enabled:true,note:'Gym Room F1',              x:.795,y:.48,w:.054,h:.15},
+  {id:'f1_gym',  name:'Pilates equipment (60m2)',   sub:'Pilates',      cat:'wellness',group:'resort-f1',floor:1,area:60, rate:1500,enabled:true,note:'Pilates equipment F1',    x:.795,y:.38,w:.03, h:.18},
+  {id:'f1_gymr', name:'Gym Room (80m2)',            sub:'Gym',          cat:'wellness',group:'resort-f1',floor:1,area:80, rate:1500,enabled:true,note:'Gym Room F1',              x:.795,y:.04,w:.03, h:.175},
   // Villa roofs (visual only)
   ...([0,1,2,3].map(i=>({id:'fv'+i,name:'Villa '+(i+1)+' Roof',sub:'Excluded',cat:'villa',group:'villas',floor:1,area:0,rate:0,enabled:false,note:'Villa roof excluded',x:.035,y:.04+i*.225,w:.20,h:.21}))),
 ];
@@ -794,7 +774,6 @@ const PIE_CATS=[
   {key:'pool',   label:'Pool',       col:'#5B7FA6'},
   {key:'commercial',label:'Commercial',col:'#2E7A7A'},
   {key:'wellness',label:'Wellness',  col:'#7A4A8C'},
-  {key:'events', label:'Events',     col:'#3D7A5C'},
   {key:'infra',  label:'Service',     col:'#8A6A3A'},
 ];
 
@@ -954,7 +933,6 @@ function refreshAll(){
   fillTable('res-pool-tbody',['pool'],null,excl,true);
   fillTable('res-commercial-tbody',['commercial'],null,excl,true);
   fillTable('res-wellness-tbody',['wellness'],null,excl,true);
-  fillTable('res-f1-tbody',['events'],[1],excl,true);
   fillTable('res-parking-tbody',['parking'],null,excl,true);
   fillTable('res-service-tbody',['infra'],null,excl,true);
   // Section cost badges
@@ -962,9 +940,8 @@ function refreshAll(){
   const rscPool=sum(Z.filter(z=>z.cat==="pool"&&!excl.includes(z.group)&&z.enabled),zc);
   const rscComm=sum(Z.filter(z=>z.cat==="commercial"&&z.enabled),zc);
   const rscWell=sum(Z.filter(z=>z.cat==="wellness"&&z.enabled),zc);
-  const rscEv=sum(Z.filter(z=>z.cat==="events"&&z.floor===1&&z.enabled),zc);
   const rscInfra=sum(Z.filter(z=>(z.cat==="infra"||z.cat==="parking")&&!excl.includes(z.group)&&z.enabled),zc);
-  const scs=[['rsc-fb',rscFb],['rsc-pool',rscPool],['rsc-commercial',rscComm],['rsc-wellness',rscWell],['rsc-events',rscEv],['rsc-infra',rscInfra]];
+  const scs=[['rsc-fb',rscFb],['rsc-pool',rscPool],['rsc-commercial',rscComm],['rsc-wellness',rscWell],['rsc-infra',rscInfra]];
   scs.forEach(([eid,v])=>{const e2=document.getElementById(eid);if(e2)e2.textContent=v>0?fmt(v):'$0';});
 
 
@@ -976,7 +953,7 @@ function refreshAll(){
     {l:'Main Pool',c:sum(Z.filter(z=>z.id==='pool'&&z.enabled),zc),col:'#5B7FA6'},
     {l:'F&B',c:sum(Z.filter(z=>z.cat==='fb'&&z.enabled),zc),col:'#8B5E3C'},
     {l:'Commercial',c:sum(Z.filter(z=>z.cat==='commercial'&&z.enabled),zc),col:'#2E7A7A'},
-    {l:'Wellness',c:sum(Z.filter(z=>z.cat==='wellness'&&z.enabled),zc),col:'#7A4A8C'},
+    {l:'Wellness',c:sum(Z.filter(z=>(z.cat==='wellness'||z.cat==='events')&&z.enabled),zc),col:'#7A4A8C'},
     {l:'Events',c:sum(Z.filter(z=>z.cat==='events'&&z.enabled),zc),col:'#3D7A5C'},
     {l:'Service',c:sum(Z.filter(z=>z.cat==='infra'&&z.enabled),zc),col:'#8A6A3A'},
   ].filter(g=>g.c>0).sort((a,b)=>b.c-a.c);
@@ -989,7 +966,6 @@ function refreshAll(){
     {l:'Pool',     cost:sum(Z.filter(z=>z.cat==='pool'&&!['villas'].includes(z.group)&&z.enabled),zc), col:'#5B7FA6'},
     {l:'Commercial',cost:sum(Z.filter(z=>z.cat==='commercial'&&z.enabled),zc), col:'#2E7A7A'},
     {l:'Wellness', cost:sum(Z.filter(z=>z.cat==='wellness'&&z.enabled),zc),  col:'#7A4A8C'},
-    {l:'Events',   cost:sum(Z.filter(z=>z.cat==='events'&&z.floor===1&&z.enabled),zc), col:'#3D7A5C'},
     {l:'Service',  cost:sum(Z.filter(z=>z.cat==='infra'&&!['villas','rooms-gf','rooms-f1'].includes(z.group)&&z.enabled),zc), col:'#8A6A3A'},
   ].filter(g=>g.cost>0).sort((a,b)=>b.cost-a.cost);
   chReBar.data.labels=resBarCats.map(g=>g.l);
@@ -1003,7 +979,7 @@ function refreshAll(){
     ['F&B',sum(Z.filter(z=>z.cat==='fb'&&z.enabled),zc),'#8B5E3C','fb'],
     ['Pool',sum(Z.filter(z=>z.cat==='pool'&&z.enabled),zc),'#5B7FA6','pool'],
     ['Commercial',sum(Z.filter(z=>z.cat==='commercial'&&z.enabled),zc),'#2E7A7A','commercial'],
-    ['Wellness',sum(Z.filter(z=>z.cat==='wellness'&&z.enabled),zc),'#7A4A8C','wellness'],
+    ['Wellness',sum(Z.filter(z=>(z.cat==='wellness'||z.cat==='events')&&z.enabled),zc),'#7A4A8C','wellness'],
     ['Events',sum(Z.filter(z=>z.cat==='events'&&z.enabled),zc),'#3D7A5C','events'],
     ['Service',sum(Z.filter(z=>z.cat==='infra'&&z.enabled),zc),'#8A6A3A','infra'],
   ].filter(g=>g[1]>0&&pieCatEnabled[g[3]]).sort((a,b)=>b[1]-a[1]);
