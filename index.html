@@ -225,10 +225,10 @@ canvas{max-height:220px;}
 </div>
 
 <div id="page-rooms" class="page">
-  <div class="ph"><h1>Hotel <em>Rooms</em></h1><p>24 rooms total &#183; 12 per floor &#183; Each room 26m&#178; net + shared circulation</p></div>
+  <div class="ph"><h1>Hotel <em>Rooms</em></h1><p id="rooms-page-desc">24 rooms total &#183; 12 per floor &#183; Each room 26m&#178; net + shared circulation</p></div>
   <div class="g4">
     <div class="card rmcard"><div class="ct">Room Size</div><div class="kv room">26 m&#178;</div><div class="ks">Net room area</div></div>
-    <div class="card rmcard"><div class="ct">Rooms per Floor</div><div class="kv room">12</div><div class="ks">GF + F1 identical</div></div>
+    <div class="card rmcard"><div class="ct">Rooms Active</div><div class="kv room" id="rooms-active-kv">24</div><div class="ks" id="rooms-active-ks">GF: 12 · F1: 12</div></div>
     <div class="card rmcard"><div class="ct">Total Area (2 floors)</div><div class="kv room">764 m&#178;</div><div class="ks">12&#215;26&#215;2 + circ&#215;2</div></div>
     <div class="card rmcard"><div class="ct">Total Cost (active)</div><div class="kv room" id="rooms-total-cost">&#8212;</div><div class="ks">All active rooms</div></div>
   </div>
@@ -261,13 +261,8 @@ canvas{max-height:220px;}
     </div>
     <div class="card">
       <div class="ct" style="margin-bottom:4px">Cost by Category</div>
-      <div style="position:relative;max-height:160px;display:flex;align-items:center;justify-content:center">
-        <canvas id="c-resort-pie" style="max-height:160px"></canvas>
-        <div style="position:absolute;text-align:center;pointer-events:none">
-          <div style="font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">Total</div>
-          <div id="res-pie-total" style="font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);line-height:1.1">&#8212;</div>
-        </div>
-      </div>
+      <span id="res-pie-total" style="display:none">&#8212;</span>
+      <canvas id="c-resort-pie" style="max-height:160px"></canvas>
     </div>
   </div>
 
@@ -729,6 +724,21 @@ const ns=o=>{const c={...o};delete c.scales;return c;};
 
 let chOvBar,chOvDon,chReBar,chCostPie,chSplitBar,chResPie;
 
+// Plugin: draw text in center of doughnut
+const doughnutCenterPlugin={id:'doughnutCenter',afterDraw(chart){
+  const el=chart.config.options._centerId;if(!el)return;
+  const txt=document.getElementById(el);if(!txt||txt.textContent==='—'||!txt.textContent)return;
+  const{ctx,chartArea:{left,top,right,bottom}}=chart;
+  const cx=(left+right)/2,cy=(top+bottom)/2;
+  ctx.save();
+  ctx.font="9px 'IBM Plex Mono',monospace";ctx.fillStyle='#9A8A7A';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('Total',cx,cy-10);
+  ctx.font="bold 14px 'Playfair Display',serif";ctx.fillStyle='#B8853A';
+  ctx.fillText(txt.textContent,cx,cy+6);
+  ctx.restore();
+}};
+if(typeof Chart!=='undefined') Chart.register(doughnutCenterPlugin);
+
 new Chart(document.getElementById('c-villa-pie'),{type:'pie',
   data:{labels:['Living Rm','Dining/Kitchen','Master Bed','2nd Bed','Bathrooms','Private Pool'],
     datasets:[{data:[45,30,35,25,15,20],backgroundColor:['#E8A888','#F0B888','#D89868','#C88858','#F4D0A8','#7AA4C4'],borderColor:'#fff',borderWidth:2}]},
@@ -760,7 +770,7 @@ chReBar=new Chart(document.getElementById('c-resort-bar'),{type:'bar',
 
 chResPie=new Chart(document.getElementById('c-resort-pie'),{type:'doughnut',
   data:{labels:[],datasets:[{data:[],backgroundColor:[],hoverOffset:6}]},
-  options:{...ns(bOpts),cutout:'60%',
+  options:{...ns(bOpts),cutout:'60%',_centerId:'res-pie-total',
     plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:4}},
       tooltip:{callbacks:{label:ctx=>ctx.label+': '+fmtM(ctx.raw)}}}}
 });
@@ -863,6 +873,12 @@ function refreshAll(){
     +'<div style="display:flex;justify-content:space-between;border-top:1px solid #E8BFA8;padding-top:6px;margin-top:4px"><span><strong>'+activeV+' Villas Total</strong></span><strong style="color:var(--villa)">'+fmtM(villaCost)+'</strong></div>';
 
   set('rooms-total-cost',fmtM(roomCost));
+  const gfActive=Z.filter(z=>z.group==='rooms-gf'&&z.cat==='room'&&z.enabled).length;
+  const f1Active=Z.filter(z=>z.group==='rooms-f1'&&z.cat==='room'&&z.enabled).length;
+  const totalRoomsActive=gfActive+f1Active;
+  set('rooms-page-desc',totalRoomsActive+' rooms active \u00B7 GF: '+gfActive+' \u00B7 F1: '+f1Active+' \u00B7 Each room 26m\u00B2 net + shared circulation');
+  set('rooms-active-kv',totalRoomsActive);
+  set('rooms-active-ks','GF: '+gfActive+' \u00B7 F1: '+f1Active);
   const rmRate=Z.find(z=>z.cat==='room'&&z.enabled);
   if(rmRate){
     const rr=rmRate.rate;
