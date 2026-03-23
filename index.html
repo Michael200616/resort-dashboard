@@ -260,11 +260,14 @@ canvas{max-height:220px;}
       <canvas id="c-resort-bar" style="max-height:160px"></canvas>
     </div>
     <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
-        <div class="ct" style="margin-bottom:0">Cost by Category</div>
-        <span id="res-pie-total" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold)">&#8212;</span>
+      <div class="ct" style="margin-bottom:4px">Cost by Category</div>
+      <div style="position:relative;max-height:160px;display:flex;align-items:center;justify-content:center">
+        <canvas id="c-resort-pie" style="max-height:160px"></canvas>
+        <div style="position:absolute;text-align:center;pointer-events:none">
+          <div style="font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">Total</div>
+          <div id="res-pie-total" style="font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);line-height:1.1">&#8212;</div>
+        </div>
       </div>
-      <canvas id="c-resort-pie" style="max-height:160px"></canvas>
     </div>
   </div>
 
@@ -380,16 +383,6 @@ canvas{max-height:220px;}
       </div>
     </div>
 
-    <div class="card" style="background:#EEF3FA;border-color:#A8C4E0">
-      <div class="ct">&#127944; ALL POOLS (villa + main)</div>
-      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-        <span style="font-size:11px;color:var(--text2)">$</span>
-        <input id="rate-pool" type="number" min="0" step="50" value="1000"
-          style="width:100%;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;border:1.5px solid #A8C4E0;border-radius:5px;background:#EEF3FA;color:#5B7FA6;outline:none"
-          oninput="updateRate('pool',+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
-      </div>
-    </div>
-
     <div class="card rmcard">
       <div class="ct">&#128716; HOTEL ROOMS</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
@@ -411,12 +404,22 @@ canvas{max-height:220px;}
     </div>
 
     <div class="card" style="background:#F4EEF8;border-color:#C8A8D8">
-      <div class="ct">&#129496; WELLNESS (yoga, gym, pilates, events)</div>
+      <div class="ct">&#129496; WELLNESS (yoga, pilates, events)</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
         <span style="font-size:11px;color:var(--text2)">$</span>
         <input id="rate-wellness" type="number" min="0" step="50" value="1500"
           style="width:100%;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;border:1.5px solid #C8A8D8;border-radius:5px;background:#F4EEF8;color:#7A4A8C;outline:none"
           oninput="updateRate('wellness',+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
+      </div>
+    </div>
+
+    <div class="card" style="background:#EEF3FA;border-color:#A8C4E0">
+      <div class="ct">&#127944; ALL POOLS (villa + main)</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <span style="font-size:11px;color:var(--text2)">$</span>
+        <input id="rate-pool" type="number" min="0" step="50" value="1000"
+          style="width:100%;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;border:1.5px solid #A8C4E0;border-radius:5px;background:#EEF3FA;color:#5B7FA6;outline:none"
+          oninput="updateRate('pool',+this.value)"> <span style="font-size:11px;color:var(--text3)">/m&#178;</span>
       </div>
     </div>
 
