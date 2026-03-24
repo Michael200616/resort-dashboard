@@ -740,16 +740,16 @@ const doughnutCenterPlugin={id:'doughnutCenter',afterDraw(chart){
 }};
 if(typeof Chart!=='undefined') Chart.register(doughnutCenterPlugin);
 
-new Chart(document.getElementById('c-villa-pie'),{type:'pie',
+new Chart(document.getElementById('c-villa-pie'),{type:'doughnut',
   data:{labels:['Living Rm','Dining/Kitchen','Master Bed','2nd Bed','Bathrooms','Private Pool'],
     datasets:[{data:[45,30,35,25,15,20],backgroundColor:['#E8A888','#F0B888','#D89868','#C88858','#F4D0A8','#7AA4C4'],borderColor:'#fff',borderWidth:2}]},
-  options:{...ns(bOpts),plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:5}}}}
+  options:{...ns(bOpts),cutout:'62%',_centerId:'villas-total-cost',plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:5}}}}
 });
 
 new Chart(document.getElementById('c-rooms-pie'),{type:'doughnut',
   data:{labels:['Rooms','Circulation'],
     datasets:[{data:[360,70],backgroundColor:['#6B4A9A','#C8B8E8'],borderColor:'#fff',borderWidth:2}]},
-  options:{...ns(bOpts),plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:5}}}}
+  options:{...ns(bOpts),cutout:'62%',_centerId:'rooms-total-cost',plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:5}}}}
 });
 
 chOvBar=new Chart(document.getElementById('c-ov-bar'),{type:'bar',
@@ -759,7 +759,7 @@ chOvBar=new Chart(document.getElementById('c-ov-bar'),{type:'bar',
 
 chOvDon=new Chart(document.getElementById('c-ov-donut'),{type:'doughnut',
   data:{labels:['Villas','Rooms','Resort'],datasets:[{data:[],backgroundColor:['#D4845A','#6B4A9A','#4A7A9B'],borderWidth:2,borderColor:'#F6F3EE'}]},
-  options:{...ns(bOpts),cutout:'58%',_centerId:'ov-grand',plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:5}}}}
+  options:{...ns(bOpts),cutout:'62%',_centerId:'ov-grand',plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:5}}}}
 });
 
 chReBar=new Chart(document.getElementById('c-resort-bar'),{type:'bar',
@@ -771,7 +771,7 @@ chReBar=new Chart(document.getElementById('c-resort-bar'),{type:'bar',
 
 chResPie=new Chart(document.getElementById('c-resort-pie'),{type:'doughnut',
   data:{labels:[],datasets:[{data:[],backgroundColor:[],hoverOffset:6}]},
-  options:{...ns(bOpts),cutout:'60%',_centerId:'res-pie-total',
+  options:{...ns(bOpts),cutout:'62%',_centerId:'res-pie-total',
     plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:4}},
       tooltip:{callbacks:{label:ctx=>ctx.label+': '+fmtM(ctx.raw)}}}}
 });
