@@ -527,27 +527,27 @@ const Z = [
   {id:'hf112',name:'Room 24',sub:'Standard Room',cat:'room',group:'rooms-f1',floor:1,area:26,rate:1500,enabled:true,note:'below pool row2',x:0.466,y:0.535,w:0.037,h:0.14},
   {id:'circ_f1',name:'Circulation F1',sub:'Stairs / Corridor / Balconies',cat:'circulation',group:'rooms-f1',floor:1,area:70,rate:1500,enabled:true,note:'Stairs, corridors, balconies - 70m2',x:.333,y:.19,w:.17,h:.37},
   // RESORT GF
-  {id:'pool', name:'Main Pool (7x18=126m2)',sub:'Main Pool',   cat:'pool',      group:'resort-gf',floor:0,area:126,rate:1000,enabled:true,note:'7x18m rectangular @ $1,000/m2',x:.355,y:.19,w:.148,h:.34},
-  {id:'fb_r', name:'Restaurant (122m2)',   sub:'Restaurant',  cat:'fb',        group:'resort-gf',floor:0,area:122,rate:1500,enabled:true,note:'122m2 restaurant - right block GF',x:.68,y:.145,w:.145,h:.14},
-  {id:'fb_k', name:'Kitchen (51m2)',       sub:'Kitchen',     cat:'fb',        group:'resort-gf',floor:0,area:51, rate:1500,enabled:true,note:'Commercial kitchen 51m2',        x:.68,y:.04, w:.145,h:.06},
+  {id:'pool', name:'Main Pool',            sub:'Main Pool',   cat:'pool',      group:'resort-gf',floor:0,area:126,rate:1000,enabled:true,note:'7x18m rectangular @ $1,000/m2',x:.355,y:.19,w:.148,h:.34},
+  {id:'fb_r', name:'Restaurant',           sub:'Restaurant',  cat:'fb',        group:'resort-gf',floor:0,area:122,rate:1500,enabled:true,note:'122m2 restaurant - right block GF',x:.68,y:.145,w:.145,h:.14},
+  {id:'fb_k', name:'Kitchen',              sub:'Kitchen',     cat:'fb',        group:'resort-gf',floor:0,area:51, rate:1500,enabled:true,note:'Commercial kitchen 51m2',        x:.68,y:.04, w:.145,h:.06},
   {id:'fb_s', name:'Storage + Trash Room',sub:'Storage 27m2',cat:'infra',     group:'resort-gf',floor:0,area:27, rate:700, enabled:true,note:'Kitchen storage + waste $700/m2',x:.68,y:.10, w:.145,h:.04},
   {id:'svc',  name:'Storage Pool/Garden', sub:'Storage 53m2',cat:'infra',     group:'resort-gf',floor:0,area:53, rate:700, enabled:true,note:'Pool+garden+cleaning $700/m2',   x:.68, y:.75,w:.054,h:.14},
   {id:'man',  name:'Manicure + Pedicure', sub:'Beauty 26m2', cat:'commercial',group:'resort-gf',floor:0,area:26, rate:1000,enabled:true,note:'Beauty and nails',               x:.738,y:.75,w:.054,h:.09},
-  {id:'sh1',  name:'Shop 1 (20m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail boutique',                x:.792,y:.75,w:.048,h:.04},
-  {id:'sh2',  name:'Shop 2 (20m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail shop',                    x:.792,y:.79,w:.048,h:.04},
-  {id:'sh3',  name:'Shop 3 (20m2)',       sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail shop',                    x:.792,y:.83,w:.048,h:.04},
-  {id:'wh',   name:'Worker Housing (100m2)',sub:'Worker Hsg',cat:'infra',     group:'resort-gf',floor:0,area:100,rate:700, enabled:true,note:'100m2 GF @ $700/m2',             x:.36,y:.82, w:.12, h:.17},
+  {id:'sh1',  name:'Shop 1',              sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail boutique',                x:.792,y:.75,w:.048,h:.04},
+  {id:'sh2',  name:'Shop 2',              sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail shop',                    x:.792,y:.79,w:.048,h:.04},
+  {id:'sh3',  name:'Shop 3',              sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail shop',                    x:.792,y:.83,w:.048,h:.04},
+  {id:'wh',   name:'Worker Housing',      sub:'Worker Hsg',  cat:'infra',     group:'resort-gf',floor:0,area:100,rate:700, enabled:true,note:'100m2 GF @ $700/m2',             x:.36,y:.82, w:.12, h:.17},
   {id:'park', name:'Parking (per space)',  sub:'Per Space',  cat:'parking',   group:'resort-gf',floor:0,area:20, rate:0,   enabled:true,note:'20m2 per parking space - $0',   x:-1,  y:-1, w:.13, h:.25},
   {id:'gdn',  name:'Resort Gardens',       sub:'Gardens',    cat:'wellness',  group:'resort-gf',floor:0,area:0,  rate:0,   enabled:true,note:'Landscaped gardens',             x:-1,  y:-1, w:.02, h:.34},
   {id:'stg_gen',name:'Storage + Generator', sub:'Storage 42m2',cat:'infra',   group:'resort-gf',floor:0,area:42, rate:700, enabled:true,note:'Storage + Generator $700/m2',    x:.245,y:.04,w:.11, h:.14},
-  {id:'sauna',name:'Sauna (10m2)',           sub:'Sauna',     cat:'wellness',  group:'resort-gf',floor:0,area:10, rate:500, enabled:true,note:'Sauna GF $500/m2',              x:.245,y:.91,w:.11, h:.08},
-  {id:'cold', name:'Cold Bath (20m2)',      sub:'Cold Bath', cat:'wellness',  group:'resort-gf',floor:0,area:20, rate:500, enabled:true,note:'Ice/cold bath GF $500/m2',       x:.245,y:.82,w:.11, h:.08},
+  {id:'sauna',name:'Sauna',                  sub:'Sauna',     cat:'wellness',  group:'resort-gf',floor:0,area:10, rate:500, enabled:true,note:'Sauna GF $500/m2',              x:.245,y:.91,w:.11, h:.08},
+  {id:'cold', name:'Cold Bath',             sub:'Cold Bath', cat:'wellness',  group:'resort-gf',floor:0,area:20, rate:500, enabled:true,note:'Ice/cold bath GF $500/m2',       x:.245,y:.82,w:.11, h:.08},
   // RESORT F1
-  {id:'wh_f1',name:'Worker Housing F1 (126m2)',sub:'Worker Hsg F1',cat:'infra',group:'resort-f1',floor:1,area:126,rate:700,enabled:true,note:'80m2 F1 @ $700/m2',              x:.36,y:.82, w:.12, h:.17},
-  {id:'f1_yoga', name:'Event + Work Space (155m2)',sub:'Event/Cowork',  cat:'wellness',group:'resort-f1',floor:1,area:155,rate:1500,enabled:true,note:'Event + co-work F1',       x:.68,y:.04, w:.145,h:.175},
-  {id:'f1_event',name:'Yoga Hall (115m2)',         sub:'Yoga Hall',     cat:'wellness',group:'resort-f1',floor:1,area:115,rate:1500,enabled:true,note:'Yoga studio F1',           x:.68, y:.75,w:.14, h:.20},
-  {id:'f1_gym',  name:'Pilates equipment (60m2)',   sub:'Pilates',      cat:'wellness',group:'resort-f1',floor:1,area:60, rate:1500,enabled:true,note:'Pilates equipment F1',    x:.78, y:.75,w:.03, h:.20},
-  {id:'f1_gymr', name:'Gym Room (80m2)',            sub:'Gym',          cat:'wellness',group:'resort-f1',floor:1,area:80, rate:1500,enabled:true,note:'Gym Room F1',              x:.795,y:.04,w:.03, h:.175},
+  {id:'wh_f1',name:'Worker Housing F1',      sub:'Worker Hsg F1',cat:'infra',group:'resort-f1',floor:1,area:126,rate:700,enabled:true,note:'126m2 F1 @ $700/m2',             x:.36,y:.82, w:.12, h:.17},
+  {id:'f1_yoga', name:'Event + Work Space', sub:'Event/Cowork',  cat:'wellness',group:'resort-f1',floor:1,area:155,rate:1500,enabled:true,note:'Event + co-work F1',            x:.68,y:.04, w:.145,h:.175},
+  {id:'f1_event',name:'Yoga Hall',          sub:'Yoga Hall',     cat:'wellness',group:'resort-f1',floor:1,area:115,rate:1500,enabled:true,note:'Yoga studio F1',                x:.68, y:.75,w:.14, h:.20},
+  {id:'f1_gym',  name:'Pilates Equipment',  sub:'Pilates',       cat:'wellness',group:'resort-f1',floor:1,area:60, rate:1500,enabled:true,note:'Pilates equipment F1',           x:.78, y:.75,w:.03, h:.20},
+  {id:'f1_gymr', name:'Gym Room',           sub:'Gym',           cat:'wellness',group:'resort-f1',floor:1,area:80, rate:1500,enabled:true,note:'Gym Room F1',                   x:.795,y:.04,w:.03, h:.175},
   // Villa roofs (visual only)
   ...([0,1,2,3].map(i=>({id:'fv'+i,name:'Villa '+(i+1)+' Roof',sub:'Excluded',cat:'villa',group:'villas',floor:1,area:0,rate:0,enabled:false,note:'Villa roof excluded',x:.035,y:.04+i*.225,w:.20,h:.21}))),
 ];
@@ -746,7 +746,7 @@ new Chart(document.getElementById('c-villa-pie'),{type:'pie',
 });
 
 new Chart(document.getElementById('c-rooms-pie'),{type:'doughnut',
-  data:{labels:['Rooms (12x30m2)','Circulation 70m2'],
+  data:{labels:['Rooms','Circulation'],
     datasets:[{data:[360,70],backgroundColor:['#6B4A9A','#C8B8E8'],borderColor:'#fff',borderWidth:2}]},
   options:{...ns(bOpts),plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:5}}}}
 });
@@ -758,7 +758,7 @@ chOvBar=new Chart(document.getElementById('c-ov-bar'),{type:'bar',
 
 chOvDon=new Chart(document.getElementById('c-ov-donut'),{type:'doughnut',
   data:{labels:['Villas','Rooms','Resort'],datasets:[{data:[],backgroundColor:['#D4845A','#6B4A9A','#4A7A9B'],borderWidth:2,borderColor:'#F6F3EE'}]},
-  options:{...ns(bOpts),plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:5}}}}
+  options:{...ns(bOpts),cutout:'58%',_centerId:'ov-grand',plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:5}}}}
 });
 
 chReBar=new Chart(document.getElementById('c-resort-bar'),{type:'bar',
