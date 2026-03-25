@@ -156,7 +156,9 @@ canvas{max-height:220px;}
 #page-resort .res-sec-head span:first-child{font-size:12px!important;}
 #page-resort .res-sec-cost{font-size:14px!important;}
 #page-resort .tbl{font-size:12px!important;}
-#page-resort .tbl td,#page-resort .tbl th{padding:6px 10px!important;}
+#page-resort .tbl td,#page-resort .tbl th{padding:4px 8px!important;}
+#page-resort .res-card-grid{gap:8px;}
+#page-resort .res-col{gap:8px;}
 </style>
 </head>
 <body>
@@ -300,14 +302,35 @@ canvas{max-height:220px;}
     </div>
   </div>
 
-  <!-- 3-column card grid: F&B | Wellness+Pool | Service+Commercial -->
+  <!-- 3-column card grid: Wellness | Pool+F&B | Service+Commercial -->
   <div class="res-card-grid">
 
-    <!-- Col 1: F&B -->
+    <!-- Col 1: Wellness -->
     <div class="res-col">
 
       <div class="card" style="padding:0;overflow:hidden">
-        <div class="res-sec-head" data-cat="fb" style="background:#FEF5EC;color:#8B5E3C;border-bottom:1px solid #E0C0A0;padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('fb',this)">
+        <div class="res-sec-head" data-cat="wellness" style="background:#F4EEF8;color:#7A4A8C;border-bottom:1px solid #C8A8D8;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('wellness',this)">
+          <span style="font-weight:600;letter-spacing:1px">&#129496; Wellness</span>
+          <span class="res-sec-cost" id="rsc-wellness" style="font-family:'Playfair Display',serif"></span>
+        </div>
+        <table class="tbl"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-wellness-tbody"></tbody></table>
+      </div>
+
+    </div>
+
+    <!-- Col 2: Pool + F&B -->
+    <div class="res-col">
+
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="res-sec-head" data-cat="pool" style="background:#EEF3FA;color:#5B7FA6;border-bottom:1px solid #A8C4E0;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('pool',this)">
+          <span style="font-weight:600;letter-spacing:1px">&#127944; Pool</span>
+          <span class="res-sec-cost" id="rsc-pool" style="font-family:'Playfair Display',serif"></span>
+        </div>
+        <table class="tbl"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-pool-tbody"></tbody></table>
+      </div>
+
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="res-sec-head" data-cat="fb" style="background:#FEF5EC;color:#8B5E3C;border-bottom:1px solid #E0C0A0;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('fb',this)">
           <span style="font-weight:600;letter-spacing:1px">&#127859; F&amp;B</span>
           <span class="res-sec-cost" id="rsc-fb" style="font-family:'Playfair Display',serif"></span>
         </div>
@@ -316,32 +339,11 @@ canvas{max-height:220px;}
 
     </div>
 
-    <!-- Col 2: Wellness + Pool -->
-    <div class="res-col">
-
-      <div class="card" style="padding:0;overflow:hidden">
-        <div class="res-sec-head" data-cat="wellness" style="background:#F4EEF8;color:#7A4A8C;border-bottom:1px solid #C8A8D8;padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('wellness',this)">
-          <span style="font-weight:600;letter-spacing:1px">&#129496; Wellness</span>
-          <span class="res-sec-cost" id="rsc-wellness" style="font-family:'Playfair Display',serif"></span>
-        </div>
-        <table class="tbl"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-wellness-tbody"></tbody></table>
-      </div>
-
-      <div class="card" style="padding:0;overflow:hidden">
-        <div class="res-sec-head" data-cat="pool" style="background:#EEF3FA;color:#5B7FA6;border-bottom:1px solid #A8C4E0;padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('pool',this)">
-          <span style="font-weight:600;letter-spacing:1px">&#127944; Pool</span>
-          <span class="res-sec-cost" id="rsc-pool" style="font-family:'Playfair Display',serif"></span>
-        </div>
-        <table class="tbl"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-pool-tbody"></tbody></table>
-      </div>
-
-    </div>
-
     <!-- Col 3: Service + Commercial -->
     <div class="res-col">
 
       <div class="card" style="padding:0;overflow:hidden">
-        <div class="res-sec-head" data-cat="infra" style="background:#F8F3EC;color:#8A6A3A;border-bottom:1px solid #D0B888;padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('infra',this)">
+        <div class="res-sec-head" data-cat="infra" style="background:#F8F3EC;color:#8A6A3A;border-bottom:1px solid #D0B888;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('infra',this)">
           <span style="font-weight:600;letter-spacing:1px">&#128230; Service</span>
           <span class="res-sec-cost" id="rsc-infra" style="font-family:'Playfair Display',serif"></span>
         </div>
@@ -352,7 +354,7 @@ canvas{max-height:220px;}
       </div>
 
       <div class="card" style="padding:0;overflow:hidden">
-        <div class="res-sec-head" data-cat="commercial" style="background:#EEF7F6;color:#2E7A7A;border-bottom:1px solid #A0D0D0;padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('commercial',this)">
+        <div class="res-sec-head" data-cat="commercial" style="background:#EEF7F6;color:#2E7A7A;border-bottom:1px solid #A0D0D0;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('commercial',this)">
           <span style="font-weight:600;letter-spacing:1px">&#127978; Commercial</span>
           <span class="res-sec-cost" id="rsc-commercial" style="font-family:'Playfair Display',serif"></span>
         </div>
