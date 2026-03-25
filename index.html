@@ -183,25 +183,19 @@ canvas{max-height:220px;}
       <div id="tg-bld3"></div>
     </div>
     <div>
-      <div class="section-sep resort-sep"><span>RESTAURANT &amp; KITCHEN</span><div class="sep-line"></div></div>
+      <div class="section-sep resort-sep"><span>RESTAURANT &amp; EVENTS <span style="font-size:9px;font-weight:400;opacity:.7">GF+F1</span></span><div class="sep-line"></div></div>
       <div id="tg-fb"></div>
-      <div class="section-sep resort-sep" style="margin-top:14px"><span>MAIN POOL</span><div class="sep-line"></div></div>
-      <div id="tg-pool"></div>
-      <div class="section-sep resort-sep" style="margin-top:14px"><span>COMMERCIAL</span><div class="sep-line"></div></div>
+      <div class="section-sep resort-sep" style="margin-top:14px"><span>COMMERCIAL &amp; ACTIVITIES <span style="font-size:9px;font-weight:400;opacity:.7">GF+F1</span></span><div class="sep-line"></div></div>
       <div id="tg-commercial"></div>
       <div class="section-sep resort-sep" style="margin-top:14px"><span>WELLNESS / SPA</span><div class="sep-line"></div></div>
       <div id="tg-wellness"></div>
     </div>
     <div>
-      <div class="section-sep resort-sep"><span>WORKER HOUSING</span><div class="sep-line"></div></div>
+      <div class="section-sep resort-sep"><span>WORKER HOUSING <span style="font-size:9px;font-weight:400;opacity:.7">GF+F1</span></span><div class="sep-line"></div></div>
       <div id="tg-wh"></div>
-      <div class="section-sep resort-sep" style="margin-top:14px"><span>EVENTS &amp; ACTIVITIES</span><div class="sep-line"></div></div>
-      <div id="tg-events"></div>
-      <div class="section-sep resort-sep" style="margin-top:14px"><span>SERVICE</span><div class="sep-line"></div></div>
-      <div id="tg-service"></div>
-      <div class="total-banner" style="margin-top:14px"><div class="tb-label">Active Hard Build Cost</div><div class="tb-val" id="tg-total">&#8212;</div></div>
+      <div class="total-banner" style="margin-top:28px"><div class="tb-label">Active Hard Build Cost</div><div class="tb-val" id="tg-total">&#8212;</div></div>
       <div style="margin-top:10px;font-size:10px;color:var(--text3);line-height:1.9;padding:10px 12px;background:var(--bg3);border-radius:5px;">
-        &#128161; Parking = $0<br>&#127944; All pools = $1,000/m&#178;<br>&#127968; Worker Housing = $700/m&#178;<br>&#128230; Storage = $700/m&#178;<br>&#10052; Cold Bath = $500/m&#178;<br>&#9888; Villa roofs excluded
+        &#127944; All pools = $1,000/m&#178;<br>&#127968; Worker Housing = $700/m&#178;<br>&#128230; Storage = $700/m&#178;<br>&#10052; Cold Bath = $500/m&#178;<br>&#9888; Villa roofs excluded
       </div>
     </div>
   </div>
@@ -554,8 +548,8 @@ const Z = [
   {id:'sh2',  name:'Shop 2',              sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail shop',                    x:.792,y:.79,w:.048,h:.04},
   {id:'sh3',  name:'Shop 3',              sub:'Shop',        cat:'commercial',group:'resort-gf',floor:0,area:20, rate:1000,enabled:true,note:'Retail shop',                    x:.792,y:.83,w:.048,h:.04},
   {id:'wh',   name:'Worker Housing',      sub:'Worker Hsg',  cat:'infra',     group:'resort-gf',floor:0,area:100,rate:700, enabled:true,note:'100m2 GF @ $700/m2',             x:.36,y:.82, w:.12, h:.17},
-  {id:'park', name:'Parking (per space)',  sub:'Per Space',  cat:'parking',   group:'resort-gf',floor:0,area:20, rate:0,   enabled:true,note:'20m2 per parking space - $0',   x:-1,  y:-1, w:.13, h:.25},
-  {id:'gdn',  name:'Resort Gardens',       sub:'Gardens',    cat:'wellness',  group:'resort-gf',floor:0,area:0,  rate:0,   enabled:true,note:'Landscaped gardens',             x:-1,  y:-1, w:.02, h:.34},
+  {id:'park', name:'Parking (per space)',  sub:'Per Space',  cat:'parking',   group:'resort-gf',floor:0,area:0,  rate:0,   enabled:false,note:'removed',                        x:-1,  y:-1, w:.13, h:.25,hidden:true},
+  {id:'gdn',  name:'Resort Gardens',       sub:'Gardens',    cat:'wellness',  group:'resort-gf',floor:0,area:0,  rate:0,   enabled:false,note:'removed',                        x:-1,  y:-1, w:.02, h:.34,hidden:true},
   {id:'stg_gen',name:'Storage + Generator', sub:'Storage 42m2',cat:'infra',   group:'resort-gf',floor:0,area:42, rate:700, enabled:true,note:'Storage + Generator $700/m2',    x:.245,y:.04,w:.11, h:.14},
   {id:'sauna',name:'Sauna',                  sub:'Sauna',     cat:'wellness',  group:'resort-gf',floor:0,area:10, rate:500, enabled:true,note:'Sauna GF $500/m2',              x:.245,y:.91,w:.11, h:.08},
   {id:'cold', name:'Cold Bath',             sub:'Cold Bath', cat:'wellness',  group:'resort-gf',floor:0,area:20, rate:500, enabled:true,note:'Ice/cold bath GF $500/m2',       x:.245,y:.82,w:.11, h:.08},
@@ -642,15 +636,21 @@ function buildToggleGroup(containerId,group,opts){
     +'<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)">Toggle All</span>';
   el.appendChild(btnDiv);
 
+  const readOnly=opts.readOnlyIds||[];
+  const floorTag=fl=>'<span style="font-size:8px;padding:0 3px;border-radius:3px;margin-right:3px;'+(fl===1?'background:#E8F0F8;color:#4A7AB8;border:1px solid #B8D0E8':'background:#F0F8E8;color:#4A8A3A;border:1px solid #B8D8A8')+'">'+(fl===1?'F1':'GF')+'</span>';
+
   // Render individual zones
-  displayedZones.forEach(z=>{
+  displayedZones.filter(z=>!z.hidden&&z.area>=0).forEach(z=>{
     const cs=CS[z.cat]||CS.infra;
+    const ro=readOnly.includes(z.id);
     const d=document.createElement('div');
     d.className='toggle-item'+(z.enabled?'':' off');d.id='ti-'+z.id;
-    d.innerHTML='<div class="ti-left"><label class="sw"><input type="checkbox" '+(z.enabled?'checked':'')
-      +' onchange="toggleZ(\''+z.id+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
-      +'<div><div class="ti-name">'+z.name+'</div>'
-      +'<div class="ti-note">'+(z.floor===1?'[F1] ':'')+'<span class="ti-cat" style="'+cs.badge+'">'+cs.label+'</span></div></div></div>'
+    const switchHtml=ro
+      ?'<span style="width:34px;flex-shrink:0"></span>'
+      :'<label class="sw"><input type="checkbox" '+(z.enabled?'checked':'')+' onchange="toggleZ(\''+z.id+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>';
+    d.innerHTML='<div class="ti-left">'+switchHtml
+      +'<div><div class="ti-name">'+floorTag(z.floor)+z.name+'</div>'
+      +'<div class="ti-note"><span class="ti-cat" style="'+cs.badge+'">'+cs.label+'</span></div></div></div>'
       +'<div class="ti-right">'
       +'<input type="number" min="0" step="1" value="'+z.area+'" '
       +'style="width:54px;padding:2px 4px;font-family:\'IBM Plex Mono\',monospace;font-size:10px;border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2);flex-shrink:0" '
@@ -784,7 +784,7 @@ function buildRoomBuilding(elId, gfIds, f1Ids, circId){
 }
 
 function buildAllToggles(){
-  buildToggleGroup('tg-villas','villas');
+  buildToggleGroup('tg-villas','villas',{readOnlyIds:['v1p','v2p','v3p','v4p']});
   buildRoomBuilding('tg-bld1',
     ['hgf9','hgf10','hgf11','hgf12'],
     ['hf19','hf110','hf111','hf112'],
@@ -797,13 +797,10 @@ function buildAllToggles(){
     ['hgf5','hgf6','hgf7','hgf8'],
     ['hf15','hf16','hf17','hf18'],
     'circ_b3_f1');
-  buildZoneGroup('tg-fb',      ['fb_r','fb_k','fb_s']);
-  buildZoneGroup('tg-pool',    ['pool']);
-  buildZoneGroup('tg-commercial',['sh1','sh2','sh3','man','svc']);
-  buildZoneGroup('tg-wellness',['sauna','cold']);
-  buildZoneGroup('tg-wh',      ['wh','wh_f1']);
-  buildZoneGroup('tg-events',  ['f1_yoga','f1_event','f1_gym','f1_gymr']);
-  buildZoneGroup('tg-service', ['park','gdn']);
+  buildZoneGroup('tg-fb',        ['pool','fb_r','fb_k','fb_s','f1_yoga']);
+  buildZoneGroup('tg-commercial',['sh1','sh2','sh3','man','svc','f1_event','f1_gym','f1_gymr']);
+  buildZoneGroup('tg-wellness',  ['sauna','cold']);
+  buildZoneGroup('tg-wh',        ['wh','wh_f1']);
 }
 
 function toggleZ(id,on){
