@@ -161,12 +161,20 @@ canvas{max-height:220px;}
       <div class="total-banner"><div class="tb-label">Grand Total (hard costs)</div><div class="tb-val" id="ov-grand">&#8212;</div></div>
     </div>
   </div>
-  <div class="section-sep villa-sep"><span>VILLAS</span><div class="sep-line"></div></div>
-  <div class="g4" id="ov-villa-kpis"></div>
-  <div class="section-sep room-sep"><span>HOTEL ROOMS &#8212; 24 ROOMS (GF + F1)</span><div class="sep-line"></div></div>
-  <div class="g4" id="ov-room-kpis"></div>
-  <div class="section-sep resort-sep"><span>RESORT COMPLEX</span><div class="sep-line"></div></div>
-  <div class="g4" id="ov-resort-kpis"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px">
+    <div class="card" style="padding:10px 12px">
+      <div class="section-sep villa-sep" style="margin:0 0 8px 0"><span style="font-size:10px">VILLAS</span><div class="sep-line"></div></div>
+      <div id="ov-villa-kpis" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
+    </div>
+    <div class="card" style="padding:10px 12px">
+      <div class="section-sep room-sep" style="margin:0 0 8px 0"><span style="font-size:10px">HOTEL ROOMS &#8212; 24 ROOMS</span><div class="sep-line"></div></div>
+      <div id="ov-room-kpis" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
+    </div>
+    <div class="card" style="padding:10px 12px">
+      <div class="section-sep resort-sep" style="margin:0 0 8px 0"><span style="font-size:10px">RESORT COMPLEX</span><div class="sep-line"></div></div>
+      <div id="ov-resort-kpis" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
+    </div>
+  </div>
 </div>
 
 <div id="page-toggle" class="page">
@@ -185,9 +193,9 @@ canvas{max-height:220px;}
     <div>
       <div class="section-sep resort-sep"><span>RESTAURANT &amp; EVENTS <span style="font-size:9px;font-weight:400;opacity:.7">GF+F1</span></span><div class="sep-line"></div></div>
       <div id="tg-fb"></div>
-      <div class="section-sep resort-sep" style="margin-top:14px"><span>COMMERCIAL &amp; ACTIVITIES <span style="font-size:9px;font-weight:400;opacity:.7">GF+F1</span></span><div class="sep-line"></div></div>
+      <div class="section-sep resort-sep" style="margin-top:14px"><span>COMMERCIAL &amp; Wellness <span style="font-size:9px;font-weight:400;opacity:.7">GF+F1</span></span><div class="sep-line"></div></div>
       <div id="tg-commercial"></div>
-      <div class="section-sep resort-sep" style="margin-top:14px"><span>WELLNESS / SPA</span><div class="sep-line"></div></div>
+      <div class="section-sep resort-sep" style="margin-top:14px"><span>SPA</span><div class="sep-line"></div></div>
       <div id="tg-wellness"></div>
     </div>
     <div>
@@ -797,15 +805,21 @@ function buildAllToggles(){
     ['hgf5','hgf6','hgf7','hgf8'],
     ['hf15','hf16','hf17','hf18'],
     'circ_b3_f1');
-  buildZoneGroup('tg-fb',        ['pool','fb_r','fb_k','fb_s','f1_yoga']);
-  buildZoneGroup('tg-commercial',['sh1','sh2','sh3','man','svc','f1_event','f1_gym','f1_gymr']);
+  buildZoneGroup('tg-fb',        ['pool','fb_r','fb_k','fb_s','f1_yoga','f1_gymr']);
+  buildZoneGroup('tg-commercial',['sh1','sh2','sh3','man','svc','f1_event','f1_gym']);
   buildZoneGroup('tg-wellness',  ['sauna','cold']);
   buildZoneGroup('tg-wh',        ['wh','wh_f1']);
 }
 
 function toggleZ(id,on){
+  const villaPoolMap={v1b:'v1p',v2b:'v2p',v3b:'v3p',v4b:'v4p'};
   const z=Z.find(x=>x.id===id);if(z)z.enabled=on;
   const ti=document.getElementById('ti-'+id);if(ti)ti.className='toggle-item'+(on?'':' off');
+  const linkedId=villaPoolMap[id];
+  if(linkedId){
+    const lz=Z.find(x=>x.id===linkedId);if(lz)lz.enabled=on;
+    const lti=document.getElementById('ti-'+linkedId);if(lti)lti.className='toggle-item'+(on?'':' off');
+  }
   refreshAll();
 }
 
@@ -978,26 +992,31 @@ function refreshAll(){
   const set=(id,v)=>{const e=el(id);if(e)e.textContent=v;};
   set('ov-v-cost',fmtM(villaCost));set('ov-r-cost',fmtM(roomCost));set('ov-res-cost',fmtM(resCost));set('ov-grand',fmtM(grand));
 
+  const mkpi=(bg,border,color,label,val,sub)=>'<div style="background:'+bg+';border:1px solid '+border+';border-radius:5px;padding:5px 7px">'
+    +'<div style="font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:1px">'+label+'</div>'
+    +'<div style="font-family:\'Playfair Display\',serif;font-size:16px;line-height:1.1;color:'+color+'">'+val+'</div>'
+    +'<div style="font-size:8px;color:var(--text3);margin-top:1px">'+sub+'</div></div>';
+
   const ovVk=el('ov-villa-kpis');
   if(ovVk) ovVk.innerHTML=
-    '<div class="card vcard"><div class="ct">Active Villas</div><div class="kv villa">'+activeV+'</div><div class="ks">of 4</div></div>'
-    +'<div class="card vcard"><div class="ct">Built Area</div><div class="kv villa">'+(activeV*140)+' m²</div><div class="ks">'+activeV+'×150m²</div></div>'
-    +'<div class="card vcard"><div class="ct">Pool Area</div><div class="kv villa">'+sum(Z.filter(z=>z.group==="villas"&&z.cat==="pool"&&z.enabled),z=>z.area)+' m²</div><div class="ks">'+activeV+'×16m²</div></div>'
-    +'<div class="card vcard"><div class="ct">Villas Total</div><div class="kv villa">'+fmtM(villaCost)+'</div><div class="ks">Built + pools incl.</div></div>';
+    mkpi('var(--villa-bg)','#E8BFA8','var(--villa)','Active Villas',activeV,'of 4 total')
+    +mkpi('var(--villa-bg)','#E8BFA8','var(--villa)','Built Area',(activeV*140)+' m²',activeV+'×140m²')
+    +mkpi('var(--villa-bg)','#E8BFA8','var(--villa)','Pool Area',sum(Z.filter(z=>z.group==="villas"&&z.cat==="pool"&&z.enabled),z=>z.area)+' m²',activeV+'×16m²')
+    +mkpi('var(--villa-bg)','#E8BFA8','var(--villa)','Total Cost',fmtM(villaCost),'Built + pools');
 
   const ovRmk=el('ov-room-kpis');
   if(ovRmk) ovRmk.innerHTML=
-    '<div class="card rmcard"><div class="ct">Active Rooms</div><div class="kv room">'+activeRooms+'</div><div class="ks">of 24</div></div>'
-    +'<div class="card rmcard"><div class="ct">Area GF</div><div class="kv room">'+areaBy('rooms-gf')+' m²</div><div class="ks">12 rooms+circ</div></div>'
-    +'<div class="card rmcard"><div class="ct">Area F1</div><div class="kv room">'+areaBy('rooms-f1')+' m²</div><div class="ks">12 rooms+circ</div></div>'
-    +'<div class="card rmcard"><div class="ct">Rooms Total</div><div class="kv room">'+fmtM(roomCost)+'</div><div class="ks">Both floors</div></div>';
+    mkpi('var(--room-bg)','#C8A8D8','var(--room)','Active Rooms',activeRooms,'of 24 total')
+    +mkpi('var(--room-bg)','#C8A8D8','var(--room)','Area GF',areaBy('rooms-gf')+' m²','12 rooms+circ')
+    +mkpi('var(--room-bg)','#C8A8D8','var(--room)','Area F1',areaBy('rooms-f1')+' m²','12 rooms+circ')
+    +mkpi('var(--room-bg)','#C8A8D8','var(--room)','Total Cost',fmtM(roomCost),'Both floors');
 
   const ovResk=el('ov-resort-kpis');
   if(ovResk) ovResk.innerHTML=
-    '<div class="card rcard"><div class="ct">Resort GF</div><div class="kv resort">'+areaBy('resort-gf')+' m²</div><div class="ks">Active zones</div></div>'
-    +'<div class="card rcard"><div class="ct">Resort F1</div><div class="kv resort">'+areaBy('resort-f1')+' m²</div><div class="ks">Active zones</div></div>'
-    +'<div class="card rcard"><div class="ct">Resort Total</div><div class="kv resort">'+fmtM(resCost)+'</div><div class="ks">All amenities</div></div>'
-    +'<div class="card rcard"><div class="ct">Grand Total</div><div class="kv resort">'+fmtM(grand)+'</div><div class="ks">Hard costs</div></div>';
+    mkpi('var(--resort-bg)','#B8D0E8','var(--resort)','Resort GF',areaBy('resort-gf')+' m²','Active zones')
+    +mkpi('var(--resort-bg)','#B8D0E8','var(--resort)','Resort F1',areaBy('resort-f1')+' m²','Active zones')
+    +mkpi('var(--resort-bg)','#B8D0E8','var(--resort)','Resort Cost',fmtM(resCost),'All amenities')
+    +mkpi('var(--resort-bg)','#B8D0E8','var(--resort)','Grand Total',fmtM(grand),'Hard costs');
 
   set('villas-total-cost',fmtM(villaCost));set('villa-count-kpi',activeV);
   const vsb=el('villas-summary-box');
