@@ -164,6 +164,9 @@ canvas{max-height:220px;}
 #page-resort .tbl{font-size:12px!important;}
 #page-resort .tbl td,#page-resort .tbl th{padding:4px 8px!important;}
 #page-resort .res-col{gap:8px;}
+#page-toggle.active{display:flex!important;flex-direction:column;height:calc(100vh - 41px);padding:14px;box-sizing:border-box;overflow:hidden;}
+#page-toggle .ph{flex-shrink:0;}
+#page-toggle .tg-grid{flex:1;min-height:0;overflow-y:auto;}
 </style>
 </head>
 <body>
@@ -197,7 +200,7 @@ canvas{max-height:220px;}
 
 <div id="page-toggle" class="page">
   <div class="ph"><h1>Toggle <em>Items</em></h1><p>Switch any zone on/off &#8212; all pages update instantly</p></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+  <div class="tg-grid"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
     <!-- Col 1: Buildings 1 + 2 + 3 -->
     <div>
       <div class="section-sep room-sep"><span>BUILDING 1 <span style="font-size:9px;font-weight:400;letter-spacing:0;opacity:.7">· Rooms 1–4 &amp; 13–16</span></span><div class="sep-line"></div></div>
@@ -226,8 +229,9 @@ canvas{max-height:220px;}
       <div id="tg-commercial"></div>
       <div class="section-sep villa-sep"><span>VILLAS</span><div class="sep-line"></div></div>
       <div id="tg-villas"></div>
+      <div class="total-banner" style="margin-top:16px"><div class="tb-label">Active Hard Build Cost</div><div class="tb-val" id="tg-total">—</div></div>
     </div>
-  </div>
+  </div></div>
 </div>
 
 <div id="page-villas" class="page">
