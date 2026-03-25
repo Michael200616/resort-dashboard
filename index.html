@@ -142,8 +142,6 @@ canvas{max-height:220px;}
 #page-overview.active{display:flex!important;flex-direction:column;height:calc(100vh - 41px);padding:12px;box-sizing:border-box;}
 #page-costs.active{display:flex!important;flex-direction:column;height:calc(100vh - 41px);padding:16px;box-sizing:border-box;}
 #page-costs .costs-charts-row{flex-shrink:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
-#page-costs .costs-charts-row .card{padding:10px 12px;display:flex;flex-direction:column;}
-#page-costs .costs-charts-row canvas{flex:1;min-height:0;}
 #page-costs .costs-bottom-row{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 #page-costs .costs-bottom-row>div{min-height:0;display:flex;flex-direction:column;}
 #page-costs .costs-col-body{flex:1;min-height:0;overflow-y:auto;}
@@ -360,24 +358,24 @@ canvas{max-height:220px;}
   <div class="ph"><h1>Full <em>Cost Breakdown</em></h1><p>Click any row to toggle it on/off &#183; Click section headers to toggle entire groups</p></div>
 
   <!-- Top row: Bar chart | Pie — same fixed height -->
-  <div class="costs-charts-row" style="height:200px">
-    <div class="card">
-      <div class="ct" style="flex-shrink:0">Hard Cost by Section</div>
-      <canvas id="c-split-bar"></canvas>
+  <div class="costs-charts-row">
+    <div class="card" style="padding:10px 12px">
+      <div class="ct">Hard Cost by Section</div>
+      <canvas id="c-split-bar" style="max-height:160px"></canvas>
     </div>
-    <div class="card">
-      <div style="flex-shrink:0;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+    <div class="card" style="padding:10px 12px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
         <div class="ct" style="margin-bottom:0">Cost Split</div>
         <span style="font-size:8px;color:var(--text3)">click to toggle</span>
       </div>
-      <div style="flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center">
-        <canvas id="c-costs-pie"></canvas>
+      <div style="position:relative;height:160px;display:flex;align-items:center;justify-content:center">
+        <canvas id="c-costs-pie" style="max-height:150px"></canvas>
         <div id="pie-center" style="position:absolute;text-align:center;pointer-events:none">
           <div style="font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">Total</div>
           <div id="pie-total" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);line-height:1.1">—</div>
         </div>
       </div>
-      <div id="pie-legend" style="flex-shrink:0;display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;justify-content:center"></div>
+      <div id="pie-legend" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;justify-content:center"></div>
     </div>
   </div>
 
