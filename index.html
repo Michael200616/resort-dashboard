@@ -243,7 +243,7 @@ canvas{max-height:220px;}
         <tr><td><span class="dot" style="background:#6B4A9A"></span>Building 1 <span style="font-size:9px;color:var(--text3)">(1–4, 13–16)</span></td><td class="r" id="rm-bld1-gf">4</td><td class="r" id="rm-bld1-f1">4</td><td class="r" id="rm-bld1-area">208</td><td class="r" id="rm-bld1-cost">$312,000</td></tr>
         <tr><td><span class="dot" style="background:#7B5AAA"></span>Building 2 <span style="font-size:9px;color:var(--text3)">(5–8, 17–20)</span></td><td class="r" id="rm-bld2-gf">4</td><td class="r" id="rm-bld2-f1">4</td><td class="r" id="rm-bld2-area">208</td><td class="r" id="rm-bld2-cost">$312,000</td></tr>
         <tr><td><span class="dot" style="background:#8B6ABA"></span>Building 3 <span style="font-size:9px;color:var(--text3)">(9–12, 21–24)</span></td><td class="r" id="rm-bld3-gf">4</td><td class="r" id="rm-bld3-f1">4</td><td class="r" id="rm-bld3-area">208</td><td class="r" id="rm-bld3-cost">$312,000</td></tr>
-        <tr><td><span class="dot" style="background:#9A7ACA"></span>Circulation (GF+F1)</td><td class="r" colspan="2" id="rm-circ-area">140</td><td class="r" id="rm-circ-area-total">140</td><td class="r" id="rm-circ-cost">$210,000</td></tr>
+        <tr><td><span class="dot" style="background:#9A7ACA"></span>Stairs &amp; hallway F1 (×3)</td><td class="r" colspan="2" id="rm-circ-area">210</td><td class="r" id="rm-circ-area-total">210</td><td class="r" id="rm-circ-cost">$315,000</td></tr>
         <tr class="tot"><td><b id="rm-both-label">Total &#8212; 24 Rooms</b></td><td class="r" id="rm-total-gf"><b>12</b></td><td class="r" id="rm-total-f1"><b>12</b></td><td class="r"><b id="rm-both-area">764</b></td><td class="r" style="color:var(--room)"><b id="rm-both-total">$1,146,000</b></td></tr>
       </tbody></table>
       <div style="margin-top:10px;padding:10px 12px;background:var(--room-bg);border-radius:5px;border:1px solid #C8A8D8;font-size:10px;color:var(--text2);line-height:1.7;">
@@ -701,40 +701,44 @@ function buildRoomBuilding(elId, gfIds, f1Ids, circId){
   sumDiv.innerHTML='<span>GF: '+gfActive+'/'+gfZones.length+'</span><span>&#9656; '+totalRooms+' total rooms</span><span>F1: '+f1Active+'/'+f1Zones.length+'</span>';
   el.appendChild(sumDiv);
 
-  function addFloorSwitch(label, zones){
+  const rowStyle='display:flex;align-items:center;gap:6px;padding:4px 8px;background:#fff;border:1px solid var(--border2);';
+  const monoSm='font-size:9px;font-family:\'IBM Plex Mono\',monospace;';
+
+  function addFloorSwitch(label, zones, isF1withCirc){
     const floorOn=zones.length>0&&zones.every(z=>z.enabled);
     const active=zones.filter(z=>z.enabled).length;
-    const area=active*rmA;
-    const cost=active*rmA*rr;
     const floorIds=zones.map(z=>z.id).join(',');
     const d=document.createElement('div');
-    d.style.cssText='display:flex;align-items:center;gap:6px;padding:4px 8px;margin-top:3px;background:var(--bg);border:1px solid var(--border2);border-radius:4px';
+    const radius=isF1withCirc?'border-radius:4px 4px 0 0':'border-radius:4px';
+    d.style.cssText=rowStyle+'margin-top:3px;'+radius;
     d.innerHTML='<label class="sw"><input type="checkbox" '+(floorOn?'checked':'')+' onchange="toggleGroup(\''+floorIds+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
-      +'<span style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text2);flex:1">'+label+'</span>'
-      +'<span style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;color:var(--text3);margin-right:4px">'+active+'/'+zones.length+'</span>'
-      +'<span style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;color:var(--text3)">'+area+'m²</span>'
-      +'<span style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;color:var(--room);min-width:52px;text-align:right">'+fmt(cost)+'</span>';
+      +'<span style="'+monoSm+'letter-spacing:1px;text-transform:uppercase;color:var(--text2);flex:1">'+label+'</span>'
+      +'<span style="'+monoSm+'color:var(--text3);white-space:nowrap">'+active+' \u00D7 </span>'
+      +'<input type="number" min="0" step="1" value="'+rmA+'" '
+      +'style="width:40px;padding:2px 3px;'+monoSm+'border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2)" '
+      +'oninput="updateFloorRoomArea([\''+zones.map(z=>z.id).join('\',\'')+'\'],+this.value)">'
+      +'<span style="'+monoSm+'color:var(--text3)">m²</span>'
+      +'<span style="'+monoSm+'color:var(--room);min-width:52px;text-align:right">'+fmt(active*rmA*rr)+'</span>';
     el.appendChild(d);
   }
 
-  addFloorSwitch('Ground Floor', gfZones);
-  addFloorSwitch('First Floor', f1Zones);
+  addFloorSwitch('Ground Floor', gfZones, false);
+  addFloorSwitch('First Floor', f1Zones, !!circZ);
 
-  // Circulation item
+  // Stairs and hallway — attached below F1
   if(circZ){
     const cOn=circZ.enabled;
     const d=document.createElement('div');
-    d.className='toggle-item'+(cOn?'':' off');d.id='ti-'+circZ.id;
-    d.style.marginTop='3px';d.style.paddingLeft='18px';
-    d.innerHTML='<div class="ti-left"><label class="sw"><input type="checkbox" '+(cOn?'checked':'')+' onchange="toggleZ(\''+circZ.id+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
-      +'<div><div class="ti-name" style="font-size:9px">Circulation F1</div>'
-      +'<div class="ti-note"><span class="ti-cat" style="background:#F0EEF8;color:#9A8AB8;border:1px solid #C8A8D8">Circulation</span></div></div></div>'
-      +'<div class="ti-right">'
+    d.id='ti-'+circZ.id;
+    d.style.cssText=rowStyle+'border-top:none;border-radius:0 0 4px 4px;opacity:'+(cOn?'1':'.45');
+    d.innerHTML='<label class="sw"><input type="checkbox" '+(cOn?'checked':'')+' onchange="toggleZ(\''+circZ.id+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
+      +'<span style="'+monoSm+'color:var(--text3);flex:1;font-style:italic">Stairs &amp; hallway</span>'
+      +'<span style="'+monoSm+'color:var(--text3);white-space:nowrap">1 \u00D7 </span>'
       +'<input type="number" min="0" step="1" value="'+circZ.area+'" '
-      +'style="width:48px;padding:2px 4px;font-family:\'IBM Plex Mono\',monospace;font-size:10px;border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2);flex-shrink:0" '
+      +'style="width:40px;padding:2px 3px;'+monoSm+'border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2)" '
       +'oninput="updateArea(\''+circZ.id+'\',+this.value)">'
-      +'<span class="ti-unit">m²</span>'
-      +'<div class="ti-cost" id="tc-'+circZ.id+'">'+(zc(circZ)>0?fmt(zc(circZ)):'$0')+'</div></div>';
+      +'<span style="'+monoSm+'color:var(--text3)">m²</span>'
+      +'<div style="'+monoSm+'color:var(--room);min-width:52px;text-align:right" id="tc-'+circZ.id+'">'+(zc(circZ)>0?fmt(zc(circZ)):'$0')+'</div>';
     el.appendChild(d);
   }
 }
@@ -777,6 +781,11 @@ function toggleGroup(idsStr,nowOn){
   if(nowOn===undefined) nowOn=!zones.every(z=>z.enabled);
   zones.forEach(z=>z.enabled=nowOn);
   buildAllToggles();
+  refreshAll();
+}
+
+function updateFloorRoomArea(ids,val){
+  ids.forEach(id=>{const z=Z.find(x=>x.id===id);if(z)z.area=val;});
   refreshAll();
 }
 
