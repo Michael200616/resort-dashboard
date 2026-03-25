@@ -151,7 +151,7 @@ canvas{max-height:220px;}
 
 <div id="page-overview" class="page active">
   <div class="ph"><h1>Sri Lanka Resort &#8212; <em>Overview</em></h1><p>Plot 4,600 m&#178; &#183; Scale 1:250 &#183; All figures update live</p></div>
-  <div class="g21" style="margin-bottom:14px;align-items:start">
+  <div class="g2" style="margin-bottom:14px;align-items:start">
     <div>
       <div class="card" style="margin-bottom:10px"><div class="ct">Area Breakdown</div><canvas id="c-ov-bar" style="max-height:190px"></canvas></div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
@@ -182,16 +182,16 @@ canvas{max-height:220px;}
 <div id="page-toggle" class="page">
   <div class="ph"><h1>Toggle <em>Items</em></h1><p>Switch any zone on/off &#8212; all pages update instantly</p></div>
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+    <!-- Col 1: Rooms -->
     <div>
-      <div class="section-sep villa-sep"><span>VILLAS</span><div class="sep-line"></div></div>
-      <div id="tg-villas"></div>
-      <div class="section-sep room-sep" style="margin-top:14px"><span>BUILDING 1 <span style="font-size:9px;font-weight:400;letter-spacing:0;opacity:.7">· Rooms 1–4 &amp; 13–16</span></span><div class="sep-line"></div></div>
+      <div class="section-sep room-sep"><span>BUILDING 1 <span style="font-size:9px;font-weight:400;letter-spacing:0;opacity:.7">· Rooms 1–4 &amp; 13–16</span></span><div class="sep-line"></div></div>
       <div id="tg-bld1"></div>
       <div class="section-sep room-sep" style="margin-top:14px"><span>BUILDING 2 <span style="font-size:9px;font-weight:400;letter-spacing:0;opacity:.7">· Rooms 5–8 &amp; 17–20</span></span><div class="sep-line"></div></div>
       <div id="tg-bld2"></div>
       <div class="section-sep room-sep" style="margin-top:14px"><span>BUILDING 3 <span style="font-size:9px;font-weight:400;letter-spacing:0;opacity:.7">· Rooms 9–12 &amp; 21–24</span></span><div class="sep-line"></div></div>
       <div id="tg-bld3"></div>
     </div>
+    <!-- Col 2: Resort -->
     <div>
       <div class="section-sep resort-sep"><span>MAIN POOL</span><div class="sep-line"></div></div>
       <div id="tg-pool"></div>
@@ -201,10 +201,13 @@ canvas{max-height:220px;}
       <div id="tg-commercial"></div>
       <div class="section-sep resort-sep" style="margin-top:14px"><span>SPA</span><div class="sep-line"></div></div>
       <div id="tg-wellness"></div>
-    </div>
-    <div>
-      <div class="section-sep resort-sep"><span>WORKER HOUSING</span><div class="sep-line"></div></div>
+      <div class="section-sep resort-sep" style="margin-top:14px"><span>WORKER HOUSING</span><div class="sep-line"></div></div>
       <div id="tg-wh"></div>
+    </div>
+    <!-- Col 3: Villas + totals -->
+    <div>
+      <div class="section-sep villa-sep"><span>VILLAS</span><div class="sep-line"></div></div>
+      <div id="tg-villas"></div>
       <div class="total-banner" style="margin-top:28px"><div class="tb-label">Active Hard Build Cost</div><div class="tb-val" id="tg-total">&#8212;</div></div>
       <div style="margin-top:10px;font-size:10px;color:var(--text3);line-height:1.9;padding:10px 12px;background:var(--bg3);border-radius:5px;">
         &#127944; All pools = $1,000/m&#178;<br>&#127968; Worker Housing = $700/m&#178;<br>&#128230; Storage = $700/m&#178;<br>&#10052; Cold Bath = $500/m&#178;<br>&#9888; Villa roofs excluded
@@ -295,7 +298,7 @@ canvas{max-height:220px;}
         <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#127859; F&amp;B</span>
         <span class="res-sec-cost" id="rsc-fb" style="font-size:11px;font-family:'Playfair Display',serif"></span>
       </div>
-      <div style="max-height:130px;overflow-y:auto"><table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-fb-tbody"></tbody></table></div>
+      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-fb-tbody"></tbody></table>
     </div>
 
     <!-- Pool -->
@@ -304,7 +307,7 @@ canvas{max-height:220px;}
         <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#127944; Pool</span>
         <span class="res-sec-cost" id="rsc-pool" style="font-size:11px;font-family:'Playfair Display',serif"></span>
       </div>
-      <div style="max-height:130px;overflow-y:auto"><table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-pool-tbody"></tbody></table></div>
+      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-pool-tbody"></tbody></table>
     </div>
 
     <!-- Commercial -->
@@ -313,7 +316,7 @@ canvas{max-height:220px;}
         <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#127978; Commercial</span>
         <span class="res-sec-cost" id="rsc-commercial" style="font-size:11px;font-family:'Playfair Display',serif"></span>
       </div>
-      <div style="max-height:130px;overflow-y:auto"><table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-commercial-tbody"></tbody></table></div>
+      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-commercial-tbody"></tbody></table>
     </div>
 
     <!-- Wellness -->
@@ -322,7 +325,7 @@ canvas{max-height:220px;}
         <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#129496; Wellness</span>
         <span class="res-sec-cost" id="rsc-wellness" style="font-size:11px;font-family:'Playfair Display',serif"></span>
       </div>
-      <div style="max-height:130px;overflow-y:auto"><table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-wellness-tbody"></tbody></table></div>
+      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-wellness-tbody"></tbody></table>
     </div>
 
     <!-- Service -->
@@ -331,10 +334,10 @@ canvas{max-height:220px;}
         <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#128230; Service</span>
         <span class="res-sec-cost" id="rsc-infra" style="font-size:11px;font-family:'Playfair Display',serif"></span>
       </div>
-      <div style="max-height:130px;overflow-y:auto"><table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead>
+      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead>
       <tbody id="res-service-tbody"></tbody>
       <tbody id="res-parking-tbody"></tbody>
-      </table></div>
+      </table>
     </div>
 
   </div>
@@ -701,11 +704,13 @@ function buildZoneGroup(containerId, zoneIds){
   const allOn=zones.length>0&&zones.every(z=>z.enabled);
   const toggleIds=zones.map(z=>z.id).join(',');
 
-  const btnDiv=document.createElement('div');
-  btnDiv.style.cssText='display:flex;align-items:center;gap:7px;padding:4px 8px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px';
-  btnDiv.innerHTML='<label class="sw"><input type="checkbox" '+(allOn?'checked':'')+' onchange="toggleGroup(\''+toggleIds+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
-    +'<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)">Toggle All</span>';
-  el.appendChild(btnDiv);
+  if(zones.length>1){
+    const btnDiv=document.createElement('div');
+    btnDiv.style.cssText='display:flex;align-items:center;gap:7px;padding:4px 8px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px';
+    btnDiv.innerHTML='<label class="sw"><input type="checkbox" '+(allOn?'checked':'')+' onchange="toggleGroup(\''+toggleIds+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
+      +'<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)">Toggle All</span>';
+    el.appendChild(btnDiv);
+  }
 
   zones.forEach(z=>{
     const cs=CS[z.cat]||CS.infra;
