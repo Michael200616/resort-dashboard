@@ -815,7 +815,7 @@ function buildRoomBuilding(elId, gfIds, f1Ids, circId){
       +'style="width:48px;padding:2px 4px;font-size:10px;border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2);flex-shrink:0" '
       +'oninput="updateArea(\''+circZ.id+'\',+this.value)">'
       +'<span class="ti-unit">m²</span>'
-      +'<div class="ti-cost" id="tc-'+circZ.id+'">'+(zc(circZ)>0?fmt(zc(circZ)):'$0')+'</div></div>';
+      +'<div class="ti-cost" id="tc-'+circZ.id+'">'+(cOn&&zc(circZ)>0?fmt(zc(circZ)):'$0')+'</div></div>';
     el.appendChild(d);
   }
 }
