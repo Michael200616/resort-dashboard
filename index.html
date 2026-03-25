@@ -701,44 +701,44 @@ function buildRoomBuilding(elId, gfIds, f1Ids, circId){
   sumDiv.innerHTML='<span>GF: '+gfActive+'/'+gfZones.length+'</span><span>&#9656; '+totalRooms+' total rooms</span><span>F1: '+f1Active+'/'+f1Zones.length+'</span>';
   el.appendChild(sumDiv);
 
-  const rowStyle='display:flex;align-items:center;gap:6px;padding:4px 8px;background:#fff;border:1px solid var(--border2);';
-  const monoSm='font-size:9px;font-family:\'IBM Plex Mono\',monospace;';
+  // F1 toggle includes stairs
+  const f1WithCircIds=[...f1Zones.map(z=>z.id),...(circZ?[circZ.id]:[])];
 
-  function addFloorSwitch(label, zones, isF1withCirc){
+  function addFloorRow(label, zones, toggleIds){
     const floorOn=zones.length>0&&zones.every(z=>z.enabled);
     const active=zones.filter(z=>z.enabled).length;
-    const floorIds=zones.map(z=>z.id).join(',');
     const d=document.createElement('div');
-    const radius=isF1withCirc?'border-radius:4px 4px 0 0':'border-radius:4px';
-    d.style.cssText=rowStyle+'margin-top:3px;'+radius;
-    d.innerHTML='<label class="sw"><input type="checkbox" '+(floorOn?'checked':'')+' onchange="toggleGroup(\''+floorIds+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
-      +'<span style="'+monoSm+'letter-spacing:1px;text-transform:uppercase;color:var(--text2);flex:1">'+label+'</span>'
-      +'<span style="'+monoSm+'color:var(--text3);white-space:nowrap">'+active+' \u00D7 </span>'
+    d.className='toggle-item'+(floorOn?'':' off');
+    d.innerHTML='<div class="ti-left"><label class="sw"><input type="checkbox" '+(floorOn?'checked':'')+' onchange="toggleGroup(\''+toggleIds.join(',')+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
+      +'<div><div class="ti-name">'+label+'</div>'
+      +'<div class="ti-note">'+active+' / '+zones.length+' rooms active</div></div></div>'
+      +'<div class="ti-right">'
       +'<input type="number" min="0" step="1" value="'+rmA+'" '
-      +'style="width:40px;padding:2px 3px;'+monoSm+'border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2)" '
+      +'style="width:48px;padding:2px 4px;font-size:10px;border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2);flex-shrink:0" '
       +'oninput="updateFloorRoomArea([\''+zones.map(z=>z.id).join('\',\'')+'\'],+this.value)">'
-      +'<span style="'+monoSm+'color:var(--text3)">m²</span>'
-      +'<span style="'+monoSm+'color:var(--room);min-width:52px;text-align:right">'+fmt(active*rmA*rr)+'</span>';
+      +'<span class="ti-unit">m²</span>'
+      +'<div class="ti-cost">'+fmt(active*rmA*rr)+'</div></div>';
     el.appendChild(d);
   }
 
-  addFloorSwitch('Ground Floor', gfZones, false);
-  addFloorSwitch('First Floor', f1Zones, !!circZ);
+  addFloorRow('Ground Floor', gfZones, gfZones.map(z=>z.id));
+  addFloorRow('First Floor', f1Zones, f1WithCircIds);
 
-  // Stairs and hallway — attached below F1
+  // Stairs & hallway — no switch, linked to F1, indented
   if(circZ){
     const cOn=circZ.enabled;
     const d=document.createElement('div');
     d.id='ti-'+circZ.id;
-    d.style.cssText=rowStyle+'border-top:none;border-radius:0 0 4px 4px;opacity:'+(cOn?'1':'.45');
-    d.innerHTML='<label class="sw"><input type="checkbox" '+(cOn?'checked':'')+' onchange="toggleZ(\''+circZ.id+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
-      +'<span style="'+monoSm+'color:var(--text3);flex:1;font-style:italic">Stairs &amp; hallway</span>'
-      +'<span style="'+monoSm+'color:var(--text3);white-space:nowrap">1 \u00D7 </span>'
+    d.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:5px 10px 5px 38px;background:'+(cOn?'var(--bg2)':'var(--dis-bg)')+';border:1px solid var(--border2);border-top:none;border-radius:0 0 5px 5px;margin-top:-4px;margin-bottom:4px';
+    d.innerHTML='<div class="ti-left">'
+      +'<div><div class="ti-name" style="'+(cOn?'':'color:var(--dis);text-decoration:line-through')+'">Stairs &amp; hallway</div>'
+      +'<div class="ti-note"><span class="ti-cat" style="background:#F0EEF8;color:#9A8AB8;border:1px solid #C8A8D8">F1 only</span></div></div></div>'
+      +'<div class="ti-right">'
       +'<input type="number" min="0" step="1" value="'+circZ.area+'" '
-      +'style="width:40px;padding:2px 3px;'+monoSm+'border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2)" '
+      +'style="width:48px;padding:2px 4px;font-size:10px;border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2);flex-shrink:0" '
       +'oninput="updateArea(\''+circZ.id+'\',+this.value)">'
-      +'<span style="'+monoSm+'color:var(--text3)">m²</span>'
-      +'<div style="'+monoSm+'color:var(--room);min-width:52px;text-align:right" id="tc-'+circZ.id+'">'+(zc(circZ)>0?fmt(zc(circZ)):'$0')+'</div>';
+      +'<span class="ti-unit">m²</span>'
+      +'<div class="ti-cost" id="tc-'+circZ.id+'">'+(zc(circZ)>0?fmt(zc(circZ)):'$0')+'</div></div>';
     el.appendChild(d);
   }
 }
