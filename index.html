@@ -131,8 +131,15 @@ canvas{max-height:220px;}
 .leg{display:flex;align-items:center;gap:4px;font-size:9px;color:var(--text3);}
 .lsw{width:9px;height:9px;border-radius:2px;}
 #fp-status{padding:4px 14px;background:var(--bg3);border-top:1px solid var(--border2);font-size:9px;color:var(--text3);flex-shrink:0;}
-#page-toggle .toggle-item{padding:3px 8px;margin-bottom:2px;}
-#page-toggle .section-sep{margin:8px 0 5px;}
+#page-toggle .toggle-item{padding:2px 6px;margin-bottom:1px;font-size:11px;}
+#page-toggle .section-sep{margin:5px 0 3px;}
+#page-toggle .ti-name{font-size:11px;}
+#page-toggle .ti-sub{font-size:9px;}
+#page-toggle .ti-cost{font-size:11px;}
+#page-toggle .sw{font-size:11px;}
+#page-toggle .total-banner{padding:6px 10px;}
+#page-toggle .tb-label{font-size:10px;}
+#page-toggle .tb-val{font-size:18px;}
 #page-costs .tbl td,#page-costs .tbl th{padding:3px 8px;font-size:10px;}
 #page-resort .res-sec-head{padding:6px 10px !important;}
 #page-resort .tbl td,#page-resort .tbl th{padding:3px 8px;font-size:10px;}
@@ -164,8 +171,10 @@ canvas{max-height:220px;}
 #page-resort .tbl{font-size:12px!important;}
 #page-resort .tbl td,#page-resort .tbl th{padding:4px 8px!important;}
 #page-resort .res-col{gap:8px;}
-#page-toggle.active{display:flex!important;flex-direction:column;height:calc(100vh - 41px);padding:14px;box-sizing:border-box;overflow:hidden;}
-#page-toggle .ph{flex-shrink:0;}
+#page-toggle.active{display:flex!important;flex-direction:column;height:calc(100vh - 41px);padding:10px;box-sizing:border-box;overflow:hidden;}
+#page-toggle .ph{flex-shrink:0;padding:6px 0 4px!important;}
+#page-toggle .ph h1{font-size:16px!important;margin:0!important;}
+#page-toggle .ph p{font-size:10px!important;margin:0!important;}
 #page-toggle .tg-grid{flex:1;min-height:0;overflow-y:auto;}
 </style>
 </head>
@@ -200,7 +209,7 @@ canvas{max-height:220px;}
 
 <div id="page-toggle" class="page">
   <div class="ph"><h1>Toggle <em>Items</em></h1><p>Switch any zone on/off &#8212; all pages update instantly</p></div>
-  <div class="tg-grid"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+  <div class="tg-grid"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
     <!-- Col 1: Buildings 1 + 2 + 3 -->
     <div>
       <div class="section-sep room-sep"><span>BUILDING 1 <span style="font-size:9px;font-weight:400;letter-spacing:0;opacity:.7">· Rooms 1–4 &amp; 13–16</span></span><div class="sep-line"></div></div>
