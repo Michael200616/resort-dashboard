@@ -139,9 +139,11 @@ canvas{max-height:220px;}
 @media(max-width:1100px){.g5{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:900px){.g4,.g3,.g2,.g21,.g5,.costs-wrap{grid-template-columns:1fr;}.page{padding:12px 10px;}}
 #page-costs{max-width:100%;overflow-x:hidden;}
-#page-overview.active{display:block!important;}
+#page-overview.active{display:flex!important;flex-direction:column;height:calc(100vh - 41px);padding:12px;box-sizing:border-box;overflow:hidden;}
+#page-overview .ov-charts-row{flex-shrink:0;}
+#page-overview .ov-kpi-row{flex:1;min-height:0;overflow-y:auto;}
 #page-costs.active{display:block!important;max-width:1200px;}
-#page-resort.active{display:flex!important;flex-direction:column;height:calc(100vh - 41px);padding:14px;box-sizing:border-box;max-width:1000px;overflow:hidden;}
+#page-resort.active{display:flex!important;flex-direction:column;height:calc(100vh - 41px);padding:14px;box-sizing:border-box;overflow:hidden;}
 #page-costs .costs-charts-row{flex-shrink:0;display:grid;grid-template-columns:1fr 1fr 180px;gap:10px;margin-bottom:10px;}
 #page-costs .costs-bottom-row{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 #page-costs .costs-bottom-row>div{min-height:0;display:flex;flex-direction:column;}
@@ -169,7 +171,7 @@ canvas{max-height:220px;}
 <div id="page-overview" class="page active">
   <div class="ph"><h1>Sri Lanka Resort &#8212; <em>Overview</em></h1><p>Plot 4,600 m&#178; &#183; Scale 1:250 &#183; All figures update live</p></div>
   <!-- Bar chart + Pie side by side -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;align-items:stretch">
+  <div class="ov-charts-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;align-items:stretch">
     <div class="card"><div class="ct">Area Breakdown</div><canvas id="c-ov-bar" style="max-height:220px"></canvas></div>
     <div class="card"><div class="ct">Cost Split</div><canvas id="c-ov-donut" style="max-height:220px"></canvas></div>
   </div>
