@@ -1060,9 +1060,11 @@ function refreshAll(){
 
   set('villas-total-cost',fmtM(villaCost));set('villa-count-kpi',activeV);
   const vsb=el('villas-summary-box');
+  const vRate=Z.find(z=>z.cat==='villa'&&z.group==='villas')?.rate||1500;
+  const pRate=Z.find(z=>z.cat==='pool'&&z.group==='villas')?.rate||1000;
   if(vsb) vsb.innerHTML=
-    '<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>'+activeV+' × 140m² built:</span><strong>'+fmt(activeV*140*1500)+'</strong></div>'
-    +'<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>'+activeV+' × 16m² pool:</span><strong>'+fmt(activeV*16*1000)+'</strong></div>'
+    '<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>'+activeV+' × 140m² built:</span><strong>'+fmt(activeV*140*vRate)+'</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>'+activeV+' × 16m² pool:</span><strong>'+fmt(activeV*16*pRate)+'</strong></div>'
     +'<div style="display:flex;justify-content:space-between;border-top:1px solid #E8BFA8;padding-top:6px;margin-top:4px"><span><strong>'+activeV+' Villas Total</strong></span><strong style="color:var(--villa)">'+fmtM(villaCost)+'</strong></div>';
 
   set('rooms-total-cost',fmtM(roomCost));
@@ -1133,7 +1135,7 @@ function refreshAll(){
     vtb.appendChild(tr);
     const tot=document.createElement('tr');tot.className='tot';
     tot.innerHTML='<td><strong>Total</strong></td><td class="r"><strong>'+(activeV*140)+' m²</strong></td>'
-      +'<td class="r"><strong>'+(activeV*20)+' m²</strong></td>'
+      +'<td class="r"><strong>'+(activeV*16)+' m²</strong></td>'
       +'<td class="r" style="color:var(--gold)"><strong>'+fmt(villaCost)+'</strong></td>';
     vtb.appendChild(tot);
   }
