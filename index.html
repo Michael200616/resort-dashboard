@@ -149,7 +149,8 @@ canvas{max-height:220px;}
 #page-costs .costs-left-col{display:flex;flex-direction:column;gap:8px;min-height:0;}
 #page-costs .costs-right-col{display:flex;flex-direction:column;gap:8px;min-height:0;}
 #page-costs .costs-chart-card{flex-shrink:0;}
-#page-costs .costs-summary-row{flex-shrink:0;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;}
+#page-costs .costs-summary-row{flex:2;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;min-height:0;}
+#page-costs .costs-summary-row>div{display:flex;flex-direction:column;justify-content:center;gap:6px;}
 #page-costs .costs-col-body{flex:1;min-height:0;overflow-y:auto;}
 #page-costs .costs-section{display:flex;flex-direction:column;min-height:0;flex:1;}
 #page-overview .ov-kpi-row{}
@@ -389,10 +390,10 @@ canvas{max-height:220px;}
       </div>
       <!-- Summary row -->
       <div class="costs-summary-row">
-        <div style="background:var(--villa-bg);border:1px solid #E8BFA8;border-radius:5px;padding:5px 10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Villas</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--villa)" id="c-villas-kpi">—</div></div>
-        <div style="background:var(--room-bg);border:1px solid #C8A8D8;border-radius:5px;padding:5px 10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Rooms</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--room)" id="c-rooms-kpi">—</div></div>
-        <div style="background:var(--resort-bg);border:1px solid #B8D0E8;border-radius:5px;padding:5px 10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Resort</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--resort)" id="c-resort-kpi">—</div></div>
-        <div style="background:var(--gold-bg);border:1px solid var(--gold-mid);border-radius:5px;padding:5px 10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Grand Total</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--gold)" id="c-grand-kpi">—</div></div>
+        <div style="background:var(--villa-bg);border:1px solid #E8BFA8;border-radius:7px;padding:12px 16px"><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:6px">Villas</div><div style="font-family:'Playfair Display',serif;font-size:26px;color:var(--villa)" id="c-villas-kpi">—</div></div>
+        <div style="background:var(--room-bg);border:1px solid #C8A8D8;border-radius:7px;padding:12px 16px"><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:6px">Rooms</div><div style="font-family:'Playfair Display',serif;font-size:26px;color:var(--room)" id="c-rooms-kpi">—</div></div>
+        <div style="background:var(--resort-bg);border:1px solid #B8D0E8;border-radius:7px;padding:12px 16px"><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:6px">Resort</div><div style="font-family:'Playfair Display',serif;font-size:26px;color:var(--resort)" id="c-resort-kpi">—</div></div>
+        <div style="background:var(--gold-bg);border:1px solid var(--gold-mid);border-radius:7px;padding:12px 16px"><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:6px">Grand Total</div><div style="font-family:'Playfair Display',serif;font-size:26px;color:var(--gold)" id="c-grand-kpi">—</div></div>
       </div>
       <!-- Villas table -->
       <div class="costs-section">
