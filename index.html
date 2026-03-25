@@ -173,6 +173,7 @@ canvas{max-height:220px;}
     <div class="card"><div class="ct">Area Breakdown</div><canvas id="c-ov-bar" style="max-height:220px"></canvas></div>
     <div class="card"><div class="ct">Cost Split</div><canvas id="c-ov-donut" style="max-height:220px"></canvas></div>
   </div>
+  <span id="ov-grand" style="display:none"></span>
   <!-- 3 KPI columns -->
   <div class="ov-kpi-row" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:start">
     <div id="ov-villa-kpis"></div>
@@ -911,7 +912,7 @@ let chOvBar,chOvDon,chReBar,chCostPie,chSplitBar,chResPie;
 // Plugin: draw text in center of doughnut
 const doughnutCenterPlugin={id:'doughnutCenter',afterDraw(chart){
   const el=chart.config.options._centerId;if(!el)return;
-  const txt=document.getElementById(el);if(!txt||txt.textContent==='—'||!txt.textContent)return;
+  const txt=document.getElementById(el);if(!txt||!txt.textContent||txt.textContent==='—')return;
   const{ctx,chartArea:{left,top,right,bottom}}=chart;
   const cx=(left+right)/2,cy=(top+bottom)/2;
   ctx.save();
