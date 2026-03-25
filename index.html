@@ -139,6 +139,7 @@ canvas{max-height:220px;}
 @media(max-width:1100px){.g5{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:900px){.g4,.g3,.g2,.g21,.g5,.costs-wrap{grid-template-columns:1fr;}.page{padding:12px 10px;}}
 #page-costs{max-width:100%;overflow-x:hidden;}
+#page-overview.active{display:flex!important;flex-direction:column;height:calc(100vh - 41px);padding:12px;box-sizing:border-box;}
 </style>
 </head>
 <body>
@@ -155,14 +156,11 @@ canvas{max-height:220px;}
 </nav>
 
 <div id="page-overview" class="page active">
-  <div class="ph"><h1>Sri Lanka Resort &#8212; <em>Overview</em></h1><p>Plot 4,600 m&#178; &#183; Scale 1:250 &#183; All figures update live</p></div>
-  <div class="card" style="margin-bottom:10px"><div class="ct">Area Breakdown</div><canvas id="c-ov-bar" style="max-height:130px"></canvas></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start">
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div id="ov-villa-kpis"></div>
-      <div id="ov-room-kpis"></div>
-      <div id="ov-resort-kpis"></div>
-    </div>
+  <div class="ph" style="margin-bottom:10px;padding-bottom:8px"><h1>Sri Lanka Resort &#8212; <em>Overview</em></h1><p>Plot 4,600 m&#178; &#183; Scale 1:250 &#183; All figures update live</p></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px;align-items:start">
+    <div id="ov-villa-kpis"></div>
+    <div id="ov-room-kpis"></div>
+    <div id="ov-resort-kpis"></div>
     <div class="card">
       <div class="ct">Cost Split</div><canvas id="c-ov-donut"></canvas><div class="divider"></div>
       <div class="hbox vh"><span>Villas</span><span id="ov-v-cost" style="font-family:'Playfair Display',serif;font-size:18px;color:var(--villa)">&#8212;</span></div>
@@ -170,6 +168,10 @@ canvas{max-height:220px;}
       <div class="hbox rh"><span>Resort</span><span id="ov-res-cost" style="font-family:'Playfair Display',serif;font-size:18px;color:var(--resort)">&#8212;</span></div>
       <div class="total-banner"><div class="tb-label">Grand Total (hard costs)</div><div class="tb-val" id="ov-grand">&#8212;</div></div>
     </div>
+  </div>
+  <div class="card" style="flex:1;min-height:0;padding:10px 12px;display:flex;flex-direction:column">
+    <div class="ct">Area Breakdown</div>
+    <canvas id="c-ov-bar" style="flex:1;min-height:0"></canvas>
   </div>
 </div>
 
@@ -195,6 +197,8 @@ canvas{max-height:220px;}
       <div id="tg-wellness"></div>
       <div class="section-sep resort-sep"><span>WORKER HOUSING</span><div class="sep-line"></div></div>
       <div id="tg-wh"></div>
+      <div class="section-sep resort-sep"><span>STORAGE &amp; GENERATOR</span><div class="sep-line"></div></div>
+      <div id="tg-stg-gen"></div>
     </div>
     <!-- Col 3: Commercial -->
     <div>
@@ -270,68 +274,78 @@ canvas{max-height:220px;}
 <div id="page-resort" class="page">
   <div class="ph"><h1>Resort <em>Complex</em></h1><p>All resort amenities &#183; Click any section header to toggle it on/off</p></div>
 
-  <!-- Charts at top -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-    <div class="card" style="padding:10px 12px">
+  <!-- Charts at top: compact side by side -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+    <div class="card" style="padding:7px 10px">
       <div class="ct">Area by Zone (m&#178;) &#183; Active only</div>
-      <canvas id="c-resort-bar" style="max-height:110px"></canvas>
+      <canvas id="c-resort-bar" style="max-height:75px"></canvas>
     </div>
-    <div class="card" style="padding:10px 12px">
-      <div class="ct" style="margin-bottom:4px">Cost by Category</div>
+    <div class="card" style="padding:7px 10px">
+      <div class="ct" style="margin-bottom:2px">Cost by Category</div>
       <span id="res-pie-total" style="display:none">&#8212;</span>
-      <canvas id="c-resort-pie" style="max-height:110px"></canvas>
+      <canvas id="c-resort-pie" style="max-height:75px"></canvas>
     </div>
   </div>
 
-  <!-- 3-column card grid -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:start">
+  <!-- 2-column card grid: Left = F&B + Wellness | Right = Pool + Service + Commercial -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start">
 
-    <!-- F&B -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="res-sec-head" data-cat="fb" style="background:#FEF5EC;color:#8B5E3C;border-bottom:1px solid #E0C0A0;padding:9px 12px ;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('fb',this)">
-        <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#127859; F&amp;B</span>
-        <span class="res-sec-cost" id="rsc-fb" style="font-size:11px;font-family:'Playfair Display',serif"></span>
+    <!-- Left: F&B then Wellness -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+
+      <!-- F&B -->
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="res-sec-head" data-cat="fb" style="background:#FEF5EC;color:#8B5E3C;border-bottom:1px solid #E0C0A0;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('fb',this)">
+          <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#127859; F&amp;B</span>
+          <span class="res-sec-cost" id="rsc-fb" style="font-size:11px;font-family:'Playfair Display',serif"></span>
+        </div>
+        <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-fb-tbody"></tbody></table>
       </div>
-      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-fb-tbody"></tbody></table>
+
+      <!-- Wellness -->
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="res-sec-head" data-cat="wellness" style="background:#F4EEF8;color:#7A4A8C;border-bottom:1px solid #C8A8D8;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('wellness',this)">
+          <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#129496; Wellness</span>
+          <span class="res-sec-cost" id="rsc-wellness" style="font-size:11px;font-family:'Playfair Display',serif"></span>
+        </div>
+        <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-wellness-tbody"></tbody></table>
+      </div>
+
     </div>
 
-    <!-- Pool -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="res-sec-head" data-cat="pool" style="background:#EEF3FA;color:#5B7FA6;border-bottom:1px solid #A8C4E0;padding:9px 12px ;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('pool',this)">
-        <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#127944; Pool</span>
-        <span class="res-sec-cost" id="rsc-pool" style="font-size:11px;font-family:'Playfair Display',serif"></span>
-      </div>
-      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-pool-tbody"></tbody></table>
-    </div>
+    <!-- Right: Pool then Service then Commercial -->
+    <div style="display:flex;flex-direction:column;gap:10px">
 
-    <!-- Commercial -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="res-sec-head" data-cat="commercial" style="background:#EEF7F6;color:#2E7A7A;border-bottom:1px solid #A0D0D0;padding:9px 12px ;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('commercial',this)">
-        <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#127978; Commercial</span>
-        <span class="res-sec-cost" id="rsc-commercial" style="font-size:11px;font-family:'Playfair Display',serif"></span>
+      <!-- Pool -->
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="res-sec-head" data-cat="pool" style="background:#EEF3FA;color:#5B7FA6;border-bottom:1px solid #A8C4E0;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('pool',this)">
+          <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#127944; Pool</span>
+          <span class="res-sec-cost" id="rsc-pool" style="font-size:11px;font-family:'Playfair Display',serif"></span>
+        </div>
+        <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-pool-tbody"></tbody></table>
       </div>
-      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-commercial-tbody"></tbody></table>
-    </div>
 
-    <!-- Wellness -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="res-sec-head" data-cat="wellness" style="background:#F4EEF8;color:#7A4A8C;border-bottom:1px solid #C8A8D8;padding:9px 12px ;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('wellness',this)">
-        <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#129496; Wellness</span>
-        <span class="res-sec-cost" id="rsc-wellness" style="font-size:11px;font-family:'Playfair Display',serif"></span>
+      <!-- Service -->
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="res-sec-head" data-cat="infra" style="background:#F8F3EC;color:#8A6A3A;border-bottom:1px solid #D0B888;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('infra',this)">
+          <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#128230; Service</span>
+          <span class="res-sec-cost" id="rsc-infra" style="font-size:11px;font-family:'Playfair Display',serif"></span>
+        </div>
+        <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead>
+        <tbody id="res-service-tbody"></tbody>
+        <tbody id="res-parking-tbody"></tbody>
+        </table>
       </div>
-      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-wellness-tbody"></tbody></table>
-    </div>
 
-    <!-- Service -->
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="res-sec-head" data-cat="infra" style="background:#F8F3EC;color:#8A6A3A;border-bottom:1px solid #D0B888;padding:9px 12px ;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('infra',this)">
-        <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#128230; Service</span>
-        <span class="res-sec-cost" id="rsc-infra" style="font-size:11px;font-family:'Playfair Display',serif"></span>
+      <!-- Commercial -->
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="res-sec-head" data-cat="commercial" style="background:#EEF7F6;color:#2E7A7A;border-bottom:1px solid #A0D0D0;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('commercial',this)">
+          <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#127978; Commercial</span>
+          <span class="res-sec-cost" id="rsc-commercial" style="font-size:11px;font-family:'Playfair Display',serif"></span>
+        </div>
+        <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-commercial-tbody"></tbody></table>
       </div>
-      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead>
-      <tbody id="res-service-tbody"></tbody>
-      <tbody id="res-parking-tbody"></tbody>
-      </table>
+
     </div>
 
   </div>
@@ -340,46 +354,49 @@ canvas{max-height:220px;}
 <div id="page-costs" class="page">
   <div class="ph"><h1>Full <em>Cost Breakdown</em></h1><p>Click any row to toggle it on/off &#183; Click section headers to toggle entire groups</p></div>
 
-  <!-- Charts + KPI compact row -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;align-items:start">
-    <div class="card" style="padding:10px 12px">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
-        <div class="ct" style="margin-bottom:0">Cost Split</div>
-        <span style="font-size:8px;color:var(--text3)">click to toggle</span>
-      </div>
-      <div style="position:relative;max-height:150px;display:flex;align-items:center;justify-content:center">
-        <canvas id="c-costs-pie" style="max-height:140px"></canvas>
-        <div id="pie-center" style="position:absolute;text-align:center;pointer-events:none">
-          <div style="font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">Total</div>
-          <div id="pie-total" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);line-height:1.1">—</div>
-        </div>
-      </div>
-      <div id="pie-legend" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;justify-content:center"></div>
-    </div>
-    <div class="card" style="padding:10px 12px"><div class="ct">Hard Cost by Section</div><canvas id="c-split-bar" style="max-height:150px"></canvas></div>
-    <div class="card" style="padding:10px 12px">
-      <div class="ct" style="margin-bottom:8px">Summary</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
-        <div style="background:var(--villa-bg);border:1px solid #E8BFA8;border-radius:5px;padding:5px 7px"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Villas</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--villa)" id="c-villas-kpi">—</div><div style="font-size:8px;color:var(--text3)" id="c-villas-ks">4 villas</div></div>
-        <div style="background:var(--room-bg);border:1px solid #C8A8D8;border-radius:5px;padding:5px 7px"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Rooms</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--room)" id="c-rooms-kpi">—</div><div style="font-size:8px;color:var(--text3)">24 rooms</div></div>
-        <div style="background:var(--resort-bg);border:1px solid #B8D0E8;border-radius:5px;padding:5px 7px"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Resort</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--resort)" id="c-resort-kpi">—</div><div style="font-size:8px;color:var(--text3)">All zones</div></div>
-        <div style="background:var(--gold-bg);border:1px solid var(--gold-mid);border-radius:5px;padding:5px 7px"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Grand Total</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--gold)" id="c-grand-kpi">—</div><div style="font-size:8px;color:var(--text3)">Hard costs</div></div>
-      </div>
-    </div>
-  </div>
-  <!-- 3-column costs table -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 2fr;gap:10px;align-items:start">
+  <!-- Bar chart full width -->
+  <div class="card" style="padding:10px 12px;margin-bottom:12px"><div class="ct">Hard Cost by Section</div><canvas id="c-split-bar" style="max-height:170px"></canvas></div>
+
+  <!-- 3-column: VILLA+ROOMS stacked left | RESORT middle | Pie+Summary right -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:start">
+    <!-- Left: VILLA then ROOMS -->
     <div>
       <div class="costs-col-head vch">&#127969; VILLAS <span style="font-size:9px;opacity:.7;font-weight:400">(click to toggle all)</span></div>
       <div class="costs-col-body vcb"><table class="tbl"><thead><tr><th>Villa</th><th class="r">Built m&#178;</th><th class="r">Pool m&#178;</th><th class="r">Cost ($)</th></tr></thead><tbody id="c-villa-tbody"></tbody></table></div>
-    </div>
-    <div>
+      <div style="height:8px"></div>
       <div class="costs-col-head" style="background:var(--room-bg);color:var(--room);border-color:#C8A8D8">&#128716; ROOMS <span style="font-size:9px;opacity:.7;font-weight:400">(click to toggle)</span></div>
       <div class="costs-col-body" style="border-color:#C8A8D8"><table class="tbl"><thead><tr><th>Floor</th><th class="r">Rooms m&#178;</th><th class="r">Circ. m&#178;</th><th class="r">Cost ($)</th></tr></thead><tbody id="c-rooms-tbody"></tbody></table></div>
     </div>
+    <!-- Middle: RESORT -->
     <div>
       <div class="costs-col-head rch">&#127968; RESORT COMPLEX <span style="font-size:9px;opacity:.7;font-weight:400">(click row to toggle)</span></div>
       <div class="costs-col-body rcb"><table class="tbl"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Rate</th><th class="r">Cost ($)</th></tr></thead><tbody id="c-resort-tbody"></tbody></table></div>
+    </div>
+    <!-- Right: Pie then Summary -->
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="card" style="padding:10px 12px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+          <div class="ct" style="margin-bottom:0">Cost Split</div>
+          <span style="font-size:8px;color:var(--text3)">click to toggle</span>
+        </div>
+        <div style="position:relative;max-height:140px;display:flex;align-items:center;justify-content:center">
+          <canvas id="c-costs-pie" style="max-height:130px"></canvas>
+          <div id="pie-center" style="position:absolute;text-align:center;pointer-events:none">
+            <div style="font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">Total</div>
+            <div id="pie-total" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);line-height:1.1">—</div>
+          </div>
+        </div>
+        <div id="pie-legend" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;justify-content:center"></div>
+      </div>
+      <div class="card" style="padding:10px 12px">
+        <div class="ct" style="margin-bottom:8px">Summary</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+          <div style="background:var(--villa-bg);border:1px solid #E8BFA8;border-radius:5px;padding:5px 7px"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Villas</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--villa)" id="c-villas-kpi">—</div><div style="font-size:8px;color:var(--text3)" id="c-villas-ks">4 villas</div></div>
+          <div style="background:var(--room-bg);border:1px solid #C8A8D8;border-radius:5px;padding:5px 7px"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Rooms</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--room)" id="c-rooms-kpi">—</div><div style="font-size:8px;color:var(--text3)">24 rooms</div></div>
+          <div style="background:var(--resort-bg);border:1px solid #B8D0E8;border-radius:5px;padding:5px 7px"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Resort</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--resort)" id="c-resort-kpi">—</div><div style="font-size:8px;color:var(--text3)">All zones</div></div>
+          <div style="background:var(--gold-bg);border:1px solid var(--gold-mid);border-radius:5px;padding:5px 7px"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Grand Total</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--gold)" id="c-grand-kpi">—</div><div style="font-size:8px;color:var(--text3)">Hard costs</div></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -816,9 +833,10 @@ function buildAllToggles(){
     'circ_b3_f1');
   buildZoneGroup('tg-pool',      ['pool']);
   buildZoneGroup('tg-fb',        ['fb_r','fb_k','fb_s','f1_yoga','f1_gymr']);
-  buildZoneGroup('tg-commercial',['sh1','sh2','sh3','man','svc','stg_gen','f1_event','f1_gym']);
+  buildZoneGroup('tg-commercial',['sh1','sh2','sh3','man','svc','f1_event','f1_gym']);
   buildZoneGroup('tg-wellness',  ['sauna','cold']);
   buildZoneGroup('tg-wh',        ['wh']);
+  buildZoneGroup('tg-stg-gen',   ['stg_gen']);
 }
 
 function toggleZ(id,on){
