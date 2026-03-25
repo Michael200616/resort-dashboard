@@ -378,8 +378,8 @@ canvas{max-height:220px;}
           <div class="ct" style="margin-bottom:0">Cost Split</div>
           <span style="font-size:8px;color:var(--text3)">click to toggle</span>
         </div>
-        <div style="position:relative;height:130px;display:flex;align-items:center;justify-content:center">
-          <canvas id="c-costs-pie" style="max-height:125px"></canvas>
+        <div style="position:relative;height:160px;display:flex;align-items:center;justify-content:center">
+          <canvas id="c-costs-pie" style="max-height:155px"></canvas>
           <div id="pie-center" style="position:absolute;text-align:center;pointer-events:none">
             <div style="font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">Total</div>
             <div id="pie-total" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);line-height:1.1">—</div>
@@ -389,10 +389,10 @@ canvas{max-height:220px;}
       </div>
       <!-- Summary row -->
       <div class="costs-summary-row">
-        <div style="background:var(--villa-bg);border:1px solid #E8BFA8;border-radius:5px;padding:3px 8px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:7px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Villas</div><div style="font-family:'Playfair Display',serif;font-size:12px;color:var(--villa)" id="c-villas-kpi">—</div></div>
-        <div style="background:var(--room-bg);border:1px solid #C8A8D8;border-radius:5px;padding:3px 8px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:7px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Rooms</div><div style="font-family:'Playfair Display',serif;font-size:12px;color:var(--room)" id="c-rooms-kpi">—</div></div>
-        <div style="background:var(--resort-bg);border:1px solid #B8D0E8;border-radius:5px;padding:3px 8px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:7px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Resort</div><div style="font-family:'Playfair Display',serif;font-size:12px;color:var(--resort)" id="c-resort-kpi">—</div></div>
-        <div style="background:var(--gold-bg);border:1px solid var(--gold-mid);border-radius:5px;padding:3px 8px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:7px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Grand Total</div><div style="font-family:'Playfair Display',serif;font-size:12px;color:var(--gold)" id="c-grand-kpi">—</div></div>
+        <div style="background:var(--villa-bg);border:1px solid #E8BFA8;border-radius:6px;padding:8px 14px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Villas</div><div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--villa)" id="c-villas-kpi">—</div></div>
+        <div style="background:var(--room-bg);border:1px solid #C8A8D8;border-radius:6px;padding:8px 14px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Rooms</div><div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--room)" id="c-rooms-kpi">—</div></div>
+        <div style="background:var(--resort-bg);border:1px solid #B8D0E8;border-radius:6px;padding:8px 14px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Resort</div><div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--resort)" id="c-resort-kpi">—</div></div>
+        <div style="background:var(--gold-bg);border:1px solid var(--gold-mid);border-radius:6px;padding:8px 14px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Grand Total</div><div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gold)" id="c-grand-kpi">—</div></div>
       </div>
       <!-- Villas table -->
       <div class="costs-section">
@@ -1250,10 +1250,9 @@ function refreshAll(){
     ['Villas',villaCost,'#D4845A','villas'],
     ['Rooms',roomCost,'#6B4A9A','rooms'],
     ['F&B',sum(Z.filter(z=>z.cat==='fb'&&z.enabled),zc),'#8B5E3C','fb'],
-    ['Pool',sum(Z.filter(z=>z.cat==='pool'&&z.enabled),zc),'#5B7FA6','pool'],
+    ['Pool',sum(Z.filter(z=>z.cat==='pool'&&z.group!=='villas'&&z.enabled),zc),'#5B7FA6','pool'],
     ['Commercial',sum(Z.filter(z=>z.cat==='commercial'&&z.enabled),zc),'#2E7A7A','commercial'],
-    ['Wellness',sum(Z.filter(z=>(z.cat==='wellness'||z.cat==='events')&&z.enabled),zc),'#7A4A8C','wellness'],
-    ['Events',sum(Z.filter(z=>z.cat==='events'&&z.enabled),zc),'#3D7A5C','events'],
+    ['Wellness',sum(Z.filter(z=>z.cat==='wellness'&&z.enabled),zc),'#7A4A8C','wellness'],
     ['Service',sum(Z.filter(z=>z.cat==='infra'&&z.enabled),zc),'#8A6A3A','infra'],
   ].filter(g=>g[1]>0&&pieCatEnabled[g[3]]).sort((a,b)=>b[1]-a[1]);
   chCostPie.data.labels=cGrpsAll.map(g=>g[0]);chCostPie.data.datasets[0].data=cGrpsAll.map(g=>g[1]);
