@@ -199,7 +199,7 @@ canvas{max-height:220px;}
   <div class="ph"><h1>The <em>4 Villas</em></h1><p>Western wing &#183; Fully independent &#183; Ground floor only</p></div>
   <div class="g4">
     <div class="card vcard"><div class="ct">Each Villa &#8212; Built</div><div class="kv villa">140 m&#178;</div><div class="ks">Indoor area</div></div>
-    <div class="card vcard"><div class="ct">Private Pool (each)</div><div class="kv villa">20 m&#178;</div><div class="ks">@ $1,000/m&#178;</div></div>
+    <div class="card vcard"><div class="ct">Private Pool (each)</div><div class="kv villa">16 m&#178;</div><div class="ks">@ $1,000/m&#178;</div></div>
     <div class="card vcard"><div class="ct">Active Villas</div><div class="kv villa" id="villa-count-kpi">4</div><div class="ks">of 4 total</div></div>
     <div class="card vcard"><div class="ct">Total Cost (active)</div><div class="kv villa" id="villas-total-cost">&#8212;</div><div class="ks">Built + pools</div></div>
   </div>
@@ -213,8 +213,8 @@ canvas{max-height:220px;}
         <tr><td><span class="dot" style="background:#C8705A"></span>Master Bedroom</td><td class="r">~35</td><td class="r">$1,500</td><td class="r">52,500</td></tr>
         <tr><td><span class="dot" style="background:#B8604A"></span>2nd Bedroom</td><td class="r">~25</td><td class="r">$1,500</td><td class="r">37,500</td></tr>
         <tr><td><span class="dot" style="background:#E8C090"></span>Bathrooms x2</td><td class="r">~15</td><td class="r">$1,500</td><td class="r">22,500</td></tr>
-        <tr><td><span class="dot" style="background:#5B7FA6"></span>Private Pool</td><td class="r">20</td><td class="r">$1,000</td><td class="r">20,000</td></tr>
-        <tr class="tot"><td><b>Per Villa Total</b></td><td class="r"><b>160</b></td><td class="r">&#8212;</td><td class="r" style="color:var(--villa)"><b>$230,000</b></td></tr>
+        <tr><td><span class="dot" style="background:#5B7FA6"></span>Private Pool</td><td class="r">16</td><td class="r">$1,000</td><td class="r">16,000</td></tr>
+        <tr class="tot"><td><b>Per Villa Total</b></td><td class="r"><b>156</b></td><td class="r">&#8212;</td><td class="r" style="color:var(--villa)"><b>$226,000</b></td></tr>
       </tbody></table>
       <div id="villas-summary-box" style="margin-top:10px;padding:10px 12px;background:var(--villa-bg);border-radius:5px;border:1px solid #E8BFA8;font-size:11px;"></div>
     </div>
@@ -742,7 +742,7 @@ if(typeof Chart!=='undefined') Chart.register(doughnutCenterPlugin);
 
 new Chart(document.getElementById('c-villa-pie'),{type:'doughnut',
   data:{labels:['Living Rm','Dining/Kitchen','Master Bed','2nd Bed','Bathrooms','Private Pool'],
-    datasets:[{data:[45,30,35,25,15,20],backgroundColor:['#E8A888','#F0B888','#D89868','#C88858','#F4D0A8','#7AA4C4'],borderColor:'#fff',borderWidth:2}]},
+    datasets:[{data:[45,30,35,25,15,16],backgroundColor:['#E8A888','#F0B888','#D89868','#C88858','#F4D0A8','#7AA4C4'],borderColor:'#fff',borderWidth:2}]},
   options:{...ns(bOpts),cutout:'62%',_centerId:'villas-total-cost',plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:5}}}}
 });
 
@@ -849,7 +849,7 @@ function refreshAll(){
   if(ovVk) ovVk.innerHTML=
     '<div class="card vcard"><div class="ct">Active Villas</div><div class="kv villa">'+activeV+'</div><div class="ks">of 4</div></div>'
     +'<div class="card vcard"><div class="ct">Built Area</div><div class="kv villa">'+(activeV*140)+' m²</div><div class="ks">'+activeV+'×150m²</div></div>'
-    +'<div class="card vcard"><div class="ct">Pool Area</div><div class="kv villa">'+sum(Z.filter(z=>z.group==="villas"&&z.cat==="pool"&&z.enabled),z=>z.area)+' m²</div><div class="ks">'+activeV+'×20m²</div></div>'
+    +'<div class="card vcard"><div class="ct">Pool Area</div><div class="kv villa">'+sum(Z.filter(z=>z.group==="villas"&&z.cat==="pool"&&z.enabled),z=>z.area)+' m²</div><div class="ks">'+activeV+'×16m²</div></div>'
     +'<div class="card vcard"><div class="ct">Villas Total</div><div class="kv villa">'+fmtM(villaCost)+'</div><div class="ks">Built + pools incl.</div></div>';
 
   const ovRmk=el('ov-room-kpis');
@@ -870,7 +870,7 @@ function refreshAll(){
   const vsb=el('villas-summary-box');
   if(vsb) vsb.innerHTML=
     '<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>'+activeV+' × 150m² built:</span><strong>'+fmt(activeV*140*1500)+'</strong></div>'
-    +'<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>'+activeV+' × 20m² pool:</span><strong>'+fmt(activeV*20*1000)+'</strong></div>'
+    +'<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>'+activeV+' × 16m² pool:</span><strong>'+fmt(activeV*16*1000)+'</strong></div>'
     +'<div style="display:flex;justify-content:space-between;border-top:1px solid #E8BFA8;padding-top:6px;margin-top:4px"><span><strong>'+activeV+' Villas Total</strong></span><strong style="color:var(--villa)">'+fmtM(villaCost)+'</strong></div>';
 
   set('rooms-total-cost',fmtM(roomCost));
@@ -931,9 +931,9 @@ function refreshAll(){
     };
     tr.title='Click to toggle all villas';
     tr.innerHTML='<td><span class="dot" style="background:#D4845A"></span>'
-      +activeV+' Villa'+(activeV!==1?'s':'')+' ('+activeV+'×150 + '+activeV+'×20m² pool)</td>'
+      +activeV+' Villa'+(activeV!==1?'s':'')+' ('+activeV+'×140 + '+activeV+'×16m² pool)</td>'
       +'<td class="r">'+(activeV*140)+' m²</td>'
-      +'<td class="r">'+(activeV*20)+' m²</td>'
+      +'<td class="r">'+(activeV*16)+' m²</td>'
       +'<td class="r" style="color:'+(allVOn?'var(--gold)':'var(--dis)')+'">'+(allVOn?fmt(villaCost):'Disabled')+'</td>';
     vtb.appendChild(tr);
     const tot=document.createElement('tr');tot.className='tot';
