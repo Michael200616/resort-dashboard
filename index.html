@@ -175,20 +175,30 @@ canvas{max-height:220px;}
     <div>
       <div class="section-sep villa-sep"><span>VILLAS</span><div class="sep-line"></div></div>
       <div id="tg-villas"></div>
-      <div class="section-sep room-sep" style="margin-top:14px"><span>BUILDING 1 <span id="bld1-count" style="font-size:9px;font-weight:400;letter-spacing:0;opacity:.7">· Rooms 1–4 &amp; 13–16</span></span><div class="sep-line"></div></div>
+      <div class="section-sep room-sep" style="margin-top:14px"><span>BUILDING 1 <span style="font-size:9px;font-weight:400;letter-spacing:0;opacity:.7">· Rooms 1–4 &amp; 13–16</span></span><div class="sep-line"></div></div>
       <div id="tg-bld1"></div>
-      <div class="section-sep room-sep" style="margin-top:14px"><span>BUILDING 2 <span id="bld2-count" style="font-size:9px;font-weight:400;letter-spacing:0;opacity:.7">· Rooms 5–8 &amp; 17–20</span></span><div class="sep-line"></div></div>
+      <div class="section-sep room-sep" style="margin-top:14px"><span>BUILDING 2 <span style="font-size:9px;font-weight:400;letter-spacing:0;opacity:.7">· Rooms 5–8 &amp; 17–20</span></span><div class="sep-line"></div></div>
       <div id="tg-bld2"></div>
-      <div class="section-sep room-sep" style="margin-top:14px"><span>BUILDING 3 <span id="bld3-count" style="font-size:9px;font-weight:400;letter-spacing:0;opacity:.7">· Rooms 9–12 &amp; 21–24</span></span><div class="sep-line"></div></div>
+      <div class="section-sep room-sep" style="margin-top:14px"><span>BUILDING 3 <span style="font-size:9px;font-weight:400;letter-spacing:0;opacity:.7">· Rooms 9–12 &amp; 21–24</span></span><div class="sep-line"></div></div>
       <div id="tg-bld3"></div>
     </div>
     <div>
-      <div class="section-sep resort-sep"><span>RESORT &#8212; GF</span><div class="sep-line"></div></div>
-      <div id="tg-resort-gf"></div>
+      <div class="section-sep resort-sep"><span>RESTAURANT &amp; KITCHEN</span><div class="sep-line"></div></div>
+      <div id="tg-fb"></div>
+      <div class="section-sep resort-sep" style="margin-top:14px"><span>MAIN POOL</span><div class="sep-line"></div></div>
+      <div id="tg-pool"></div>
+      <div class="section-sep resort-sep" style="margin-top:14px"><span>COMMERCIAL</span><div class="sep-line"></div></div>
+      <div id="tg-commercial"></div>
+      <div class="section-sep resort-sep" style="margin-top:14px"><span>WELLNESS / SPA</span><div class="sep-line"></div></div>
+      <div id="tg-wellness"></div>
     </div>
     <div>
-      <div class="section-sep resort-sep"><span>RESORT &#8212; F1</span><div class="sep-line"></div></div>
-      <div id="tg-resort-f1"></div>
+      <div class="section-sep resort-sep"><span>WORKER HOUSING</span><div class="sep-line"></div></div>
+      <div id="tg-wh"></div>
+      <div class="section-sep resort-sep" style="margin-top:14px"><span>EVENTS &amp; ACTIVITIES</span><div class="sep-line"></div></div>
+      <div id="tg-events"></div>
+      <div class="section-sep resort-sep" style="margin-top:14px"><span>SERVICE</span><div class="sep-line"></div></div>
+      <div id="tg-service"></div>
       <div class="total-banner" style="margin-top:14px"><div class="tb-label">Active Hard Build Cost</div><div class="tb-val" id="tg-total">&#8212;</div></div>
       <div style="margin-top:10px;font-size:10px;color:var(--text3);line-height:1.9;padding:10px 12px;background:var(--bg3);border-radius:5px;">
         &#128161; Parking = $0<br>&#127944; All pools = $1,000/m&#178;<br>&#127968; Worker Housing = $700/m&#178;<br>&#128230; Storage = $700/m&#178;<br>&#10052; Cold Bath = $500/m&#178;<br>&#9888; Villa roofs excluded
@@ -673,6 +683,36 @@ function buildToggleGroup(containerId,group,opts){
   });
 }
 
+function buildZoneGroup(containerId, zoneIds){
+  const el=document.getElementById(containerId);if(!el)return;el.innerHTML='';
+  const zones=zoneIds.map(id=>Z.find(z=>z.id===id)).filter(Boolean);
+  const allOn=zones.length>0&&zones.every(z=>z.enabled);
+  const toggleIds=zones.map(z=>z.id).join(',');
+
+  const btnDiv=document.createElement('div');
+  btnDiv.style.cssText='display:flex;align-items:center;gap:7px;padding:4px 8px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px';
+  btnDiv.innerHTML='<label class="sw"><input type="checkbox" '+(allOn?'checked':'')+' onchange="toggleGroup(\''+toggleIds+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
+    +'<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)">Toggle All</span>';
+  el.appendChild(btnDiv);
+
+  zones.forEach(z=>{
+    const cs=CS[z.cat]||CS.infra;
+    const floorTag=z.floor===1?'<span style="font-size:8px;background:#E8F0F8;color:#4A7AB8;border:1px solid #B8D0E8;border-radius:3px;padding:0 3px;margin-right:3px">F1</span>':'<span style="font-size:8px;background:#F0F8E8;color:#4A8A3A;border:1px solid #B8D8A8;border-radius:3px;padding:0 3px;margin-right:3px">GF</span>';
+    const d=document.createElement('div');
+    d.className='toggle-item'+(z.enabled?'':' off');d.id='ti-'+z.id;
+    d.innerHTML='<div class="ti-left"><label class="sw"><input type="checkbox" '+(z.enabled?'checked':'')+' onchange="toggleZ(\''+z.id+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
+      +'<div><div class="ti-name">'+floorTag+z.name+'</div>'
+      +'<div class="ti-note"><span class="ti-cat" style="'+cs.badge+'">'+cs.label+'</span></div></div></div>'
+      +'<div class="ti-right">'
+      +'<input type="number" min="0" step="1" value="'+z.area+'" '
+      +'style="width:54px;padding:2px 4px;font-family:\'IBM Plex Mono\',monospace;font-size:10px;border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2);flex-shrink:0" '
+      +'oninput="updateArea(\''+z.id+'\',+this.value)">'
+      +'<span class="ti-unit">m²</span>'
+      +'<div class="ti-cost" id="tc-'+z.id+'">'+(zc(z)>0?fmt(zc(z)):'$0')+'</div></div>';
+    el.appendChild(d);
+  });
+}
+
 function buildRoomBuilding(elId, gfIds, f1Ids, circId){
   const el=document.getElementById(elId);if(!el)return;el.innerHTML='';
   const gfZones=gfIds.map(id=>Z.find(z=>z.id===id)).filter(Boolean);
@@ -757,8 +797,13 @@ function buildAllToggles(){
     ['hgf5','hgf6','hgf7','hgf8'],
     ['hf15','hf16','hf17','hf18'],
     'circ_b3_f1');
-  buildToggleGroup('tg-resort-gf','resort-gf');
-  buildToggleGroup('tg-resort-f1','resort-f1',{mergedItems:[{name:'Circulation (GF + F1)',ids:['circ_gf','circ_f1']}]});
+  buildZoneGroup('tg-fb',      ['fb_r','fb_k','fb_s']);
+  buildZoneGroup('tg-pool',    ['pool']);
+  buildZoneGroup('tg-commercial',['sh1','sh2','sh3','man','svc']);
+  buildZoneGroup('tg-wellness',['sauna','cold']);
+  buildZoneGroup('tg-wh',      ['wh','wh_f1']);
+  buildZoneGroup('tg-events',  ['f1_yoga','f1_event','f1_gym','f1_gymr']);
+  buildZoneGroup('tg-service', ['park','gdn']);
 }
 
 function toggleZ(id,on){
