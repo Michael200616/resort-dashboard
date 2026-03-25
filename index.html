@@ -142,13 +142,16 @@ canvas{max-height:220px;}
 #page-overview.active{display:flex!important;flex-direction:column;height:calc(100vh - 41px);padding:12px;box-sizing:border-box;overflow:hidden;}
 #page-overview .ov-charts-row{flex-shrink:0;}
 #page-overview .ov-kpi-row{flex:1;min-height:0;overflow-y:auto;}
-#page-costs.active{display:block!important;max-width:1200px;}
+#page-costs.active{display:flex!important;flex-direction:column;height:calc(100vh - 41px);padding:14px;box-sizing:border-box;overflow:hidden;}
 #page-resort.active{display:flex!important;flex-direction:column;height:calc(100vh - 41px);padding:14px;box-sizing:border-box;overflow:hidden;}
-#page-costs .costs-charts-row{flex-shrink:0;display:grid;grid-template-columns:1fr 1fr 180px;gap:10px;margin-bottom:10px;}
-#page-costs .costs-bottom-row{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-#page-costs .costs-bottom-row>div{min-height:0;display:flex;flex-direction:column;}
+#page-costs .ph{flex-shrink:0;}
+#page-costs .costs-main-grid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+#page-costs .costs-left-col{display:flex;flex-direction:column;gap:8px;min-height:0;}
+#page-costs .costs-right-col{display:flex;flex-direction:column;gap:8px;min-height:0;}
+#page-costs .costs-chart-card{flex-shrink:0;}
+#page-costs .costs-summary-row{flex-shrink:0;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;}
 #page-costs .costs-col-body{flex:1;min-height:0;overflow-y:auto;}
-#page-costs .costs-right-col{display:flex;flex-direction:column;gap:8px;min-height:0;overflow-y:auto;}
+#page-costs .costs-section{display:flex;flex-direction:column;min-height:0;flex:1;}
 #page-overview .ov-kpi-row{}
 #page-resort .ph{flex-shrink:0;}
 #page-resort .res-charts-row{flex-shrink:0;}
@@ -355,51 +358,52 @@ canvas{max-height:220px;}
 <div id="page-costs" class="page">
   <div class="ph"><h1>Full <em>Cost Breakdown</em></h1><p>Click any row to toggle it on/off &#183; Click section headers to toggle entire groups</p></div>
 
-  <!-- Top row: Bar | Pie | Summary -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 180px;gap:10px;margin-bottom:10px">
-    <div class="card" style="padding:10px 12px">
-      <div class="ct">Hard Cost by Section</div>
-      <canvas id="c-split-bar" style="max-height:160px"></canvas>
-    </div>
-    <div class="card" style="padding:10px 12px">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
-        <div class="ct" style="margin-bottom:0">Cost Split</div>
-        <span style="font-size:8px;color:var(--text3)">click to toggle</span>
+  <div class="costs-main-grid">
+    <!-- Left col: Bar chart + Resort table -->
+    <div class="costs-left-col">
+      <div class="card costs-chart-card" style="padding:10px 12px">
+        <div class="ct">Hard Cost by Section</div>
+        <canvas id="c-split-bar" style="max-height:160px"></canvas>
       </div>
-      <div style="position:relative;height:130px;display:flex;align-items:center;justify-content:center">
-        <canvas id="c-costs-pie" style="max-height:125px"></canvas>
-        <div id="pie-center" style="position:absolute;text-align:center;pointer-events:none">
-          <div style="font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">Total</div>
-          <div id="pie-total" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);line-height:1.1">—</div>
-        </div>
-      </div>
-      <div id="pie-legend" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;justify-content:center"></div>
-    </div>
-    <div class="card" style="padding:10px 12px">
-      <div class="ct" style="margin-bottom:8px">Summary</div>
-      <div style="display:flex;flex-direction:column;gap:5px">
-        <div style="background:var(--villa-bg);border:1px solid #E8BFA8;border-radius:5px;padding:5px 10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Villas</div><div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--villa);text-align:right" id="c-villas-kpi">—</div><div style="font-size:8px;color:var(--text3);text-align:right" id="c-villas-ks">4 villas</div></div></div>
-        <div style="background:var(--room-bg);border:1px solid #C8A8D8;border-radius:5px;padding:5px 10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Rooms</div><div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--room);text-align:right" id="c-rooms-kpi">—</div><div style="font-size:8px;color:var(--text3);text-align:right">24 rooms</div></div></div>
-        <div style="background:var(--resort-bg);border:1px solid #B8D0E8;border-radius:5px;padding:5px 10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Resort</div><div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--resort);text-align:right" id="c-resort-kpi">—</div><div style="font-size:8px;color:var(--text3);text-align:right">All zones</div></div></div>
-        <div style="background:var(--gold-bg);border:1px solid var(--gold-mid);border-radius:5px;padding:5px 10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Grand Total</div><div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--gold);text-align:right" id="c-grand-kpi">—</div><div style="font-size:8px;color:var(--text3);text-align:right">Hard costs</div></div></div>
+      <div class="costs-section">
+        <div class="costs-col-head rch">&#127968; RESORT COMPLEX <span style="font-size:9px;opacity:.7;font-weight:400">(click row to toggle)</span></div>
+        <div class="costs-col-body rcb"><table class="tbl"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Rate</th><th class="r">Cost ($)</th></tr></thead><tbody id="c-resort-tbody"></tbody></table></div>
       </div>
     </div>
-  </div>
 
-  <!-- Bottom row: RESORT left | VILLAS+ROOMS right -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start">
-    <!-- Left: RESORT COMPLEX -->
-    <div>
-      <div class="costs-col-head rch">&#127968; RESORT COMPLEX <span style="font-size:9px;opacity:.7;font-weight:400">(click row to toggle)</span></div>
-      <div class="costs-col-body rcb"><table class="tbl"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Rate</th><th class="r">Cost ($)</th></tr></thead><tbody id="c-resort-tbody"></tbody></table></div>
-    </div>
-    <!-- Right: VILLAS then ROOMS -->
-    <div>
-      <div class="costs-col-head vch">&#127969; VILLAS <span style="font-size:9px;opacity:.7;font-weight:400">(click to toggle all)</span></div>
-      <div class="costs-col-body vcb"><table class="tbl"><thead><tr><th>Villa</th><th class="r">Built m&#178;</th><th class="r">Pool m&#178;</th><th class="r">Cost ($)</th></tr></thead><tbody id="c-villa-tbody"></tbody></table></div>
-      <div style="height:8px"></div>
-      <div class="costs-col-head" style="background:var(--room-bg);color:var(--room);border-color:#C8A8D8">&#128716; ROOMS <span style="font-size:9px;opacity:.7;font-weight:400">(click to toggle)</span></div>
-      <div class="costs-col-body" style="border-color:#C8A8D8"><table class="tbl"><thead><tr><th>Floor</th><th class="r">Rooms m&#178;</th><th class="r">Circ. m&#178;</th><th class="r">Cost ($)</th></tr></thead><tbody id="c-rooms-tbody"></tbody></table></div>
+    <!-- Right col: Pie + Summary row + Villas + Rooms -->
+    <div class="costs-right-col">
+      <div class="card costs-chart-card" style="padding:10px 12px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+          <div class="ct" style="margin-bottom:0">Cost Split</div>
+          <span style="font-size:8px;color:var(--text3)">click to toggle</span>
+        </div>
+        <div style="position:relative;height:130px;display:flex;align-items:center;justify-content:center">
+          <canvas id="c-costs-pie" style="max-height:125px"></canvas>
+          <div id="pie-center" style="position:absolute;text-align:center;pointer-events:none">
+            <div style="font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">Total</div>
+            <div id="pie-total" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);line-height:1.1">—</div>
+          </div>
+        </div>
+        <div id="pie-legend" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;justify-content:center"></div>
+      </div>
+      <!-- Summary row -->
+      <div class="costs-summary-row">
+        <div style="background:var(--villa-bg);border:1px solid #E8BFA8;border-radius:5px;padding:5px 10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Villas</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--villa)" id="c-villas-kpi">—</div></div>
+        <div style="background:var(--room-bg);border:1px solid #C8A8D8;border-radius:5px;padding:5px 10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Rooms</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--room)" id="c-rooms-kpi">—</div></div>
+        <div style="background:var(--resort-bg);border:1px solid #B8D0E8;border-radius:5px;padding:5px 10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Resort</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--resort)" id="c-resort-kpi">—</div></div>
+        <div style="background:var(--gold-bg);border:1px solid var(--gold-mid);border-radius:5px;padding:5px 10px;display:flex;justify-content:space-between;align-items:center"><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)">Grand Total</div><div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--gold)" id="c-grand-kpi">—</div></div>
+      </div>
+      <!-- Villas table -->
+      <div class="costs-section">
+        <div class="costs-col-head vch">&#127969; VILLAS <span style="font-size:9px;opacity:.7;font-weight:400">(click to toggle all)</span></div>
+        <div class="costs-col-body vcb"><table class="tbl"><thead><tr><th>Villa</th><th class="r">Built m&#178;</th><th class="r">Pool m&#178;</th><th class="r">Cost ($)</th></tr></thead><tbody id="c-villa-tbody"></tbody></table></div>
+      </div>
+      <!-- Rooms table -->
+      <div class="costs-section">
+        <div class="costs-col-head" style="background:var(--room-bg);color:var(--room);border-color:#C8A8D8">&#128716; ROOMS <span style="font-size:9px;opacity:.7;font-weight:400">(click to toggle)</span></div>
+        <div class="costs-col-body" style="border-color:#C8A8D8"><table class="tbl"><thead><tr><th>Floor</th><th class="r">Rooms m&#178;</th><th class="r">Circ. m&#178;</th><th class="r">Cost ($)</th></tr></thead><tbody id="c-rooms-tbody"></tbody></table></div>
+      </div>
     </div>
   </div>
 </div>
