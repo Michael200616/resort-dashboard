@@ -165,9 +165,9 @@ canvas{max-height:220px;}
 <div id="page-overview" class="page active">
   <div class="ph"><h1>Sri Lanka Resort &#8212; <em>Overview</em></h1><p>Plot 4,600 m&#178; &#183; Scale 1:250 &#183; All figures update live</p></div>
   <!-- Bar chart + Pie side by side -->
-  <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:14px;align-items:stretch">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;align-items:stretch">
     <div class="card"><div class="ct">Area Breakdown</div><canvas id="c-ov-bar" style="max-height:130px"></canvas></div>
-    <div class="card" style="width:220px">
+    <div class="card">
       <div class="ct">Cost Split</div><canvas id="c-ov-donut" style="max-height:110px"></canvas><div class="divider"></div>
       <div class="hbox vh" style="padding:4px 8px"><span>Villas</span><span id="ov-v-cost" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--villa)">&#8212;</span></div>
       <div class="hbox" style="background:var(--room-bg);border-color:#C8A8D8;padding:4px 8px"><span>Rooms</span><span id="ov-r-cost" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--room)">&#8212;</span></div>
