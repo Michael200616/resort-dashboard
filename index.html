@@ -164,18 +164,22 @@ canvas{max-height:220px;}
 
 <div id="page-overview" class="page active">
   <div class="ph"><h1>Sri Lanka Resort &#8212; <em>Overview</em></h1><p>Plot 4,600 m&#178; &#183; Scale 1:250 &#183; All figures update live</p></div>
-  <div class="card" style="margin-bottom:14px"><div class="ct">Area Breakdown</div><canvas id="c-ov-bar" style="max-height:130px"></canvas></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;align-items:start">
+  <!-- Bar chart + Pie side by side -->
+  <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:14px;align-items:stretch">
+    <div class="card"><div class="ct">Area Breakdown</div><canvas id="c-ov-bar" style="max-height:130px"></canvas></div>
+    <div class="card" style="width:220px">
+      <div class="ct">Cost Split</div><canvas id="c-ov-donut" style="max-height:110px"></canvas><div class="divider"></div>
+      <div class="hbox vh" style="padding:4px 8px"><span>Villas</span><span id="ov-v-cost" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--villa)">&#8212;</span></div>
+      <div class="hbox" style="background:var(--room-bg);border-color:#C8A8D8;padding:4px 8px"><span>Rooms</span><span id="ov-r-cost" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--room)">&#8212;</span></div>
+      <div class="hbox rh" style="padding:4px 8px"><span>Resort</span><span id="ov-res-cost" style="font-family:'Playfair Display',serif;font-size:16px;color:var(--resort)">&#8212;</span></div>
+      <div class="total-banner" style="padding:8px 10px;margin-top:6px"><div class="tb-label">Grand Total</div><div class="tb-val" id="ov-grand" style="font-size:20px">&#8212;</div></div>
+    </div>
+  </div>
+  <!-- 3 KPI columns -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:start">
     <div id="ov-villa-kpis"></div>
     <div id="ov-room-kpis"></div>
     <div id="ov-resort-kpis"></div>
-    <div class="card">
-      <div class="ct">Cost Split</div><canvas id="c-ov-donut"></canvas><div class="divider"></div>
-      <div class="hbox vh"><span>Villas</span><span id="ov-v-cost" style="font-family:'Playfair Display',serif;font-size:18px;color:var(--villa)">&#8212;</span></div>
-      <div class="hbox" style="background:var(--room-bg);border-color:#C8A8D8"><span>Rooms</span><span id="ov-r-cost" style="font-family:'Playfair Display',serif;font-size:18px;color:var(--room)">&#8212;</span></div>
-      <div class="hbox rh"><span>Resort</span><span id="ov-res-cost" style="font-family:'Playfair Display',serif;font-size:18px;color:var(--resort)">&#8212;</span></div>
-      <div class="total-banner"><div class="tb-label">Grand Total (hard costs)</div><div class="tb-val" id="ov-grand">&#8212;</div></div>
-    </div>
   </div>
 </div>
 
