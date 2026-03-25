@@ -512,7 +512,7 @@ const Z = [
   {id:'hgf10',name:'Room 2',sub:'Standard Room',cat:'room',group:'rooms-gf',floor:0,area:26,rate:1500,enabled:true,note:'bottom row',x:0.392,y:0.535,w:0.037,h:0.14},
   {id:'hgf11',name:'Room 3',sub:'Standard Room',cat:'room',group:'rooms-gf',floor:0,area:26,rate:1500,enabled:true,note:'bottom row',x:0.429,y:0.535,w:0.037,h:0.14},
   {id:'hgf12',name:'Room 4',sub:'Standard Room',cat:'room',group:'rooms-gf',floor:0,area:26,rate:1500,enabled:true,note:'bottom row',x:0.466,y:0.535,w:0.037,h:0.14},
-  {id:'circ_gf',name:'Circulation GF',sub:'Stairs / Corridor / Balconies',cat:'circulation',group:'rooms-gf',floor:0,area:70,rate:1500,enabled:true,note:'Stairs, corridors, balconies - 70m2',x:-1,y:-1,w:.17,h:.37},
+  {id:'circ_gf',name:'Circulation GF',sub:'Stairs / Corridor / Balconies',cat:'circulation',group:'rooms-gf',floor:0,area:70,rate:1500,enabled:true,note:'Stairs, corridors, balconies - 70m2',x:-1,y:-1,w:.17,h:.37,hidden:true},
   // F1 rooms - mirror of GF
   {id:'hf11',name:'Room 20',sub:'Standard Room',cat:'room',group:'rooms-f1',floor:1,area:26,rate:1500,enabled:true,note:'26m2 F1 left top',x:.245,y:.19,w:.085,h:.085},
   {id:'hf12',name:'Room 19',sub:'Standard Room',cat:'room',group:'rooms-f1',floor:1,area:26,rate:1500,enabled:true,note:'26m2 F1 left',x:.245,y:.28,w:.085,h:.085},
@@ -1170,7 +1170,7 @@ function fpDraw(){
   fpx.textAlign='left';
 
   // Rooms
-  Z.filter(z=>z.floor===fpFl).forEach(r=>{
+  Z.filter(z=>z.floor===fpFl&&z.x>=0&&!z.hidden).forEach(r=>{
     const s=w2s(r.x,r.y),e=w2s(r.x+r.w,r.y+r.h);
     const rw=e.x-s.x,rh=e.y-s.y;
     const cs=CS[r.cat]||CS.events;
