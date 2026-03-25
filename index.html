@@ -1011,6 +1011,12 @@ function buildPieLegend() {
 }
 
 function refreshAll(){
+  // Sync shared circulation: circ_gf follows GF rooms, circ_f1 superseded by per-building ones
+  const _cgf=Z.find(z=>z.id==='circ_gf');
+  if(_cgf) _cgf.enabled=Z.some(z=>z.group==='rooms-gf'&&z.cat==='room'&&z.enabled);
+  const _cf1=Z.find(z=>z.id==='circ_f1');
+  if(_cf1) _cf1.enabled=false;
+
   const villaCost=costBy('villas');
   const roomCost=costBy('rooms-gf')+costBy('rooms-f1');
   const resCost=costBy('resort-gf')+costBy('resort-f1');
