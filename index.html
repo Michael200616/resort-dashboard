@@ -307,7 +307,7 @@ canvas{max-height:220px;}
   <!-- 2-column card grid: Wellness+F&B+Pool | Service+Commercial -->
   <div class="res-card-grid">
 
-    <!-- Col 1: Wellness + F&B -->
+    <!-- Col 1: Wellness + Commercial -->
     <div class="res-col">
       <div class="card" style="padding:0;overflow:hidden">
         <div class="res-sec-head" data-cat="wellness" style="background:#F4EEF8;color:#7A4A8C;border-bottom:1px solid #C8A8D8;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('wellness',this)">
@@ -317,14 +317,14 @@ canvas{max-height:220px;}
         <div class="res-tbl-wrap"><table class="tbl"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-wellness-tbody"></tbody></table></div>
       </div>
       <div class="card" style="padding:0;overflow:hidden">
-        <div class="res-sec-head" data-cat="fb" style="background:#FEF5EC;color:#8B5E3C;border-bottom:1px solid #E0C0A0;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('fb',this)">
-          <span style="font-weight:600;letter-spacing:1px">&#127859; F&amp;B</span>
-          <span class="res-sec-cost" id="rsc-fb" style="font-family:'Playfair Display',serif"></span>
+        <div class="res-sec-head" data-cat="commercial" style="background:#EEF7F6;color:#2E7A7A;border-bottom:1px solid #A0D0D0;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('commercial',this)">
+          <span style="font-weight:600;letter-spacing:1px">&#127978; Commercial</span>
+          <span class="res-sec-cost" id="rsc-commercial" style="font-family:'Playfair Display',serif"></span>
         </div>
-        <div class="res-tbl-wrap"><table class="tbl"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-fb-tbody"></tbody></table></div>
+        <div class="res-tbl-wrap"><table class="tbl"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-commercial-tbody"></tbody></table></div>
       </div>
     </div>
-    <!-- Col 2: Pool + Service + Commercial -->
+    <!-- Col 2: Pool + Service + F&B -->
     <div class="res-col">
       <div class="card" style="padding:0;overflow:hidden">
         <div class="res-sec-head" data-cat="pool" style="background:#EEF3FA;color:#5B7FA6;border-bottom:1px solid #A8C4E0;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('pool',this)">
@@ -341,11 +341,11 @@ canvas{max-height:220px;}
         <div class="res-tbl-wrap"><table class="tbl"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-service-tbody"></tbody><tbody id="res-parking-tbody"></tbody></table></div>
       </div>
       <div class="card" style="padding:0;overflow:hidden">
-        <div class="res-sec-head" data-cat="commercial" style="background:#EEF7F6;color:#2E7A7A;border-bottom:1px solid #A0D0D0;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('commercial',this)">
-          <span style="font-weight:600;letter-spacing:1px">&#127978; Commercial</span>
-          <span class="res-sec-cost" id="rsc-commercial" style="font-family:'Playfair Display',serif"></span>
+        <div class="res-sec-head" data-cat="fb" style="background:#FEF5EC;color:#8B5E3C;border-bottom:1px solid #E0C0A0;padding:7px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="toggleResSection('fb',this)">
+          <span style="font-weight:600;letter-spacing:1px">&#127859; F&amp;B</span>
+          <span class="res-sec-cost" id="rsc-fb" style="font-family:'Playfair Display',serif"></span>
         </div>
-        <div class="res-tbl-wrap"><table class="tbl"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-commercial-tbody"></tbody></table></div>
+        <div class="res-tbl-wrap"><table class="tbl"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-fb-tbody"></tbody></table></div>
       </div>
     </div>
 
