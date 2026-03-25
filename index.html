@@ -820,8 +820,35 @@ function buildRoomBuilding(elId, gfIds, f1Ids, circId){
   }
 }
 
+function buildVillaGroup(containerId){
+  const el=document.getElementById(containerId);if(!el)return;el.innerHTML='';
+  const pairs=[['v1b','v1p'],['v2b','v2p'],['v3b','v3p'],['v4b','v4p']];
+  const allOn=pairs.every(([b,p])=>{const zb=Z.find(z=>z.id===b);const zp=Z.find(z=>z.id===p);return zb&&zb.enabled&&zp&&zp.enabled;});
+  const allIds=pairs.flatMap(([b,p])=>[b,p]).join(',');
+  const btnDiv=document.createElement('div');
+  btnDiv.style.cssText='display:flex;align-items:center;gap:7px;padding:4px 8px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px';
+  btnDiv.innerHTML='<label class="sw"><input type="checkbox" '+(allOn?'checked':'')+' onchange="toggleGroup(\''+allIds+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
+    +'<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)">Toggle All</span>';
+  el.appendChild(btnDiv);
+  pairs.forEach(([bid,pid],i)=>{
+    const zb=Z.find(z=>z.id===bid);const zp=Z.find(z=>z.id===pid);if(!zb||!zp)return;
+    const on=zb.enabled&&zp.enabled;
+    const cost=zc(zb)+zc(zp);
+    const d=document.createElement('div');
+    d.className='toggle-item'+(on?'':' off');d.id='ti-'+bid;
+    d.innerHTML='<div class="ti-left"><label class="sw"><input type="checkbox" '+(on?'checked':'')+' onchange="toggleGroup(\''+bid+','+pid+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
+      +'<div><div class="ti-name">Villa '+(i+1)+'</div>'
+      +'<div class="ti-note"><span class="ti-cat" style="background:#FEF0E8;color:#D4845A;border:1px solid #E8BFA8">Built '+zb.area+'m²</span>'
+      +' <span class="ti-cat" style="background:#EEF3FA;color:#5B7FA6;border:1px solid #A8C4E0">Pool '+zp.area+'m²</span></div></div></div>'
+      +'<div class="ti-right">'
+      +'<div style="font-size:10px;color:var(--text3);text-align:right;margin-right:4px">'+(zb.area+zp.area)+'m²</div>'
+      +'<div class="ti-cost" id="tc-'+bid+'">'+(on&&cost>0?fmt(cost):'$0')+'</div></div>';
+    el.appendChild(d);
+  });
+}
+
 function buildAllToggles(){
-  buildToggleGroup('tg-villas','villas',{readOnlyIds:['v1p','v2p','v3p','v4p']});
+  buildVillaGroup('tg-villas');
   buildRoomBuilding('tg-bld1',
     ['hgf9','hgf10','hgf11','hgf12'],
     ['hf19','hf110','hf111','hf112'],
