@@ -151,28 +151,30 @@ canvas{max-height:220px;}
 
 <div id="page-overview" class="page active">
   <div class="ph"><h1>Sri Lanka Resort &#8212; <em>Overview</em></h1><p>Plot 4,600 m&#178; &#183; Scale 1:250 &#183; All figures update live</p></div>
-  <div class="g21" style="margin-bottom:16px">
-    <div class="card"><div class="ct">Area Breakdown</div><canvas id="c-ov-bar"></canvas></div>
+  <div class="g21" style="margin-bottom:14px;align-items:start">
+    <div>
+      <div class="card" style="margin-bottom:10px"><div class="ct">Area Breakdown</div><canvas id="c-ov-bar" style="max-height:190px"></canvas></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <div class="card" style="padding:8px 10px">
+          <div class="section-sep villa-sep" style="margin:0 0 6px 0"><span style="font-size:9px">VILLAS</span><div class="sep-line"></div></div>
+          <div id="ov-villa-kpis" style="display:grid;grid-template-columns:1fr 1fr;gap:5px"></div>
+        </div>
+        <div class="card" style="padding:8px 10px">
+          <div class="section-sep room-sep" style="margin:0 0 6px 0"><span style="font-size:9px">HOTEL ROOMS</span><div class="sep-line"></div></div>
+          <div id="ov-room-kpis" style="display:grid;grid-template-columns:1fr 1fr;gap:5px"></div>
+        </div>
+        <div class="card" style="padding:8px 10px">
+          <div class="section-sep resort-sep" style="margin:0 0 6px 0"><span style="font-size:9px">RESORT</span><div class="sep-line"></div></div>
+          <div id="ov-resort-kpis" style="display:grid;grid-template-columns:1fr 1fr;gap:5px"></div>
+        </div>
+      </div>
+    </div>
     <div class="card">
       <div class="ct">Cost Split</div><canvas id="c-ov-donut"></canvas><div class="divider"></div>
       <div class="hbox vh"><span>Villas</span><span id="ov-v-cost" style="font-family:'Playfair Display',serif;font-size:18px;color:var(--villa)">&#8212;</span></div>
       <div class="hbox" style="background:var(--room-bg);border-color:#C8A8D8"><span>Rooms</span><span id="ov-r-cost" style="font-family:'Playfair Display',serif;font-size:18px;color:var(--room)">&#8212;</span></div>
       <div class="hbox rh"><span>Resort</span><span id="ov-res-cost" style="font-family:'Playfair Display',serif;font-size:18px;color:var(--resort)">&#8212;</span></div>
       <div class="total-banner"><div class="tb-label">Grand Total (hard costs)</div><div class="tb-val" id="ov-grand">&#8212;</div></div>
-    </div>
-  </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px">
-    <div class="card" style="padding:10px 12px">
-      <div class="section-sep villa-sep" style="margin:0 0 8px 0"><span style="font-size:10px">VILLAS</span><div class="sep-line"></div></div>
-      <div id="ov-villa-kpis" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
-    </div>
-    <div class="card" style="padding:10px 12px">
-      <div class="section-sep room-sep" style="margin:0 0 8px 0"><span style="font-size:10px">HOTEL ROOMS &#8212; 24 ROOMS</span><div class="sep-line"></div></div>
-      <div id="ov-room-kpis" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
-    </div>
-    <div class="card" style="padding:10px 12px">
-      <div class="section-sep resort-sep" style="margin:0 0 8px 0"><span style="font-size:10px">RESORT COMPLEX</span><div class="sep-line"></div></div>
-      <div id="ov-resort-kpis" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
     </div>
   </div>
 </div>
@@ -191,7 +193,9 @@ canvas{max-height:220px;}
       <div id="tg-bld3"></div>
     </div>
     <div>
-      <div class="section-sep resort-sep"><span>RESTAURANT &amp; EVENTS <span style="font-size:9px;font-weight:400;opacity:.7">GF+F1</span></span><div class="sep-line"></div></div>
+      <div class="section-sep resort-sep"><span>MAIN POOL</span><div class="sep-line"></div></div>
+      <div id="tg-pool"></div>
+      <div class="section-sep resort-sep" style="margin-top:14px"><span>RESTAURANT &amp; EVENTS <span style="font-size:9px;font-weight:400;opacity:.7">GF+F1</span></span><div class="sep-line"></div></div>
       <div id="tg-fb"></div>
       <div class="section-sep resort-sep" style="margin-top:14px"><span>COMMERCIAL &amp; Wellness <span style="font-size:9px;font-weight:400;opacity:.7">GF+F1</span></span><div class="sep-line"></div></div>
       <div id="tg-commercial"></div>
@@ -199,7 +203,7 @@ canvas{max-height:220px;}
       <div id="tg-wellness"></div>
     </div>
     <div>
-      <div class="section-sep resort-sep"><span>WORKER HOUSING <span style="font-size:9px;font-weight:400;opacity:.7">GF+F1</span></span><div class="sep-line"></div></div>
+      <div class="section-sep resort-sep"><span>WORKER HOUSING</span><div class="sep-line"></div></div>
       <div id="tg-wh"></div>
       <div class="total-banner" style="margin-top:28px"><div class="tb-label">Active Hard Build Cost</div><div class="tb-val" id="tg-total">&#8212;</div></div>
       <div style="margin-top:10px;font-size:10px;color:var(--text3);line-height:1.9;padding:10px 12px;background:var(--bg3);border-radius:5px;">
@@ -270,15 +274,15 @@ canvas{max-height:220px;}
   <div class="ph"><h1>Resort <em>Complex</em></h1><p>All resort amenities &#183; Click any section header to toggle it on/off</p></div>
 
   <!-- Charts at top -->
-  <div class="g2" style="margin-bottom:16px">
+  <div class="g2" style="margin-bottom:10px">
     <div class="card">
       <div class="ct">Area by Zone (m&#178;) &#183; Active only</div>
-      <canvas id="c-resort-bar" style="max-height:160px"></canvas>
+      <canvas id="c-resort-bar" style="max-height:120px"></canvas>
     </div>
     <div class="card">
       <div class="ct" style="margin-bottom:4px">Cost by Category</div>
       <span id="res-pie-total" style="display:none">&#8212;</span>
-      <canvas id="c-resort-pie" style="max-height:160px"></canvas>
+      <canvas id="c-resort-pie" style="max-height:120px"></canvas>
     </div>
   </div>
 
@@ -291,7 +295,7 @@ canvas{max-height:220px;}
         <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#127859; F&amp;B</span>
         <span class="res-sec-cost" id="rsc-fb" style="font-size:11px;font-family:'Playfair Display',serif"></span>
       </div>
-      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-fb-tbody"></tbody></table>
+      <div style="max-height:130px;overflow-y:auto"><table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-fb-tbody"></tbody></table></div>
     </div>
 
     <!-- Pool -->
@@ -300,7 +304,7 @@ canvas{max-height:220px;}
         <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#127944; Pool</span>
         <span class="res-sec-cost" id="rsc-pool" style="font-size:11px;font-family:'Playfair Display',serif"></span>
       </div>
-      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-pool-tbody"></tbody></table>
+      <div style="max-height:130px;overflow-y:auto"><table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-pool-tbody"></tbody></table></div>
     </div>
 
     <!-- Commercial -->
@@ -309,7 +313,7 @@ canvas{max-height:220px;}
         <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#127978; Commercial</span>
         <span class="res-sec-cost" id="rsc-commercial" style="font-size:11px;font-family:'Playfair Display',serif"></span>
       </div>
-      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-commercial-tbody"></tbody></table>
+      <div style="max-height:130px;overflow-y:auto"><table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-commercial-tbody"></tbody></table></div>
     </div>
 
     <!-- Wellness -->
@@ -318,7 +322,7 @@ canvas{max-height:220px;}
         <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#129496; Wellness</span>
         <span class="res-sec-cost" id="rsc-wellness" style="font-size:11px;font-family:'Playfair Display',serif"></span>
       </div>
-      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-wellness-tbody"></tbody></table>
+      <div style="max-height:130px;overflow-y:auto"><table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead><tbody id="res-wellness-tbody"></tbody></table></div>
     </div>
 
     <!-- Service -->
@@ -327,10 +331,10 @@ canvas{max-height:220px;}
         <span style="font-size:10px;font-weight:600;letter-spacing:1px">&#128230; Service</span>
         <span class="res-sec-cost" id="rsc-infra" style="font-size:11px;font-family:'Playfair Display',serif"></span>
       </div>
-      <table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead>
+      <div style="max-height:130px;overflow-y:auto"><table class="tbl" style="font-size:10px"><thead><tr><th>Zone</th><th class="r">m&#178;</th><th class="r">Cost</th></tr></thead>
       <tbody id="res-service-tbody"></tbody>
       <tbody id="res-parking-tbody"></tbody>
-      </table>
+      </table></div>
     </div>
 
   </div>
@@ -562,7 +566,7 @@ const Z = [
   {id:'sauna',name:'Sauna',                  sub:'Sauna',     cat:'wellness',  group:'resort-gf',floor:0,area:10, rate:500, enabled:true,note:'Sauna GF $500/m2',              x:.245,y:.91,w:.11, h:.08},
   {id:'cold', name:'Cold Bath',             sub:'Cold Bath', cat:'wellness',  group:'resort-gf',floor:0,area:20, rate:500, enabled:true,note:'Ice/cold bath GF $500/m2',       x:.245,y:.82,w:.11, h:.08},
   // RESORT F1
-  {id:'wh_f1',name:'Worker Housing F1',      sub:'Worker Hsg F1',cat:'infra',group:'resort-f1',floor:1,area:126,rate:700,enabled:true,note:'126m2 F1 @ $700/m2',             x:.36,y:.82, w:.12, h:.17},
+  {id:'wh_f1',name:'Worker Housing F1',      sub:'Worker Hsg F1',cat:'infra',group:'resort-f1',floor:1,area:126,rate:700,enabled:false,note:'126m2 F1 @ $700/m2',             x:.36,y:.82, w:.12, h:.17,hidden:true},
   {id:'f1_yoga', name:'Event + Work Space', sub:'Event/Cowork',  cat:'wellness',group:'resort-f1',floor:1,area:155,rate:1500,enabled:true,note:'Event + co-work F1',            x:.68,y:.04, w:.145,h:.175},
   {id:'f1_event',name:'Yoga Hall',          sub:'Yoga Hall',     cat:'wellness',group:'resort-f1',floor:1,area:115,rate:1500,enabled:true,note:'Yoga studio F1',                x:.68, y:.75,w:.14, h:.20},
   {id:'f1_gym',  name:'Pilates Equipment',  sub:'Pilates',       cat:'wellness',group:'resort-f1',floor:1,area:60, rate:1500,enabled:true,note:'Pilates equipment F1',           x:.78, y:.75,w:.03, h:.20},
@@ -752,14 +756,17 @@ function buildRoomBuilding(elId, gfIds, f1Ids, circId){
   // F1 toggle includes stairs
   const f1WithCircIds=[...f1Zones.map(z=>z.id),...(circZ?[circZ.id]:[])];
 
-  function addFloorRow(label, zones, toggleIds){
+  function addFloorRow(label, floorNum, zones, toggleIds){
     const floorOn=zones.length>0&&zones.every(z=>z.enabled);
     const active=zones.filter(z=>z.enabled).length;
+    const flTag=floorNum===0
+      ?'<span style="font-size:8px;background:#F0F8E8;color:#4A8A3A;border:1px solid #B8D8A8;border-radius:3px;padding:0 3px;margin-right:3px">GF</span>'
+      :'<span style="font-size:8px;background:#E8F0F8;color:#4A7AB8;border:1px solid #B8D0E8;border-radius:3px;padding:0 3px;margin-right:3px">F1</span>';
     const d=document.createElement('div');
     d.className='toggle-item'+(floorOn?'':' off');
     d.innerHTML='<div class="ti-left"><label class="sw"><input type="checkbox" '+(floorOn?'checked':'')+' onchange="toggleGroup(\''+toggleIds.join(',')+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
-      +'<div><div class="ti-name">'+label+'</div>'
-      +'<div class="ti-note">'+active+' / '+zones.length+' rooms active</div></div></div>'
+      +'<div><div class="ti-name">'+flTag+label+'</div>'
+      +'<div class="ti-note"><span class="ti-cat" style="background:#F4EEF8;color:#6B4A9A;border:1px solid #C8A8D8">Room</span> '+active+'/'+zones.length+'</div></div></div>'
       +'<div class="ti-right">'
       +'<input type="number" min="0" step="1" value="'+rmA+'" '
       +'style="width:48px;padding:2px 4px;font-size:10px;border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2);flex-shrink:0" '
@@ -769,8 +776,8 @@ function buildRoomBuilding(elId, gfIds, f1Ids, circId){
     el.appendChild(d);
   }
 
-  addFloorRow('Ground Floor', gfZones, gfZones.map(z=>z.id));
-  addFloorRow('First Floor', f1Zones, f1WithCircIds);
+  addFloorRow('Ground Floor', 0, gfZones, gfZones.map(z=>z.id));
+  addFloorRow('First Floor', 1, f1Zones, f1WithCircIds);
 
   // Stairs & hallway — no switch, linked to F1, indented
   if(circZ){
@@ -805,10 +812,11 @@ function buildAllToggles(){
     ['hgf5','hgf6','hgf7','hgf8'],
     ['hf15','hf16','hf17','hf18'],
     'circ_b3_f1');
-  buildZoneGroup('tg-fb',        ['pool','fb_r','fb_k','fb_s','f1_yoga','f1_gymr']);
-  buildZoneGroup('tg-commercial',['sh1','sh2','sh3','man','svc','f1_event','f1_gym']);
+  buildZoneGroup('tg-pool',      ['pool']);
+  buildZoneGroup('tg-fb',        ['fb_r','fb_k','fb_s','f1_yoga','f1_gymr']);
+  buildZoneGroup('tg-commercial',['sh1','sh2','sh3','man','svc','stg_gen','f1_event','f1_gym']);
   buildZoneGroup('tg-wellness',  ['sauna','cold']);
-  buildZoneGroup('tg-wh',        ['wh','wh_f1']);
+  buildZoneGroup('tg-wh',        ['wh']);
 }
 
 function toggleZ(id,on){
