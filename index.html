@@ -1115,14 +1115,13 @@ function refreshAll(){
   set('rooms-total-cost',fmtM(roomCost));
   const rmAreaEach=Z.find(z=>z.cat==='room')?.area||26;
   const rr=(Z.find(z=>z.cat==='room'&&z.enabled)||{rate:1500}).rate;
-  const circGF=Z.find(z=>z.id==='circ_gf'); const circF1=Z.find(z=>z.id==='circ_f1');
-  const circTotal=(circGF?.area||70)+(circF1?.area||70);
+  const circGF=Z.find(z=>z.id==='circ_gf');
   const blds=[
     {gfIds:['hgf9','hgf10','hgf11','hgf12'],f1Ids:['hf19','hf110','hf111','hf112'],circId:'circ_b1_f1',k:'bld1'},
     {gfIds:['hgf4','hgf3','hgf2','hgf1'],  f1Ids:['hf14','hf13','hf12','hf11'],  circId:'circ_b2_f1',k:'bld2'},
     {gfIds:['hgf5','hgf6','hgf7','hgf8'],  f1Ids:['hf15','hf16','hf17','hf18'],  circId:'circ_b3_f1',k:'bld3'},
   ];
-  let totalGF=0,totalF1=0,totalRoomArea=0,totalRoomCost=0,totalCircArea=0;
+  let totalGF=0,totalF1=0,totalRoomArea=0,totalCircF1Area=0;
   blds.forEach(b=>{
     const gfA=b.gfIds.map(id=>Z.find(z=>z.id===id)).filter(z=>z&&z.enabled);
     const f1A=b.f1Ids.map(id=>Z.find(z=>z.id===id)).filter(z=>z&&z.enabled);
@@ -1135,24 +1134,21 @@ function refreshAll(){
     set('rm-'+b.k+'-area',roomArea+circA);
     set('rm-'+b.k+'-cost',fmt(cost));
     totalGF+=gfA.length; totalF1+=f1A.length;
-    totalRoomArea+=roomArea; totalRoomCost+=cost;
-    totalCircArea+=circA;
+    totalRoomArea+=roomArea; totalCircF1Area+=circA;
   });
+  const circGFArea=(circGF&&circGF.enabled)?circGF.area:0;
   const totalRoomsActive=totalGF+totalF1;
-  const grandRoomArea=totalRoomArea+totalCircArea;
-  set('rm-circ-area',totalCircArea);
-  set('rm-circ-area-total',totalCircArea);
-  set('rm-circ-cost',fmt(totalCircArea*rr));
+  const grandRoomArea=totalRoomArea+totalCircF1Area+circGFArea;
   set('rm-total-gf',totalGF);
   set('rm-total-f1',totalF1);
   set('rm-both-label','Total \u2014 '+totalRoomsActive+' Rooms');
   set('rm-both-area',grandRoomArea);
-  set('rm-both-total',fmt(totalRoomCost+circTotal*rr));
+  set('rm-both-total',fmt(roomCost));
   set('rooms-page-desc',totalRoomsActive+' rooms active \u00B7 GF: '+totalGF+' \u00B7 F1: '+totalF1+' \u00B7 Each room '+rmAreaEach+'m\u00B2 net');
   set('rooms-active-kv',totalRoomsActive);
   set('rooms-active-ks','GF: '+totalGF+' \u00B7 F1: '+totalF1);
   set('rooms-total-area-kv',grandRoomArea+' m\u00B2');
-  set('rooms-total-area-ks',totalRoomsActive+'\u00D7'+rmAreaEach+' + circ');
+  set('rooms-total-area-ks',totalRoomsActive+'\u00D7'+rmAreaEach+' + GF/F1 circ');
   set('tg-total',fmtM(grand));
   set('c-villas-kpi',fmtM(villaCost));set('c-villas-ks',activeV+' villas incl. pools');
   set('c-rooms-kpi',fmtM(roomCost));set('c-resort-kpi',fmtM(resCost));set('c-grand-kpi',fmtM(grand));
