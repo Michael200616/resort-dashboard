@@ -821,7 +821,7 @@ function buildRoomBuilding(elId, gfIds, f1Ids, circId){
     const cOn=circZ.enabled;
     const d=document.createElement('div');
     d.id='ti-'+circZ.id;
-    d.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:5px 10px 5px 38px;background:'+(cOn?'var(--bg2)':'var(--dis-bg)')+';border:1px solid var(--border2);border-top:none;border-radius:0 0 5px 5px;margin-top:-4px;margin-bottom:4px';
+    d.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:2px 6px 2px 38px;background:'+(cOn?'var(--bg2)':'var(--dis-bg)')+';border:1px solid var(--border2);border-top:none;border-radius:0 0 5px 5px;margin-top:-1px;margin-bottom:2px';
     d.innerHTML='<div class="ti-left">'
       +'<div><div class="ti-name" style="'+(cOn?'':'color:var(--dis);text-decoration:line-through')+'">Stairs &amp; hallway</div>'
       +'<div class="ti-note"><span class="ti-cat" style="background:#F0EEF8;color:#9A8AB8;border:1px solid #C8A8D8">F1 only</span></div></div></div>'
@@ -845,6 +845,7 @@ function buildVillaGroup(containerId){
   btnDiv.innerHTML='<label class="sw"><input type="checkbox" '+(allOn?'checked':'')+' onchange="toggleGroup(\''+allIds+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
     +'<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)">Toggle All</span>';
   el.appendChild(btnDiv);
+  const inpStyle='width:36px;padding:1px 3px;font-size:10px;border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2);flex-shrink:0';
   pairs.forEach(([bid,pid],i)=>{
     const zb=Z.find(z=>z.id===bid);const zp=Z.find(z=>z.id===pid);if(!zb||!zp)return;
     const on=zb.enabled&&zp.enabled;
@@ -853,11 +854,19 @@ function buildVillaGroup(containerId){
     d.className='toggle-item'+(on?'':' off');d.id='ti-'+bid;
     d.innerHTML='<div class="ti-left"><label class="sw"><input type="checkbox" '+(on?'checked':'')+' onchange="toggleGroup(\''+bid+','+pid+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
       +'<div><div class="ti-name">Villa '+(i+1)+'</div>'
-      +'<div class="ti-note"><span class="ti-cat" style="background:#FEF0E8;color:#D4845A;border:1px solid #E8BFA8">Built '+zb.area+'m²</span>'
-      +' <span class="ti-cat" style="background:#EEF3FA;color:#5B7FA6;border:1px solid #A8C4E0">Pool '+zp.area+'m²</span></div></div></div>'
-      +'<div class="ti-right">'
-      +'<div style="font-size:10px;color:var(--text3);text-align:right;margin-right:4px">'+(zb.area+zp.area)+'m²</div>'
-      +'<div class="ti-cost" id="tc-'+bid+'">'+(on&&cost>0?fmt(cost):'$0')+'</div></div>';
+      +'<div class="ti-note"><span class="ti-cat" style="background:#FEF0E8;color:#D4845A;border:1px solid #E8BFA8">Built</span>'
+      +' <span class="ti-cat" style="background:#EEF3FA;color:#5B7FA6;border:1px solid #A8C4E0">Pool</span></div></div></div>'
+      +'<div class="ti-right" style="flex-direction:column;align-items:flex-end;gap:2px;justify-content:center">'
+      +'<div style="display:flex;align-items:center;gap:2px">'
+      +'<span style="font-size:8px;color:var(--text3)">B</span>'
+      +'<input type="number" min="0" step="5" value="'+zb.area+'" style="'+inpStyle+'" oninput="updateArea(\''+bid+'\',+this.value)">'
+      +'<span class="ti-unit">m²</span></div>'
+      +'<div style="display:flex;align-items:center;gap:2px">'
+      +'<span style="font-size:8px;color:var(--text3)">P</span>'
+      +'<input type="number" min="0" step="1" value="'+zp.area+'" style="'+inpStyle+'" oninput="updateArea(\''+pid+'\',+this.value)">'
+      +'<span class="ti-unit">m²</span></div>'
+      +'<div class="ti-cost" id="tc-'+bid+'">'+(on&&cost>0?fmt(cost):'$0')+'</div>'
+      +'</div>';
     el.appendChild(d);
   });
 }
