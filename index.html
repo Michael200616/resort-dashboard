@@ -147,9 +147,8 @@ canvas{max-height:220px;}
 #page-costs .tbl td,#page-costs .tbl th{padding:3px 8px;font-size:10px;}
 #page-resort .res-sec-head{padding:6px 10px !important;}
 #page-resort .tbl td,#page-resort .tbl th{padding:3px 8px;font-size:10px;}
-@media(max-width:1100px){.g5{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:900px){.g4,.g3,.g2,.g21,.g5,.costs-wrap{grid-template-columns:1fr;}.page{padding:12px 10px;}}
-#page-costs{max-width:100%;overflow-x:hidden;}
+#page-costs{max-width:100%;}
+body{min-width:900px;}
 #page-overview.active{display:flex!important;flex-direction:column;height:calc(100vh - 41px);padding:12px;box-sizing:border-box;overflow:hidden;}
 #page-overview .ov-charts-row{flex-shrink:0;}
 #page-overview .ov-kpi-row{flex:1;min-height:0;overflow-y:auto;}
@@ -1551,28 +1550,6 @@ window.addEventListener('resize',()=>{
 buildAllToggles();
 refreshAll();
 
-// ── MOBILE SWIPE NAVIGATION ──
-(function(){
-  const PAGES=['overview','rates','toggle','villas','rooms','resort','costs','floorplan'];
-  let tx=0,ty=0;
-  document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
-  document.addEventListener('touchend',e=>{
-    const dx=e.changedTouches[0].clientX-tx;
-    const dy=e.changedTouches[0].clientY-ty;
-    if(Math.abs(dx)<40||Math.abs(dx)<Math.abs(dy)*1.2)return;
-    const cur=document.querySelector('.page.active');
-    if(!cur)return;
-    const curId=cur.id.replace('page-','');
-    const idx=PAGES.indexOf(curId);
-    if(idx===-1)return;
-    let next=-1;
-    if(dx<0&&idx<PAGES.length-1)next=idx+1;
-    if(dx>0&&idx>0)next=idx-1;
-    if(next===-1)return;
-    const tab=document.querySelectorAll('.nt')[next];
-    if(tab)navTo(PAGES[next],tab);
-  },{passive:true});
-})();
 </script>
 </body>
 </html>
