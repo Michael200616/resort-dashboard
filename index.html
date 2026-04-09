@@ -140,6 +140,10 @@ canvas{max-height:220px;}
 #page-toggle .total-banner{padding:6px 10px;}
 #page-toggle .tb-label{font-size:10px;}
 #page-toggle .tb-val{font-size:18px;}
+#page-toggle .ti-right{width:140px!important;display:flex;align-items:center;justify-content:flex-end;}
+#page-toggle .ti-right input[type="number"]{width:42px!important;flex-shrink:0;}
+#page-toggle .ti-unit{width:18px;flex-shrink:0;}
+#page-toggle .ti-cost{width:64px!important;flex-shrink:0;text-align:right;}
 #page-costs .tbl td,#page-costs .tbl th{padding:3px 8px;font-size:10px;}
 #page-resort .res-sec-head{padding:6px 10px !important;}
 #page-resort .tbl td,#page-resort .tbl th{padding:3px 8px;font-size:10px;}
@@ -289,8 +293,7 @@ canvas{max-height:220px;}
         <tr><td><span class="dot" style="background:#6B4A9A"></span>Building 1 <span style="font-size:9px;color:var(--text3)">(1–4, 13–16)</span></td><td class="r" id="rm-bld1-gf">4</td><td class="r" id="rm-bld1-f1">4</td><td class="r" id="rm-bld1-area">208</td><td class="r" id="rm-bld1-cost">$312,000</td></tr>
         <tr><td><span class="dot" style="background:#7B5AAA"></span>Building 2 <span style="font-size:9px;color:var(--text3)">(5–8, 17–20)</span></td><td class="r" id="rm-bld2-gf">4</td><td class="r" id="rm-bld2-f1">4</td><td class="r" id="rm-bld2-area">208</td><td class="r" id="rm-bld2-cost">$312,000</td></tr>
         <tr><td><span class="dot" style="background:#8B6ABA"></span>Building 3 <span style="font-size:9px;color:var(--text3)">(9–12, 21–24)</span></td><td class="r" id="rm-bld3-gf">4</td><td class="r" id="rm-bld3-f1">4</td><td class="r" id="rm-bld3-area">208</td><td class="r" id="rm-bld3-cost">$312,000</td></tr>
-        <tr><td><span class="dot" style="background:#9A7ACA"></span>Stairs &amp; hallway F1 (×3)</td><td class="r" colspan="2" id="rm-circ-area">210</td><td class="r" id="rm-circ-area-total">210</td><td class="r" id="rm-circ-cost">$315,000</td></tr>
-        <tr class="tot"><td><b id="rm-both-label">Total &#8212; 24 Rooms</b></td><td class="r" id="rm-total-gf"><b>12</b></td><td class="r" id="rm-total-f1"><b>12</b></td><td class="r"><b id="rm-both-area">764</b></td><td class="r" style="color:var(--room)"><b id="rm-both-total">$1,146,000</b></td></tr>
+<tr class="tot"><td><b id="rm-both-label">Total &#8212; 24 Rooms</b></td><td class="r" id="rm-total-gf"><b>12</b></td><td class="r" id="rm-total-f1"><b>12</b></td><td class="r"><b id="rm-both-area">764</b></td><td class="r" style="color:var(--room)"><b id="rm-both-total">$1,146,000</b></td></tr>
       </tbody></table>
       <div style="margin-top:10px;padding:10px 12px;background:var(--room-bg);border-radius:5px;border:1px solid #C8A8D8;font-size:10px;color:var(--text2);line-height:1.7;">
         Building 1: bottom row &#183; Building 2: left column &#183; Building 3: top row<br>No private pool &#183; Guests share main resort pool.
@@ -1551,6 +1554,29 @@ window.addEventListener('resize',()=>{
 // ── INIT ──
 buildAllToggles();
 refreshAll();
+
+// ── MOBILE SWIPE NAVIGATION ──
+(function(){
+  const PAGES=['overview','rates','toggle','villas','rooms','resort','costs','floorplan'];
+  let tx=0,ty=0;
+  document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tx;
+    const dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)<40||Math.abs(dx)<Math.abs(dy)*1.2)return;
+    const cur=document.querySelector('.page.active');
+    if(!cur)return;
+    const curId=cur.id.replace('page-','');
+    const idx=PAGES.indexOf(curId);
+    if(idx===-1)return;
+    let next=-1;
+    if(dx<0&&idx<PAGES.length-1)next=idx+1;
+    if(dx>0&&idx>0)next=idx-1;
+    if(next===-1)return;
+    const tab=document.querySelectorAll('.nt')[next];
+    if(tab)navTo(PAGES[next],tab);
+  },{passive:true});
+})();
 </script>
 </body>
 </html>
