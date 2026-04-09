@@ -141,7 +141,7 @@ canvas{max-height:220px;}
 #page-toggle .tb-label{font-size:10px;}
 #page-toggle .tb-val{font-size:18px;}
 #page-toggle .ti-right{width:140px!important;display:flex;align-items:center;justify-content:flex-end;}
-#page-toggle .ti-right input[type="number"]{width:42px!important;flex-shrink:0;}
+#page-toggle .ti-right input[type="number"]{width:42px!important;flex-shrink:0;text-align:center!important;}
 #page-toggle .ti-unit{width:18px;flex-shrink:0;}
 #page-toggle .ti-cost{width:64px!important;flex-shrink:0;text-align:right;}
 #page-costs .tbl td,#page-costs .tbl th{padding:3px 8px;font-size:10px;}
@@ -845,7 +845,7 @@ function buildVillaGroup(containerId){
   btnDiv.innerHTML='<label class="sw"><input type="checkbox" '+(allOn?'checked':'')+' onchange="toggleGroup(\''+allIds+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
     +'<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)">Toggle All</span>';
   el.appendChild(btnDiv);
-  const inpStyle='width:36px;padding:1px 3px;font-size:10px;border:1px solid var(--border);border-radius:3px;text-align:right;background:var(--bg3);color:var(--text2);flex-shrink:0';
+  const inpStyle='padding:1px 2px;font-size:10px;border:1px solid var(--border);border-radius:3px;text-align:center;background:var(--bg3);color:var(--text2);';
   pairs.forEach(([bid,pid],i)=>{
     const zb=Z.find(z=>z.id===bid);const zp=Z.find(z=>z.id===pid);if(!zb||!zp)return;
     const on=zb.enabled&&zp.enabled;
@@ -856,16 +856,14 @@ function buildVillaGroup(containerId){
       +'<div><div class="ti-name">Villa '+(i+1)+'</div>'
       +'<div class="ti-note"><span class="ti-cat" style="background:#FEF0E8;color:#D4845A;border:1px solid #E8BFA8">Built</span>'
       +' <span class="ti-cat" style="background:#EEF3FA;color:#5B7FA6;border:1px solid #A8C4E0">Pool</span></div></div></div>'
-      +'<div class="ti-right" style="flex-direction:column;align-items:flex-end;gap:2px;justify-content:center">'
-      +'<div style="display:flex;align-items:center;gap:2px">'
-      +'<span style="font-size:8px;color:var(--text3)">B</span>'
+      +'<div class="ti-right" style="display:grid;grid-template-columns:12px 42px 18px;grid-template-rows:auto auto auto;gap:2px;align-items:center;justify-content:end">'
+      +'<span style="font-size:8px;color:var(--text3);text-align:center">B</span>'
       +'<input type="number" min="0" step="5" value="'+zb.area+'" style="'+inpStyle+'" oninput="updateArea(\''+bid+'\',+this.value)">'
-      +'<span class="ti-unit">m²</span></div>'
-      +'<div style="display:flex;align-items:center;gap:2px">'
-      +'<span style="font-size:8px;color:var(--text3)">P</span>'
+      +'<span class="ti-unit">m²</span>'
+      +'<span style="font-size:8px;color:var(--text3);text-align:center">P</span>'
       +'<input type="number" min="0" step="1" value="'+zp.area+'" style="'+inpStyle+'" oninput="updateArea(\''+pid+'\',+this.value)">'
-      +'<span class="ti-unit">m²</span></div>'
-      +'<div class="ti-cost" id="tc-'+bid+'">'+(on&&cost>0?fmt(cost):'$0')+'</div>'
+      +'<span class="ti-unit">m²</span>'
+      +'<div class="ti-cost" id="tc-'+bid+'" style="grid-column:1/-1;text-align:right">'+(on&&cost>0?fmt(cost):'$0')+'</div>'
       +'</div>';
     el.appendChild(d);
   });
