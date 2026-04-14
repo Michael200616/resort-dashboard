@@ -75,7 +75,7 @@ nav{position:sticky;top:0;z-index:200;background:rgba(246,243,238,.97);backdrop-
 .section-sep.room-sep{color:var(--room);}
 .section-sep.room-sep .sep-line{background:linear-gradient(90deg,var(--room),transparent);}
 .costs-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;overflow-x:auto;}
-.costs-col-head{font-size:11px;font-weight:600;padding:9px 12px;border-radius:6px 6px 0 0;border:1px solid;border-bottom:none;letter-spacing:1px;}
+.costs-col-head{font-size:10px;font-weight:600;padding:5px 10px;border-radius:6px 6px 0 0;border:1px solid;border-bottom:none;letter-spacing:1px;}
 .costs-col-head.vch{background:var(--villa-bg);color:var(--villa);border-color:#E8BFA8;}
 .costs-col-head.rch{background:var(--resort-bg);color:var(--resort);border-color:#B8D0E8;}
 .costs-col-body{border:1px solid;border-radius:0 0 6px 6px;overflow:hidden;}
@@ -144,7 +144,7 @@ canvas{max-height:220px;}
 #page-toggle .ti-right input[type="number"]{width:42px!important;flex-shrink:0;text-align:center!important;}
 #page-toggle .ti-unit{width:18px;flex-shrink:0;}
 #page-toggle .ti-cost{width:64px!important;flex-shrink:0;text-align:right;}
-#page-costs .tbl td,#page-costs .tbl th{padding:3px 8px;font-size:10px;}
+#page-costs .tbl td,#page-costs .tbl th{padding:2px 6px;font-size:10px;}
 #page-resort .res-sec-head{padding:6px 10px !important;}
 #page-resort .tbl td,#page-resort .tbl th{padding:3px 8px;font-size:10px;}
 #page-costs{max-width:100%;}
@@ -1229,15 +1229,6 @@ function refreshAll(){
         +'<td class="r" style="color:'+(bOn?'var(--gold)':'var(--dis)')+'">'+(bOn?fmt(bCost):'Disabled')+'</td>';
       rtb.appendChild(tr);
     });
-    const circGFz=Z.find(z=>z.id==='circ_gf');
-    if(circGFz&&circGFz.enabled){
-      const cgfCost=zc(circGFz);
-      const cgfTr=document.createElement('tr');
-      cgfTr.innerHTML='<td><span class="dot" style="background:#9A7ACA"></span>GF Corridor (shared)</td>'
-        +'<td class="r">—</td><td class="r">'+circGFz.area+' m²</td>'
-        +'<td class="r" style="color:var(--gold)">'+fmt(cgfCost)+'</td>';
-      rtb.appendChild(cgfTr);
-    }
     const tr=document.createElement('tr');tr.className='tot';
     tr.innerHTML='<td><strong>Total — '+totalRoomsActive+' Rooms</strong></td><td class="r"><strong>'+grandRoomArea+' m²</strong></td><td class="r">—</td><td class="r" style="color:var(--gold)"><strong>'+fmt(roomCost)+'</strong></td>';
     rtb.appendChild(tr);
