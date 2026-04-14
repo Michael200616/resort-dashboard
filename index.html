@@ -224,10 +224,10 @@ body{min-width:900px;}
     </div>
     <!-- Col 2: Pool + Restaurant + SPA + Worker Housing -->
     <div>
-      <div class="section-sep resort-sep"><span>MAIN POOL</span><div class="sep-line"></div></div>
-      <div id="tg-pool"></div>
       <div class="section-sep resort-sep"><span>RESTAURANT &amp; EVENTS <span style="font-size:9px;font-weight:400;opacity:.7">GF+F1</span></span><div class="sep-line"></div></div>
       <div id="tg-fb"></div>
+      <div class="section-sep resort-sep"><span>MAIN POOL</span><div class="sep-line"></div></div>
+      <div id="tg-pool"></div>
       <div class="section-sep resort-sep"><span>SPA</span><div class="sep-line"></div></div>
       <div id="tg-wellness"></div>
       <div class="section-sep resort-sep"><span>WORKER HOUSING</span><div class="sep-line"></div></div>
@@ -413,7 +413,7 @@ body{min-width:900px;}
       <!-- Rooms table -->
       <div class="costs-section">
         <div class="costs-col-head" style="background:var(--room-bg);color:var(--room);border-color:#C8A8D8">&#128716; ROOMS <span style="font-size:9px;opacity:.7;font-weight:400">(click to toggle)</span></div>
-        <div class="costs-col-body" style="border-color:#C8A8D8"><table class="tbl"><thead><tr><th>Floor</th><th class="r">Rooms m&#178;</th><th class="r">Circ. m&#178;</th><th class="r">Cost ($)</th></tr></thead><tbody id="c-rooms-tbody"></tbody></table></div>
+        <div class="costs-col-body" style="border-color:#C8A8D8"><table class="tbl"><thead><tr><th>Building</th><th class="r">Rooms m&#178;</th><th class="r">Circ. m&#178;</th><th class="r">Cost ($)</th></tr></thead><tbody id="c-rooms-tbody"></tbody></table></div>
       </div>
     </div>
   </div>
@@ -739,8 +739,10 @@ function buildZoneGroup(containerId, zoneIds){
   if(zones.length>1){
     const btnDiv=document.createElement('div');
     btnDiv.style.cssText='display:flex;align-items:center;gap:7px;padding:4px 8px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px';
+    const totalCost=zones.reduce((s,z)=>s+zc(z),0);
     btnDiv.innerHTML='<label class="sw"><input type="checkbox" '+(allOn?'checked':'')+' onchange="toggleGroup(\''+toggleIds+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
-      +'<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)">Toggle All</span>';
+      +'<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);flex:1">Toggle All</span>'
+      +'<span style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;color:var(--gold)">'+fmt(totalCost)+'</span>';
     el.appendChild(btnDiv);
   }
 
@@ -779,9 +781,11 @@ function buildRoomBuilding(elId, gfIds, f1Ids, circId){
   // Toggle All + bold summary
   const btnDiv=document.createElement('div');
   btnDiv.style.cssText='display:flex;align-items:center;gap:7px;padding:5px 8px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px 4px 0 0';
+  const bldTotalCost=allZones.reduce((s,z)=>s+zc(z),0);
   btnDiv.innerHTML='<label class="sw"><input type="checkbox" '+(allOn?'checked':'')+' onchange="toggleGroup(\''+allIds+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
     +'<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);flex:1">Toggle All</span>'
-    +'<span style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;font-weight:700;color:var(--text2)">'+totalRooms+' rooms</span>';
+    +'<span style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;color:var(--text2)">'+totalRooms+' rooms</span>'
+    +'<span style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;color:var(--gold);margin-left:6px">'+fmt(bldTotalCost)+'</span>';
   el.appendChild(btnDiv);
 
   // Bold summary bar
@@ -840,10 +844,12 @@ function buildVillaGroup(containerId){
   const pairs=[['v1b','v1p'],['v2b','v2p'],['v3b','v3p'],['v4b','v4p']];
   const allOn=pairs.every(([b,p])=>{const zb=Z.find(z=>z.id===b);const zp=Z.find(z=>z.id===p);return zb&&zb.enabled&&zp&&zp.enabled;});
   const allIds=pairs.flatMap(([b,p])=>[b,p]).join(',');
+  const vTotalCost=pairs.reduce((s,[b,p])=>{const zb=Z.find(z=>z.id===b);const zp=Z.find(z=>z.id===p);return s+(zb?zc(zb):0)+(zp?zc(zp):0);},0);
   const btnDiv=document.createElement('div');
   btnDiv.style.cssText='display:flex;align-items:center;gap:7px;padding:4px 8px;margin-bottom:5px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px';
   btnDiv.innerHTML='<label class="sw"><input type="checkbox" '+(allOn?'checked':'')+' onchange="toggleGroup(\''+allIds+'\',this.checked)"><div class="sw-track"></div><div class="sw-thumb"></div></label>'
-    +'<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)">Toggle All</span>';
+    +'<span style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);flex:1">Toggle All</span>'
+    +'<span style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;color:var(--gold)">'+fmt(vTotalCost)+'</span>';
   el.appendChild(btnDiv);
   const inpStyle='width:54px;padding:2px 4px;font-family:\'IBM Plex Mono\',monospace;font-size:10px;border:1px solid var(--border);border-radius:3px;text-align:center;background:var(--bg3);color:var(--text2);flex-shrink:0';
   pairs.forEach(([bid,pid],i)=>{
@@ -1169,53 +1175,71 @@ function refreshAll(){
 
 
 
-  // Villas cost table: ONE summary row, click to toggle all
+  // Villas cost table: one row per villa
   const vtb=el('c-villa-tbody');
   if(vtb){
     vtb.innerHTML='';
-    const allVOn=activeV>0;
-    const tr=document.createElement('tr');
-    tr.className='sum-row'+(allVOn?'':' off');
-    tr.onclick=()=>{
-      const nowOn=!Z.filter(z=>z.group==="villas"&&z.cat==="villa").every(z=>z.enabled);
-      Z.filter(z=>z.group==="villas").forEach(z=>z.enabled=nowOn);
-      refreshAll();
-    };
-    tr.title='Click to toggle all villas';
-    tr.innerHTML='<td><span class="dot" style="background:#D4845A"></span>'
-      +activeV+' Villa'+(activeV!==1?'s':'')+' ('+activeV+'×140 + '+activeV+'×16m² pool)</td>'
-      +'<td class="r">'+(activeV*140)+' m²</td>'
-      +'<td class="r">'+(activeV*16)+' m²</td>'
-      +'<td class="r" style="color:'+(allVOn?'var(--gold)':'var(--dis)')+'">'+(allVOn?fmt(villaCost):'Disabled')+'</td>';
-    vtb.appendChild(tr);
+    const vPairs=[['v1b','v1p'],['v2b','v2p'],['v3b','v3p'],['v4b','v4p']];
+    vPairs.forEach(([bid,pid],i)=>{
+      const zb=Z.find(z=>z.id===bid);const zp=Z.find(z=>z.id===pid);if(!zb||!zp)return;
+      const on=zb.enabled&&zp.enabled;
+      const cost=zc(zb)+zc(zp);
+      const tr=document.createElement('tr');
+      tr.className='sum-row'+(on?'':' off');
+      tr.onclick=()=>{const nowOn=!(zb.enabled&&zp.enabled);zb.enabled=nowOn;zp.enabled=nowOn;refreshAll();};
+      tr.title='Click to toggle Villa '+(i+1);
+      tr.innerHTML='<td><span class="dot" style="background:#D4845A"></span>Villa '+(i+1)+'</td>'
+        +'<td class="r">'+zb.area+' m²</td>'
+        +'<td class="r">'+zp.area+' m²</td>'
+        +'<td class="r" style="color:'+(on?'var(--gold)':'var(--dis)')+'">'+(on?fmt(cost):'Disabled')+'</td>';
+      vtb.appendChild(tr);
+    });
     const tot=document.createElement('tr');tot.className='tot';
-    tot.innerHTML='<td><strong>Total</strong></td><td class="r"><strong>'+(activeV*140)+' m²</strong></td>'
+    tot.innerHTML='<td><strong>Total — '+activeV+' Villas</strong></td>'
+      +'<td class="r"><strong>'+(activeV*140)+' m²</strong></td>'
       +'<td class="r"><strong>'+(activeV*16)+' m²</strong></td>'
       +'<td class="r" style="color:var(--gold)"><strong>'+fmt(villaCost)+'</strong></td>';
     vtb.appendChild(tot);
   }
 
-  // Rooms cost table - 1 row per floor, clickable
+  // Rooms cost table - 1 row per building, clickable
   const rtb=el('c-rooms-tbody');
   if(rtb){
     rtb.innerHTML='';
-    [{grp:'rooms-gf',lbl:'Ground Floor (12 rooms)'},{grp:'rooms-f1',lbl:'First Floor (12 rooms)'}].forEach(({grp,lbl})=>{
-      const gOn=Z.filter(z=>z.group===grp&&z.enabled).length>0;
-      const gRoomA=sum(Z.filter(z=>z.group===grp&&z.cat==='room'&&z.enabled),z=>z.area);
-      const gCircA=sum(Z.filter(z=>z.group===grp&&z.cat==='circulation'&&z.enabled),z=>z.area);
-      const gCost=costBy(grp);
-      const allOn=Z.filter(z=>z.group===grp&&z.cat==='room').every(z=>z.enabled);
+    const bldDefs=[
+      {label:'Building 1',dot:'#6B4A9A',gfIds:['hgf9','hgf10','hgf11','hgf12'],f1Ids:['hf19','hf110','hf111','hf112'],circId:'circ_b1_f1'},
+      {label:'Building 2',dot:'#7B5AAA',gfIds:['hgf4','hgf3','hgf2','hgf1'],  f1Ids:['hf14','hf13','hf12','hf11'],  circId:'circ_b2_f1'},
+      {label:'Building 3',dot:'#8B6ABA',gfIds:['hgf5','hgf6','hgf7','hgf8'],  f1Ids:['hf15','hf16','hf17','hf18'],  circId:'circ_b3_f1'},
+    ];
+    bldDefs.forEach(b=>{
+      const gfZs=b.gfIds.map(id=>Z.find(z=>z.id===id)).filter(Boolean);
+      const f1Zs=b.f1Ids.map(id=>Z.find(z=>z.id===id)).filter(Boolean);
+      const circZ=Z.find(z=>z.id===b.circId);
+      const allZoneIds=[...b.gfIds,...b.f1Ids,...(circZ?[b.circId]:[])];
+      const bOn=(gfZs.some(z=>z.enabled)||f1Zs.some(z=>z.enabled));
+      const rmA=sum([...gfZs,...f1Zs].filter(z=>z.enabled),z=>z.area);
+      const circA=(circZ&&circZ.enabled)?circZ.area:0;
+      const bCost=sum([...gfZs,...f1Zs].filter(z=>z.enabled),zc)+(circA*(Z.find(z=>z.cat==='room'&&z.enabled)||{rate:1500}).rate);
+      const activeRms=gfZs.filter(z=>z.enabled).length+f1Zs.filter(z=>z.enabled).length;
       const tr=document.createElement('tr');
-      tr.className='sum-row'+(gOn?'':' off');
-      tr.onclick=()=>{const nowOn=!allOn;Z.filter(z=>z.group===grp).forEach(z=>z.enabled=nowOn);refreshAll();};
-      tr.title='Click to toggle '+lbl;
-      tr.innerHTML='<td><span class="dot" style="background:#6B4A9A"></span>'+lbl+'</td>'
-        +'<td class="r">'+gRoomA+' m²</td><td class="r">'+gCircA+' m²</td>'
-        +'<td class="r" style="color:'+(gOn?'var(--gold)':'var(--dis)')+'">'+(gOn?fmt(gCost):'Disabled')+'</td>';
+      tr.className='sum-row'+(bOn?'':' off');
+      tr.onclick=()=>{const nowOn=!gfZs.every(z=>z.enabled);allZoneIds.forEach(id=>{const z=Z.find(x=>x.id===id);if(z)z.enabled=nowOn;});refreshAll();};
+      tr.innerHTML='<td><span class="dot" style="background:'+b.dot+'"></span>'+b.label+' <span style="font-size:9px;color:var(--text3)">('+activeRms+' rooms)</span></td>'
+        +'<td class="r">'+rmA+' m²</td><td class="r">'+circA+' m²</td>'
+        +'<td class="r" style="color:'+(bOn?'var(--gold)':'var(--dis)')+'">'+(bOn?fmt(bCost):'Disabled')+'</td>';
       rtb.appendChild(tr);
     });
+    const circGFz=Z.find(z=>z.id==='circ_gf');
+    if(circGFz&&circGFz.enabled){
+      const cgfCost=zc(circGFz);
+      const cgfTr=document.createElement('tr');
+      cgfTr.innerHTML='<td><span class="dot" style="background:#9A7ACA"></span>GF Corridor (shared)</td>'
+        +'<td class="r">—</td><td class="r">'+circGFz.area+' m²</td>'
+        +'<td class="r" style="color:var(--gold)">'+fmt(cgfCost)+'</td>';
+      rtb.appendChild(cgfTr);
+    }
     const tr=document.createElement('tr');tr.className='tot';
-    tr.innerHTML='<td><strong>Total — 24 Rooms</strong></td><td class="r"><strong>'+rArea+' m²</strong></td><td class="r">—</td><td class="r" style="color:var(--gold)"><strong>'+fmt(roomCost)+'</strong></td>';
+    tr.innerHTML='<td><strong>Total — '+totalRoomsActive+' Rooms</strong></td><td class="r"><strong>'+grandRoomArea+' m²</strong></td><td class="r">—</td><td class="r" style="color:var(--gold)"><strong>'+fmt(roomCost)+'</strong></td>';
     rtb.appendChild(tr);
   }
 
