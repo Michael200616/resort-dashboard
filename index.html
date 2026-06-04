@@ -200,22 +200,15 @@ body{min-width:900px;}
   <!-- Bar chart + Pie side by side -->
   <div class="ov-charts-row" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:8px;align-items:stretch">
     <div class="card"><div class="ct">Cost by Category</div><canvas id="c-ov-bar" style="max-height:220px"></canvas></div>
-    <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
-      <div class="ct" style="align-self:flex-start">Area Split (m²)</div>
-      <div style="position:relative;display:flex;align-items:center;justify-content:center;width:100%">
-        <canvas id="c-ov-area" style="max-height:180px"></canvas>
-        <div id="ov-area-center" style="position:absolute;text-align:center;pointer-events:none">
-          <div style="font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">m²</div>
-          <div id="ov-area-total" style="font-family:'Playfair Display',serif;font-size:15px;color:var(--text2);line-height:1.1">—</div>
-        </div>
-      </div>
+    <div class="card">
+      <div class="ct">Area Split (m²)</div>
+      <canvas id="c-ov-area" style="max-height:200px"></canvas>
+      <span id="ov-area-total" style="display:none"></span>
     </div>
-    <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
-      <div class="ct" style="align-self:flex-start">Cost Split</div>
-      <div style="position:relative;display:flex;align-items:center;justify-content:center;width:100%">
-        <canvas id="c-ov-donut" style="max-height:180px"></canvas>
-        <span id="ov-grand" style="display:none"></span>
-      </div>
+    <div class="card">
+      <div class="ct">Cost Split</div>
+      <canvas id="c-ov-donut" style="max-height:200px"></canvas>
+      <span id="ov-grand" style="display:none"></span>
     </div>
   </div>
   <!-- 3 KPI columns -->
@@ -1027,7 +1020,7 @@ chOvDon=new Chart(document.getElementById('c-ov-donut'),{type:'doughnut',
 
 chOvArea=new Chart(document.getElementById('c-ov-area'),{type:'doughnut',
   data:{labels:['Villas','Rooms','Resort'],datasets:[{data:[],backgroundColor:['#D4845A','#6B4A9A','#4A7A9B'],borderWidth:2,borderColor:'#F6F3EE'}]},
-  options:{...ns(bOpts),cutout:'62%',plugins:{
+  options:{...ns(bOpts),cutout:'62%',_centerId:'ov-area-total',plugins:{
     legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:5}},
     tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.raw+' m²'}}
   }}
@@ -1328,7 +1321,7 @@ function refreshAll(){
   const roomArea2=areaBy('rooms-gf')+areaBy('rooms-f1');
   const resArea=areaBy('resort-gf')+areaBy('resort-f1');
   chOvArea.data.datasets[0].data=[villaArea,roomArea2,resArea];chOvArea.update();
-  set('ov-area-total',(villaArea+roomArea2+resArea)+' m²');
+  set('ov-area-total',(villaArea+roomArea2+resArea)+' m²');chOvArea.update();
 
   const resBarCats=[
     {l:'F&B',      cost:sum(Z.filter(z=>z.cat==='fb'&&z.enabled),zc),      col:'#8B5E3C'},
