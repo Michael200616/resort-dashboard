@@ -198,11 +198,26 @@ body{min-width:900px;}
 <div id="page-overview" class="page active">
   <div class="ph"><h1>Sri Lanka Resort &#8212; <em>Overview</em></h1><p>Plot 4,600 m&#178; &#183; Scale 1:250 &#183; All figures update live</p></div>
   <!-- Bar chart + Pie side by side -->
-  <div class="ov-charts-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;align-items:stretch">
-    <div class="card"><div class="ct">Area Breakdown</div><canvas id="c-ov-bar" style="max-height:220px"></canvas></div>
-    <div class="card"><div class="ct">Cost Split</div><canvas id="c-ov-donut" style="max-height:220px"></canvas></div>
+  <div class="ov-charts-row" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:8px;align-items:stretch">
+    <div class="card"><div class="ct">Cost by Category</div><canvas id="c-ov-bar" style="max-height:220px"></canvas></div>
+    <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div class="ct" style="align-self:flex-start">Area Split (m²)</div>
+      <div style="position:relative;display:flex;align-items:center;justify-content:center;width:100%">
+        <canvas id="c-ov-area" style="max-height:180px"></canvas>
+        <div id="ov-area-center" style="position:absolute;text-align:center;pointer-events:none">
+          <div style="font-size:8px;color:var(--text3);letter-spacing:1px;text-transform:uppercase">m²</div>
+          <div id="ov-area-total" style="font-family:'Playfair Display',serif;font-size:15px;color:var(--text2);line-height:1.1">—</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div class="ct" style="align-self:flex-start">Cost Split</div>
+      <div style="position:relative;display:flex;align-items:center;justify-content:center;width:100%">
+        <canvas id="c-ov-donut" style="max-height:180px"></canvas>
+        <span id="ov-grand" style="display:none"></span>
+      </div>
+    </div>
   </div>
-  <span id="ov-grand" style="display:none"></span>
   <!-- 3 KPI columns -->
   <div class="ov-kpi-row" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:start">
     <div id="ov-villa-kpis"></div>
@@ -971,7 +986,7 @@ const bOpts={responsive:true,maintainAspectRatio:true,
           y:{ticks:{color:DIM,font:{family:'IBM Plex Mono',size:8}},grid:{color:'rgba(0,0,0,0.04)'}}}};
 const ns=o=>{const c={...o};delete c.scales;return c;};
 
-let chOvBar,chOvDon,chReBar,chCostPie,chSplitBar,chResPie;
+let chOvBar,chOvDon,chOvArea,chReBar,chCostPie,chSplitBar,chResPie;
 
 // Plugin: draw text in center of doughnut
 const doughnutCenterPlugin={id:'doughnutCenter',afterDraw(chart){
@@ -1008,6 +1023,14 @@ chOvBar=new Chart(document.getElementById('c-ov-bar'),{type:'bar',
 chOvDon=new Chart(document.getElementById('c-ov-donut'),{type:'doughnut',
   data:{labels:['Villas','Rooms','Resort'],datasets:[{data:[],backgroundColor:['#D4845A','#6B4A9A','#4A7A9B'],borderWidth:2,borderColor:'#F6F3EE'}]},
   options:{...ns(bOpts),cutout:'62%',_centerId:'ov-grand',plugins:{legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:5}}}}
+});
+
+chOvArea=new Chart(document.getElementById('c-ov-area'),{type:'doughnut',
+  data:{labels:['Villas','Rooms','Resort'],datasets:[{data:[],backgroundColor:['#D4845A','#6B4A9A','#4A7A9B'],borderWidth:2,borderColor:'#F6F3EE'}]},
+  options:{...ns(bOpts),cutout:'62%',plugins:{
+    legend:{position:'right',labels:{color:DIM,font:{family:'IBM Plex Mono',size:9},boxWidth:8,padding:5}},
+    tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.raw+' m²'}}
+  }}
 });
 
 chReBar=new Chart(document.getElementById('c-resort-bar'),{type:'bar',
@@ -1301,6 +1324,11 @@ function refreshAll(){
   chOvBar.data.labels=barGroupsRaw.map(g=>g.l);chOvBar.data.datasets[0].data=barGroupsRaw.map(g=>g.c);
   chOvBar.data.datasets[0].backgroundColor=barGroupsRaw.map(g=>g.col+'CC');chOvBar.update();
   chOvDon.data.datasets[0].data=[villaCost,roomCost,resCost];chOvDon.update();
+  const villaArea=sum(Z.filter(z=>z.group==='villas'&&z.enabled),z=>z.area);
+  const roomArea2=areaBy('rooms-gf')+areaBy('rooms-f1');
+  const resArea=areaBy('resort-gf')+areaBy('resort-f1');
+  chOvArea.data.datasets[0].data=[villaArea,roomArea2,resArea];chOvArea.update();
+  set('ov-area-total',(villaArea+roomArea2+resArea)+' m²');
 
   const resBarCats=[
     {l:'F&B',      cost:sum(Z.filter(z=>z.cat==='fb'&&z.enabled),zc),      col:'#8B5E3C'},
